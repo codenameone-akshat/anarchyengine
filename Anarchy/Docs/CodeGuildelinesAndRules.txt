@@ -1,0 +1,100 @@
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| A n a r c h y ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ 
+// Please propose any changes to these guidelines if something feels off. 
+// ~Akshat.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Files
+
+	- Code file names must not contain any special characters. 
+		- Example: EngineContext.cpp | D3D12CommandListManager.h | CollisionManager.hpp.
+	
+	- Don't make a new file for every new class. Bind classes together if it makes sense.
+		- Example: AABBoundingBox and AABBoundingBoxDescriptor don't require separate files.
+	
+	- All the declaration must be in .h (header) file.
+	
+	- All the definations must be in .cpp (source) file.
+	
+	- All the inline declaration must be in .hpp files (provided they are quite a lot in number).
+	
+	- All the inline declaration must be in .inl file if all of the class is inlined. 
+		- Example: Vector3.h and Vector3.inl | Matrix44.h and Matrix44.inl.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Classes
+
+	- All the variables will follow camelCase convention.
+	
+	- All the functions will follow PascalCase convention.
+
+	- All the interface classes must start with I.
+		-Example: IBaseObject | ICollisionType | IPipelineStateObject.
+	
+	- All the member variables must start with m_.
+	
+	- All the static member variables will start from ms_.
+
+	- Respect const correctness. 
+		-If there is something to be modified by a const function, think about it first, then decare it as mutable.
+
+	- If your ctor is only initializes the members, member initialize the variables and put the ctor as "= default". (https://bit.ly/2lQMyUh)
+
+	- Same for the dtor, if there is auto scoped cleanup, declare it as default.
+
+	- Avoid raw pointers unless you really really need one.
+
+	- Take advantage of RAII while desiging classes. (https://bit.ly/2lQOvA5 | https://bit.ly/2luj0M0)
+
+	- All singletons should use the lazy initalization for GetInstance() method (Meyer's Singleton).
+
+	- Helper functions should not be part of the class. (https://bit.ly/2m59wXB)
+
+	- Define and initialize members in the order of their declarations. (https://bit.ly/2mYXdwa)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Anarchy Specifics
+
+	- All the macros and constexpr/const globals must start with AC_.
+		- Example: AC_NODISCARD | AC_FORCEINLINE.
+
+	- Create static context classes to manage states and make it available throughout the namespace.
+
+	- Prefer std functions over any windows native functions.
+
+	- Make descriptors structs instead of classes.
+
+	- Use Cpp 17 Nested Namespaces.
+
+	- Use noexcept for functions that wont throw.
+
+	- Use IILE if possible.
+
+	- Make global functions constexpr if possible.
+
+	- Use structs instead of enums when you have to binding non-related data.
+
+	- Dont use typedefs. Use aliases.
+
+	- Only use std size defined types.
+		- Examples: uint32_t | int64_t | int_fast32_t.
+
+	- Don't use #pragma once. Prefer Guards.
+
+	- Guards will be of the form _HEADER_FILE_NAME_H_.
+		- Example: _ENGINE_CONTEXT_H_
+
+	- Follow Cpp Core Guidelines as much as possible. (http://isocpp.github.io/CppCoreGuidelines)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
