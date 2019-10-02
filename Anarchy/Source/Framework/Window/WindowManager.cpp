@@ -9,30 +9,27 @@ namespace anarchy::framework
 	uint32_t WindowManager::RequestNewWindow(WindowDesc windowDesc)
 	{
 		std::shared_ptr<Window> window = std::make_shared<Window>();
-		
+
 		if (SUCCEEDED(window->CreateNewWindow(windowDesc)))
 		{
 			m_windows.emplace_back(std::move(window));
 			++m_numWindows;
 
-			return m_numWindows;
+			return (m_numWindows - 1); // Index = number - 1
 		}
 		else
 		{
 			AC_String errorMsg = "Cannot Create Requested Window ";
 			AC_String windowName = windowDesc.lpClassName;
-			utils::Logger::LogInfo((errorMsg + windowName).c_str());
+			utils::Logger::LogInfo(utils::LogCategory::Framework, (errorMsg + windowName).c_str());
 			return std::numeric_limits<uint32_t>::max();
 		}
-
 	}
 	
 	uint32_t WindowManager::RequestNewDefaultWindow(HINSTANCE hInstance, WndProcFunctor wndProcFunctor)
 	{
-		// Could be because both are unnamed, creating another unnamed object. Imagine passing these unnamed as function parameters;
-		// these would not exist beyond the argument parentheses '()' in the function call
-		// So, let's go:
-		auto _windowName = (AC_STR_LITERAL("AnarchyWindow_") + AC_To_String(m_numWindows));
+		AC_String _windowName = (AC_STR_LITERAL("AnarchyWindow_") + AC_To_String(m_numWindows));
+		
 		WindowDesc param;
 		param.dwExStyle = NULL;
 		param.lpClassName = const_cast<AC_CharPtr>(_windowName.c_str());

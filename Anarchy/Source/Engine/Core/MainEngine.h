@@ -8,7 +8,8 @@
 namespace anarchy::engine::core
 {
 	void EngineMain();
-	
+	void PollMessage();
+
 	static LRESULT CALLBACK MainEngineWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 }
 

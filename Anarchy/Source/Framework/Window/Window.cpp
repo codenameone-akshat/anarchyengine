@@ -8,11 +8,6 @@ namespace anarchy::framework
 	{
 		::DestroyWindow(m_hWnd);
 		::UnregisterClass(m_wndClass.lpszClassName, m_wndClass.hInstance);
-
-		if (m_hWnd)
-			delete m_hWnd;
-
-		m_hWnd = nullptr;
 	}
 	
 	HRESULT Window::CreateNewWindow(WindowDesc windowParams)

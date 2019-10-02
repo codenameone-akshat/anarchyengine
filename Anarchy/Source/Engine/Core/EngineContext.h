@@ -28,7 +28,7 @@ namespace anarchy::engine::core
 	{
 		HINSTANCE hInstance = nullptr;
 		HINSTANCE hPrevInstance = nullptr;
-		LPSTR lpCmdLine;
+		LPSTR lpCmdLine = nullptr;
 		int32_t nShowCmd = 0;
 	};
 
@@ -45,7 +45,7 @@ namespace anarchy::engine::core
 		static void SetMainParams(MainParams mainParams) noexcept { ms_mainParams = mainParams; }
 
 		static std::shared_ptr<framework::Window> GetHandleToActiveWindow() noexcept { return ms_mainWindow; }
-		static void SetHandleToActiveWindow(std::shared_ptr<framework::Window> window) { ms_mainWindow = std::move(window); }
+		static void SetHandleToActiveWindow(std::shared_ptr<framework::Window> window) { ms_mainWindow = window; }
 	
 	private:
 

@@ -26,7 +26,7 @@ namespace anarchy::framework
 
 	private:
 		std::vector<std::shared_ptr<Window>> m_windows; // List of all windows for the engine
-		uint32_t m_numWindows = -1;
+		uint32_t m_numWindows = 0;
 	};
 }
 

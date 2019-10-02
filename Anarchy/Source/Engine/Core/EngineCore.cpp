@@ -5,7 +5,7 @@ namespace anarchy::engine::core
 {	
 	void EngineCore::StartEngine()
 	{
-		//Initialize
+		// Initialize
 		m_mainWindowIndex = m_windowManger->RequestNewDefaultWindow(AppContext::GetMainParams().hInstance, AppContext::GetWndProcHandle());
 		m_windowManger->ShowWindow(m_mainWindowIndex, AppContext::GetMainParams().nShowCmd);
 		
@@ -14,11 +14,11 @@ namespace anarchy::engine::core
 	
 	void EngineCore::ShutDownEngine()
 	{
-		//Cleanup. Maybe call from Dtor for RAII?
+		// Cleanup. Maybe call from Dtor for RAII?
 	}
 	
 	void EngineCore::Update()
 	{
-		//Stub
+		// Stub
 	}
 }
