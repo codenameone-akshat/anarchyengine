@@ -18,8 +18,7 @@ namespace anarchy::engine::core
 		static void SetIsEngneRunning(bool isEngineRunning) { ms_isEngineRunning = isEngineRunning; }
 		
 	private:
-		static bool ms_isEngineRunning;
-		
+		inline static bool ms_isEngineRunning = false;
 	};
 
 	// Static context maintaining the state and info of the main app.
@@ -49,9 +48,9 @@ namespace anarchy::engine::core
 	
 	private:
 
-		static framework::WndProcFunctor ms_wndProcFunctor;
-		static MainParams ms_mainParams;
-		static std::shared_ptr<framework::Window> ms_mainWindow;
+		inline static MainParams ms_mainParams = {};
+		inline static framework::WndProcFunctor ms_wndProcFunctor = nullptr;
+		inline static std::shared_ptr<framework::Window> ms_mainWindow = nullptr;
 	};
 }
 

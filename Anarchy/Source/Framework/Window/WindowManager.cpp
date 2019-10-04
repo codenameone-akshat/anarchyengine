@@ -29,7 +29,6 @@ namespace anarchy::framework
 	uint32_t WindowManager::RequestNewDefaultWindow(HINSTANCE hInstance, WndProcFunctor wndProcFunctor)
 	{
 		AC_String _windowName = (AC_STR_LITERAL("AnarchyWindow_") + AC_To_String(m_numWindows));
-		
 		WindowDesc param;
 		param.dwExStyle = NULL;
 		param.lpClassName = const_cast<AC_CharPtr>(_windowName.c_str());
