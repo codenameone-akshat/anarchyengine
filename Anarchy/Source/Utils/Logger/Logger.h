@@ -26,12 +26,12 @@ namespace anarchy::utils
 		Logger() = delete;
 		~Logger() = delete;
 
-		static void LogInfo(LogCategory logCategory, AC_String outputStr);
-		static void LogWarning(LogCategory logCategory, bool condition, AC_String outputStr);
-		static void LogError(LogCategory logCategory, bool condition, AC_String outputStr);
+		static void LogInfo(LogCategory logCategory, framework::AC_String outputStr);
+		static void LogWarning(LogCategory logCategory, bool condition, framework::AC_String outputStr);
+		static void LogError(LogCategory logCategory, bool condition, framework::AC_String outputStr);
 	
 	private:
-		inline static const std::array<AC_String, static_cast<std::underlying_type_t<LogCategory>>(LogCategory::Framework)> m_logCategoryStrings =
+		inline static const std::array<framework::AC_String, static_cast<std::underlying_type_t<LogCategory>>(LogCategory::Framework)> m_logCategoryStrings =
 		{
 			"Debug",
 			"System",
@@ -42,8 +42,8 @@ namespace anarchy::utils
 			"Framework"
 		};
 
-		static void ProcessAndLogString(LogCategory logCategory, AC_String outputString);
-		static AC_String GetStringForCategory(LogCategory logCategory);
+		static void ProcessAndLogString(LogCategory logCategory, framework::AC_String outputString);
+		static framework::AC_String GetStringForCategory(LogCategory logCategory);
 	};
 }
 

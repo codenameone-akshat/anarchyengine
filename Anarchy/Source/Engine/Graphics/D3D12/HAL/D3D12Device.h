@@ -13,11 +13,11 @@ namespace anarchy::engine::graphics::hal
 		D3D12Device() = default;
 		~D3D12Device() = default;
 
-		inline AC_ComPtr<ID3D12Device6>& GetRawDevice() { return m_device; }
-		inline void SetRawDevice(AC_ComPtr<ID3D12Device6> device) { m_device = device; }
+		inline framework::AC_ComPtr<ID3D12Device6>& GetRawDevice() { return m_device; }
+		inline void SetRawDevice(framework::AC_ComPtr<ID3D12Device6> device) { m_device = device; }
 
 	private:
-		AC_ComPtr<ID3D12Device6> m_device;
+		framework::AC_ComPtr<ID3D12Device6> m_device;
 	};
 }
 

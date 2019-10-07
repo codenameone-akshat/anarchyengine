@@ -19,13 +19,13 @@ namespace anarchy::engine::graphics::hal
 		inline void AppendDXGIFactoryFlags(uint32_t flags) { m_dxgiFactoryFlags |= flags; }
 		inline uint32_t GetDXGIFactoryFlags() { return m_dxgiFactoryFlags; }
 
-		inline AC_ComPtr<IDXGIFactory7>& GetRawFactory() { return m_factory; }
+		inline framework::AC_ComPtr<IDXGIFactory7>& GetRawFactory() { return m_factory; }
 
-		AC_ComPtr<IDXGIAdapter4> GetD3D12SupportedHardwareAdapter() const;
+		framework::AC_ComPtr<IDXGIAdapter4> GetD3D12SupportedHardwareAdapter() const;
 
 	private:
 		uint32_t m_dxgiFactoryFlags = NULL;
-		AC_ComPtr<IDXGIFactory7> m_factory = nullptr;
+		framework::AC_ComPtr<IDXGIFactory7> m_factory = nullptr;
 	};
 }
 

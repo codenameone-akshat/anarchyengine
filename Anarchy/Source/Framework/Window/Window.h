@@ -54,7 +54,4 @@ namespace anarchy::framework
 	};
 }
 
-static LRESULT CALLBACK WMainEngineWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-
-
 #endif // _WINDOW_H_

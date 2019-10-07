@@ -14,11 +14,11 @@ namespace anarchy::engine::graphics::hal
 		~DXGIAdapter() = default;
 
 		inline IDXGIAdapter4* GetRawAdapter() { return m_hardwareAdapter.Get(); }
-		inline AC_ComPtr<IDXGIAdapter4> GetAdapter() { return m_hardwareAdapter; }
-		inline void SetAdapter(AC_ComPtr<IDXGIAdapter4> adapter) { m_hardwareAdapter = adapter; }
+		inline framework::AC_ComPtr<IDXGIAdapter4> GetAdapter() { return m_hardwareAdapter; }
+		inline void SetAdapter(framework::AC_ComPtr<IDXGIAdapter4> adapter) { m_hardwareAdapter = adapter; }
 
 	private:
-		AC_ComPtr<IDXGIAdapter4> m_hardwareAdapter;
+		framework::AC_ComPtr<IDXGIAdapter4> m_hardwareAdapter;
 	};
 }
 

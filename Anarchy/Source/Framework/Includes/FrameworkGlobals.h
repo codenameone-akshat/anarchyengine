@@ -5,37 +5,39 @@
 
 #include "../../Utils/Logger/Logger.h"
 
+namespace anarchy::framework
+{
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // String Unicode Globals
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef UNICODE
 
-auto constexpr AC_Str_Default = L"";
+	auto constexpr AC_Str_Default = L"";
 
-template <typename T>
-auto constexpr AC_To_String(T x) { return std::to_wstring(x); }
+	template <typename T>
+	auto constexpr AC_To_String(T x) { return std::to_wstring(x); }
 
 #else
 
-auto constexpr AC_Str_Default = "";
+	auto constexpr AC_Str_Default = "";
 
-template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>
-auto constexpr AC_To_String(T x) { return std::to_string(x); }
+	template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>
+	auto constexpr AC_To_String(T x) { return std::to_string(x); }
 
 #endif // UNICODE
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Com Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void ComCheck(HRESULT hr, AC_String message)
-{
-	if (SUCCEEDED(hr))
-		return;
-	else
-		anarchy::utils::Logger::LogError(anarchy::utils::LogCategory::Graphics, false, message);
-}
+	void ComCheck(HRESULT hr, AC_String message)
+	{
+		if (SUCCEEDED(hr))
+			return;
+		else
+			utils::Logger::LogError(utils::LogCategory::Graphics, false, message);
+	}
 
 //----------------------------------------------------------------------end of file-----------------------------------------------------------------------------
+}
 
 #endif // _FRAMEWORK_GLOBALS_H_
