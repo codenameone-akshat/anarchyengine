@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "../Graphics/D3D12/D3D12Renderer.h"
 #include "../../Framework/Window/WindowManager.h"
 
 namespace anarchy::engine::core
@@ -21,6 +22,7 @@ namespace anarchy::engine::core
 
 		uint32_t m_mainWindowIndex = 0;
 		std::unique_ptr<framework::WindowManager> m_windowManger = std::make_unique<framework::WindowManager>();
+		std::unique_ptr<graphics::D3D12Renderer> m_renderer = std::make_unique<graphics::D3D12Renderer>();
 	};
 }
 

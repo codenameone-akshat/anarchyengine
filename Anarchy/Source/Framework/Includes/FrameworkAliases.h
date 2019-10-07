@@ -10,6 +10,7 @@
 #endif // NOMINMAX
 
 #include <string>
+#include <wrl.h>
 
 #ifdef UNICODE
 
@@ -34,5 +35,9 @@ using AC_StringStream = std::stringstream;
 #endif // UNICODE
 
 using AC_VoidPtr = void*;
+
+// Com Specifics
+template<typename T>
+using AC_ComPtr = Microsoft::WRL::ComPtr<T>;
 
 #endif // _FRAMEWORK_ALIASES_H_

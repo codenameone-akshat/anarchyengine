@@ -10,6 +10,9 @@ namespace anarchy::engine::core
 		m_windowManger->ShowWindow(m_mainWindowIndex, AppContext::GetMainParams().nShowCmd);
 		
 		AppContext::SetHandleToActiveWindow(m_windowManger->GetHandleToWindow(m_mainWindowIndex));
+
+		// Initialize the Renderer
+		m_renderer->Initialize();
 	}
 	
 	void EngineCore::ShutDownEngine()

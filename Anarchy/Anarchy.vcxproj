@@ -92,9 +92,11 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <PreprocessorDefinitions>_MBCS;AC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,6 +132,8 @@
   <ItemGroup>
     <ClCompile Include="Source\Engine\Core\EngineCore.cpp" />
     <ClCompile Include="Source\Engine\Core\MainEngine.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\D3D12\D3D12Renderer.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\D3D12\HAL\DXGIFactory.cpp" />
     <ClCompile Include="Source\Engine\System\System.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\Framework\Window\WindowManager.cpp" />
@@ -140,6 +144,10 @@
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
     <ClInclude Include="Source\Engine\Core\EngineCore.h" />
     <ClInclude Include="Source\Engine\Core\MainEngine.h" />
+    <ClInclude Include="Source\Engine\Graphics\D3D12\D3D12Renderer.h" />
+    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\DXGIAdapter.h" />
+    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Device.h" />
+    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\DXGIFactory.h" />
     <ClInclude Include="Source\Engine\System\System.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkDefines.h" />
