@@ -24,9 +24,8 @@
     <ClInclude Include="Source\Framework\Includes\FrameworkDefines.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\D3D12Renderer.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Device.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\DXGIFactory.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\DXGIAdapter.h" />
+    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Hardware.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />

@@ -43,6 +43,9 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <EnableUnitySupport>false</EnableUnitySupport>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -145,8 +148,7 @@
     <ClInclude Include="Source\Engine\Core\EngineCore.h" />
     <ClInclude Include="Source\Engine\Core\MainEngine.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\D3D12Renderer.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\DXGIAdapter.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Device.h" />
+    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Hardware.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\DXGIFactory.h" />
     <ClInclude Include="Source\Engine\System\System.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h" />

@@ -5,12 +5,11 @@
 #include <memory>
 
 #include "HAL/DXGIFactory.h"
-#include "HAL/DXGIAdapter.h"
-#include "HAL/D3D12Device.h"
+#include "HAL/D3D12Hardware.h"
 
 namespace anarchy::engine::graphics
 {
-	constexpr D3D_FEATURE_LEVEL g_MinFeatureLevel = D3D_FEATURE_LEVEL_12_0;
+	constexpr D3D_FEATURE_LEVEL g_minFeatureLevel = D3D_FEATURE_LEVEL_12_0;
 
 	class D3D12Renderer
 	{

@@ -1,6 +1,7 @@
-#ifndef _D3D12_ADAPTER_H_
-#define _D3D12_ADAPTER_H_
+#ifndef _D3D12_HARDWARE_H_
+#define _D3D12_HARDWARE_H_
 
+#include <d3d12.h>
 #include <dxgi1_6.h>
 
 #include "../../../../Framework/Includes/FrameworkAliases.h"
@@ -20,6 +21,20 @@ namespace anarchy::engine::graphics::hal
 	private:
 		framework::AC_ComPtr<IDXGIAdapter4> m_hardwareAdapter;
 	};
+
+
+	class D3D12Device
+	{
+	public:
+		D3D12Device() = default;
+		~D3D12Device() = default;
+
+		inline framework::AC_ComPtr<ID3D12Device6>& GetRawDevice() { return m_device; }
+		inline void SetRawDevice(framework::AC_ComPtr<ID3D12Device6> device) { m_device = device; }
+
+	private:
+		framework::AC_ComPtr<ID3D12Device6> m_device;
+	};
 }
 
-#endif // _D3D12_ADAPTER_H_
+#endif // _D3D12_HARDWARE_H_
