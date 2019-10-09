@@ -13,6 +13,7 @@ namespace anarchy::framework
 		if (SUCCEEDED(window->CreateNewWindow(windowDesc)))
 		{
 			m_windows.emplace_back(std::move(window));
+			m_windowDescs.emplace_back(windowDesc);
 			++m_numWindows;
 
 			return (m_numWindows - 1); // Index = number - 1

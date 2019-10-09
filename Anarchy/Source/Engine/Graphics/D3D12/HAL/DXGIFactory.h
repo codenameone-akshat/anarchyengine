@@ -22,6 +22,9 @@ namespace anarchy::engine::graphics::hal
 		inline framework::AC_ComPtr<IDXGIFactory7>& GetRawFactory() { return m_factory; }
 
 		framework::AC_ComPtr<IDXGIAdapter4> GetD3D12SupportedHardwareAdapter() const;
+		
+		framework::AC_ComPtr<IDXGISwapChain4> CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, HWND hWnd, DXGI_SWAP_CHAIN_DESC1* desc,
+			DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, framework::AC_ComPtr<IDXGIOutput> restrictToOutput);
 
 	private:
 		uint32_t m_dxgiFactoryFlags = NULL;

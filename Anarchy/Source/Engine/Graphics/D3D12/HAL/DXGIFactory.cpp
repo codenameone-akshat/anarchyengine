@@ -20,7 +20,7 @@ namespace anarchy::engine::graphics::hal
 		{
 			DXGI_ADAPTER_DESC3 adapterDesc;
 
-			framework::ComCheck(hardwareAdapter1.As(&hardwareAdapter), "Failed to cast IDXGIAdapter1 to IDXGIAdapter4");
+			framework::ComCheck(hardwareAdapter1.As(&hardwareAdapter), "Failed to cast IDXGIAdapter1 to IDXGIAdapter4.");
 
 			framework::ComCheck(hardwareAdapter->GetDesc3(&adapterDesc), "Failed to Get DXGI Adapter Desc3.");
 
@@ -32,5 +32,17 @@ namespace anarchy::engine::graphics::hal
 		}
 		
 		return hardwareAdapter;
+	}
+	
+	framework::AC_ComPtr<IDXGISwapChain4> DXGIFactory::CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, HWND hWnd, DXGI_SWAP_CHAIN_DESC1* desc, 
+		DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, framework::AC_ComPtr<IDXGIOutput> restrictToOutput)
+	{
+		framework::AC_ComPtr<IDXGISwapChain1> swapChain;
+		framework::ComCheck(m_factory->CreateSwapChainForHwnd(commandQueue.Get(), hWnd, desc, fullscreenDesc, restrictToOutput.Get(), &swapChain), "Failed to create Swap Chain.");
+
+		framework::AC_ComPtr<IDXGISwapChain4> outputSwapChain;
+		framework::ComCheck(swapChain.As(&outputSwapChain), "Failed to cast IDXGISwapChain1 to IDXGISwapChain4.");
+
+		return outputSwapChain;
 	}
 } 

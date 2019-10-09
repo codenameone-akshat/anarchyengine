@@ -5,6 +5,7 @@
 #include <dxgi1_6.h>
 
 #include "../../../../Framework/Includes/FrameworkAliases.h"
+#include "../../../../Framework/Includes/FrameworkGlobals.h"
 
 namespace anarchy::engine::graphics::hal
 {
@@ -31,6 +32,10 @@ namespace anarchy::engine::graphics::hal
 
 		inline framework::AC_ComPtr<ID3D12Device6>& GetRawDevice() { return m_device; }
 		inline void SetRawDevice(framework::AC_ComPtr<ID3D12Device6> device) { m_device = device; }
+		inline void CreateCommandQueue(D3D12_COMMAND_QUEUE_DESC desc, framework::AC_ComPtr<ID3D12CommandQueue>& commandQueue)
+		{
+			framework::ComCheck(m_device->CreateCommandQueue(&desc, IID_PPV_ARGS(&commandQueue)), "Failed to Create Requested Command Queue.");
+		}
 
 	private:
 		framework::AC_ComPtr<ID3D12Device6> m_device;

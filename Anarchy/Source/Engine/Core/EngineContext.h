@@ -46,11 +46,14 @@ namespace anarchy::engine::core
 		static std::shared_ptr<framework::Window> GetHandleToActiveWindow() noexcept { return ms_mainWindow; }
 		static void SetHandleToActiveWindow(std::shared_ptr<framework::Window> window) { ms_mainWindow = window; }
 	
-	private:
+		static framework::WindowDesc GetMainWindowDesc() { return ms_mainWindowDesc; }
+		static void SetMainWindowDesc(framework::WindowDesc windowDesc) { ms_mainWindowDesc = windowDesc; }
 
+	private:
 		inline static MainParams ms_mainParams = {};
 		inline static framework::WndProcFunctor ms_wndProcFunctor = nullptr;
 		inline static std::shared_ptr<framework::Window> ms_mainWindow = nullptr;
+		inline static framework::WindowDesc ms_mainWindowDesc = {};
 	};
 }
 

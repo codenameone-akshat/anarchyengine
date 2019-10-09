@@ -37,8 +37,8 @@ namespace anarchy::framework
 		Window() = default;
 		~Window();
 
-		inline HWND GetHandleToWindow() { return m_hWnd; }
-		inline void SetHandleToWindow(HWND hWnd) { m_hWnd = hWnd; }
+		inline HWND GetRawHandleToWindow() { return m_hWnd; }
+		inline void SetRawHandleToWindow(HWND hWnd) { m_hWnd = hWnd; }
 		inline void ShowWindow(int32_t showCmd) { ::ShowWindow(m_hWnd, showCmd); }
 		HRESULT CreateNewWindow(WindowDesc windowParams);
 
