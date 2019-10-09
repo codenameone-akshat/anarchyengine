@@ -138,6 +138,7 @@
     <ClCompile Include="Source\Engine\Graphics\D3D12\D3D12Renderer.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D12\HAL\DXGIFactory.cpp" />
     <ClCompile Include="Source\Engine\System\System.cpp" />
+    <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\Framework\Window\WindowManager.cpp" />
     <ClCompile Include="Source\MainApp\Main.cpp" />
