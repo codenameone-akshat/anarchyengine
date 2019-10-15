@@ -34,7 +34,7 @@ namespace anarchy::engine::graphics::hal
 		return hardwareAdapter;
 	}
 	
-	framework::AC_ComPtr<IDXGISwapChain4> DXGIFactory::CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* desc, 
+	framework::AC_ComPtr<IDXGISwapChain4> DXGIFactory::CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, const HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* desc, 
 		const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, framework::AC_ComPtr<IDXGIOutput> restrictToOutput) const
 	{
 		framework::AC_ComPtr<IDXGISwapChain1> swapChain;
