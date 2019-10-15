@@ -17,14 +17,14 @@ namespace anarchy::engine::graphics::hal
 		inline void SetDXGIFactoryFlags(uint32_t flags) { m_dxgiFactoryFlags = flags; }
 		inline void ClearDXGIFactoryFlags(uint32_t flags) { m_dxgiFactoryFlags = NULL; }
 		inline void AppendDXGIFactoryFlags(uint32_t flags) { m_dxgiFactoryFlags |= flags; }
-		inline uint32_t GetDXGIFactoryFlags() { return m_dxgiFactoryFlags; }
+		inline uint32_t GetDXGIFactoryFlags() const { return m_dxgiFactoryFlags; }
 
 		inline framework::AC_ComPtr<IDXGIFactory7>& GetRawFactory() { return m_factory; }
 
 		framework::AC_ComPtr<IDXGIAdapter4> GetD3D12SupportedHardwareAdapter() const;
 		
-		framework::AC_ComPtr<IDXGISwapChain4> CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, HWND hWnd, DXGI_SWAP_CHAIN_DESC1* desc,
-			DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, framework::AC_ComPtr<IDXGIOutput> restrictToOutput);
+		framework::AC_ComPtr<IDXGISwapChain4> CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* desc,
+			const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, framework::AC_ComPtr<IDXGIOutput> restrictToOutput) const;
 
 	private:
 		uint32_t m_dxgiFactoryFlags = NULL;
