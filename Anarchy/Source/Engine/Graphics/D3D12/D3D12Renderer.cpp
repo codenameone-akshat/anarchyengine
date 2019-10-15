@@ -17,6 +17,7 @@ namespace anarchy::engine::graphics
 		CreateGraphicsCommandQueue();
 		CreateSwapChain();
 		CreateRenderTargetView();
+		m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator);
 	}
 
 #ifdef AC_DEBUG

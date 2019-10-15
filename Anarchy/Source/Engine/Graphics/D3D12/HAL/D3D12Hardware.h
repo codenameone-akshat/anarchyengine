@@ -50,6 +50,12 @@ namespace anarchy::engine::graphics::hal
 		{
 			m_device->CreateRenderTargetView(d3d12Resource.Get(), rtvDesc, descriptorHandle);
 		}
+
+		inline void CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE type, framework::AC_ComPtr<ID3D12CommandAllocator>& commandAllocator)
+		{
+			framework::ComCheck(m_device->CreateCommandAllocator(type, IID_PPV_ARGS(&commandAllocator)), "Failed to create Command Allocator.");
+		}
+
 	private:
 		framework::AC_ComPtr<ID3D12Device6> m_device;
 	};

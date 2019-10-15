@@ -39,6 +39,7 @@ namespace anarchy::engine::graphics
 		framework::AC_ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
 		framework::AC_ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
 		std::array<framework::AC_ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets{};
+		framework::AC_ComPtr<ID3D12CommandAllocator> m_commandAllocator = nullptr;
 
 		uint32_t m_currentBackBufferIndex = 0;
 	};
