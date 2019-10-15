@@ -4,6 +4,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 
+#include "../../../../Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "../../../../Framework/Includes/FrameworkAliases.h"
 #include "../../../../Framework/Includes/FrameworkGlobals.h"
 
@@ -32,11 +33,23 @@ namespace anarchy::engine::graphics::hal
 
 		inline framework::AC_ComPtr<ID3D12Device6>& GetRawDevice() { return m_device; }
 		inline void SetRawDevice(framework::AC_ComPtr<ID3D12Device6> device) { m_device = device; }
+		
 		inline void CreateCommandQueue(D3D12_COMMAND_QUEUE_DESC desc, framework::AC_ComPtr<ID3D12CommandQueue>& commandQueue)
 		{
 			framework::ComCheck(m_device->CreateCommandQueue(&desc, IID_PPV_ARGS(&commandQueue)), "Failed to Create Requested Command Queue.");
 		}
+		
+		inline void CreateDescriptorHeap(D3D12_DESCRIPTOR_HEAP_DESC desc, framework::AC_ComPtr<ID3D12DescriptorHeap>& heap)
+		{
+			framework::ComCheck(m_device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&heap)), "Failed to Create Descriptor Heap.");
+		}
 
+		inline uint32_t GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType) { return m_device->GetDescriptorHandleIncrementSize(heapType); }
+		
+		inline void CreateRenderTargetView(framework::AC_ComPtr<ID3D12Resource>& d3d12Resource, const D3D12_RENDER_TARGET_VIEW_DESC* rtvDesc, CD3DX12_CPU_DESCRIPTOR_HANDLE descriptorHandle)
+		{
+			m_device->CreateRenderTargetView(d3d12Resource.Get(), rtvDesc, descriptorHandle);
+		}
 	private:
 		framework::AC_ComPtr<ID3D12Device6> m_device;
 	};

@@ -1,8 +1,9 @@
 #include "D3D12Renderer.h"
+#include "../../Core/EngineContext.h"
 #include "../../../Utils/Logger/Logger.h"
+#include "../../../Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "../../../Framework/Includes/FrameworkAliases.h"
 #include "../../../Framework/Includes/FrameworkGlobals.h"
-#include "../../Core/EngineContext.h"
 
 namespace anarchy::engine::graphics
 {
@@ -15,6 +16,7 @@ namespace anarchy::engine::graphics
 		CreateDevice();
 		CreateGraphicsCommandQueue();
 		CreateSwapChain();
+		CreateRenderTargetView();
 	}
 
 #ifdef AC_DEBUG
@@ -60,13 +62,32 @@ namespace anarchy::engine::graphics
 		swapChainDesc.SampleDesc.Count = 1;
 		swapChainDesc.SampleDesc.Quality = 0;
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		swapChainDesc.BufferCount = m_numBuffers;
+		swapChainDesc.BufferCount = g_numFrameBuffers;
 		swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
 		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 		swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 
 		m_swapChain = m_factory->CreateSwapChain(m_graphicsCommandQueue, core::AppContext::GetHandleToActiveWindow()->GetRawHandleToWindow(), &swapChainDesc, nullptr, nullptr);
 
-		m_numBuffers = m_swapChain->GetCurrentBackBufferIndex();
+		m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+	}
+	
+	void D3D12Renderer::CreateRenderTargetView()
+	{
+		D3D12_DESCRIPTOR_HEAP_DESC rtvDesc = {};
+		rtvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+		rtvDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		rtvDesc.NumDescriptors = g_numFrameBuffers;
+
+		m_device->CreateDescriptorHeap(rtvDesc, m_rtvHeap);
+		uint32_t rtvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(rtvDesc.Type);
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
+		for (uint_fast32_t itr = 0; itr < g_numFrameBuffers; ++itr)
+		{
+			framework::ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index");
+			m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
+			rtvDescriptorHandle.Offset(1, rtvHeapIncrementSize); // Move handle to the next ptr.
+		}
 	}
 }
