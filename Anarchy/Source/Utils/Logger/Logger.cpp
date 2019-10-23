@@ -20,8 +20,8 @@ namespace anarchy::utils
 	void Logger::LogError(LogCategory logCategory, bool condition, framework::AC_String outputStr)
 	{
 		::MessageBoxA(nullptr, "Error!!! Please check the output window!!!", "Error!", MB_OK);
-		assert(condition);
 		ProcessAndLogString(logCategory, outputStr);
+		assert(condition);
 	}
 
 	void Logger::ProcessAndLogString(LogCategory logCategory, framework::AC_String outputString)
