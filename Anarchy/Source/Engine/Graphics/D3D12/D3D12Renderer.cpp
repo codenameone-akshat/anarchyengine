@@ -9,6 +9,12 @@ namespace anarchy::engine::graphics
 {
 	void D3D12Renderer::Initialize()
 	{
+		InitializeAPI();
+		LoadPipiline();
+	}
+	
+	void D3D12Renderer::InitializeAPI()
+	{
 #ifdef AC_DEBUG
 		EnableDebugLayer();
 #endif // AC_DEBUG
@@ -18,6 +24,11 @@ namespace anarchy::engine::graphics
 		CreateSwapChain();
 		CreateRenderTargetView();
 		m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator);
+	}
+
+	void D3D12Renderer::LoadPipiline()
+	{
+		CreateRootSignature();
 	}
 
 #ifdef AC_DEBUG
@@ -86,9 +97,23 @@ namespace anarchy::engine::graphics
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
 		for (uint_fast32_t itr = 0; itr < g_numFrameBuffers; ++itr)
 		{
-			framework::ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index");
+			framework::ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
 			m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
 			rtvDescriptorHandle.Offset(1, rtvHeapIncrementSize); // Move handle to the next ptr.
 		}
+	}
+	
+	void D3D12Renderer::CreateRootSignature()
+	{
+		// Empty root signature
+
+		CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc;
+		rootSigDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+		framework::AC_ComPtr<ID3DBlob> rootSignatureBlob;
+		framework::AC_ComPtr<ID3DBlob> error;
+
+		framework::ComCheck(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1_1, &rootSignatureBlob, &error), "Failed to serialize root signature.");
+		m_device->CreateRootSignature(0, rootSignatureBlob, m_rootSignature);
 	}
 }

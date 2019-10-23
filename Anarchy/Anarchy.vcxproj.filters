@@ -11,6 +11,8 @@
     <ClCompile Include="Source\Engine\Graphics\D3D12\D3D12Renderer.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D12\HAL\DXGIFactory.cpp" />
     <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\D3D12\HLSLShader.cpp" />
+    <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
@@ -28,6 +30,8 @@
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\DXGIFactory.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Hardware.h" />
     <ClInclude Include="Source\Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
+    <ClInclude Include="Source\Engine\Graphics\D3D12\HLSLShader.h" />
+    <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />

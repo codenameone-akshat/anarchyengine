@@ -22,15 +22,25 @@ namespace anarchy::engine::graphics
 		void Initialize();
 	
 	private:
+
+		// Initializing D3D12
+		void InitializeAPI();
+
 #ifdef AC_DEBUG
 		void EnableDebugLayer();
 #endif // AC_DEBUG
-		
 		void CreateDevice();
 		void CreateGraphicsCommandQueue();
 		void CreateSwapChain();
 		void CreateRenderTargetView();
-		
+		// End Initializing
+
+		// Load Pipe
+		void LoadPipiline();
+
+		void CreateRootSignature();
+		// End Load Pipe
+
 		std::shared_ptr<hal::DXGIFactory> m_factory = std::make_shared<hal::DXGIFactory>();
 		std::shared_ptr<hal::DXGIAdapter> m_adapter = std::make_shared<hal::DXGIAdapter>();
 		std::shared_ptr<hal::D3D12Device> m_device = std::make_shared<hal::D3D12Device>();
@@ -40,6 +50,9 @@ namespace anarchy::engine::graphics
 		framework::AC_ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
 		std::array<framework::AC_ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets{};
 		framework::AC_ComPtr<ID3D12CommandAllocator> m_commandAllocator = nullptr;
+		
+		framework::AC_ComPtr<ID3D12PipelineState> m_pipelineStateObject = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
+		framework::AC_ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
 
 		uint32_t m_currentBackBufferIndex = 0;
 	};

@@ -56,6 +56,11 @@ namespace anarchy::engine::graphics::hal
 			framework::ComCheck(m_device->CreateCommandAllocator(type, IID_PPV_ARGS(&commandAllocator)), "Failed to create Command Allocator.");
 		}
 
+		inline void CreateRootSignature(std::uint32_t nodeMask,	const framework::AC_ComPtr<ID3DBlob> blobWithRootSignature, framework::AC_ComPtr<ID3D12RootSignature> rootSignature)
+		{
+			framework::ComCheck(m_device->CreateRootSignature(nodeMask, blobWithRootSignature->GetBufferPointer(), blobWithRootSignature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)), "Failed to Create Root Signature.");
+		}
+
 	private:
 		framework::AC_ComPtr<ID3D12Device6> m_device;
 	};
