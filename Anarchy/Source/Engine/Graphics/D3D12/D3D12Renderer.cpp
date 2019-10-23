@@ -113,7 +113,7 @@ namespace anarchy::engine::graphics
 		framework::AC_ComPtr<ID3DBlob> rootSignatureBlob;
 		framework::AC_ComPtr<ID3DBlob> error;
 
-		framework::ComCheck(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1_1, &rootSignatureBlob, &error), "Failed to serialize root signature.");
+		framework::ComCheck(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSignatureBlob, &error), "Failed to serialize root signature.");
 		m_device->CreateRootSignature(0, rootSignatureBlob, m_rootSignature);
 	}
 }
