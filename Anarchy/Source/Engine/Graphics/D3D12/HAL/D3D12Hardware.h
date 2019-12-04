@@ -1,3 +1,5 @@
+#ifdef AC_D3D12
+
 #ifndef _D3D12_HARDWARE_H_
 #define _D3D12_HARDWARE_H_
 
@@ -10,11 +12,11 @@
 
 namespace anarchy::engine::graphics::hal
 {
-	class DXGIAdapter
+	class D3D12Adapter
 	{
 	public:
-		DXGIAdapter() = default;
-		~DXGIAdapter() = default;
+		D3D12Adapter() = default;
+		~D3D12Adapter() = default;
 
 		inline IDXGIAdapter4* GetRawAdapter() { return m_hardwareAdapter.Get(); }
 		inline framework::AC_ComPtr<IDXGIAdapter4> GetAdapter() { return m_hardwareAdapter; }
@@ -62,8 +64,10 @@ namespace anarchy::engine::graphics::hal
 		}
 
 	private:
-		framework::AC_ComPtr<ID3D12Device6> m_device;
+		framework::AC_ComPtr<ID3D12Device6> m_device = nullptr;
 	};
 }
 
 #endif // _D3D12_HARDWARE_H_
+
+#endif // AC_D3D12

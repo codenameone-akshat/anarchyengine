@@ -16,13 +16,13 @@ namespace anarchy::engine::core
 		m_renderer->Initialize();
 	}
 	
-	void EngineCore::ShutDownEngine()
-	{
-		// Cleanup. Maybe call from Dtor for RAII?
-	}
-	
 	void EngineCore::Update()
 	{
 		// Stub
+	}
+
+	void EngineCore::ShutDownEngine()
+	{
+		// Cleanup. Maybe call from Dtor for RAII?
 	}
 }

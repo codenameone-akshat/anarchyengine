@@ -1,3 +1,5 @@
+#ifdef AC_D3D12
+
 #include "HLSLShader.h"
 #include "../../../Framework/Includes/FrameworkDefines.h"
 
@@ -10,5 +12,11 @@ namespace anarchy::engine::graphics
 		else
 			m_shaderFilePath = fileName;
 	}
-
+	
+	HRESULT HLSLShader::CompileShader()
+	{
+		return E_NOTIMPL;
+	}
 }
+
+#endif // AC_D3D12

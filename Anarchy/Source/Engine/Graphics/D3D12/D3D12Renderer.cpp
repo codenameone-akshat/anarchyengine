@@ -1,3 +1,5 @@
+#ifdef AC_D3D12
+
 #include "D3D12Renderer.h"
 #include "../../Core/EngineContext.h"
 #include "../../../Utils/Logger/Logger.h"
@@ -11,6 +13,14 @@ namespace anarchy::engine::graphics
 	{
 		InitializeAPI();
 		LoadPipiline();
+	}
+
+	void D3D12Renderer::UpdateSingleThreaded()
+	{
+	}
+
+	void D3D12Renderer::Destruct()
+	{
 	}
 	
 	void D3D12Renderer::InitializeAPI()
@@ -116,4 +126,11 @@ namespace anarchy::engine::graphics
 		framework::ComCheck(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSignatureBlob, &error), "Failed to serialize root signature.");
 		m_device->CreateRootSignature(0, rootSignatureBlob, m_rootSignature);
 	}
+	
+	void D3D12Renderer::CompileAllShaders()
+	{
+		utils::Logger::LogInfo(utils::LogCategory::Graphics, "Compiling Shaders...");
+	}
 }
+
+#endif // AC_D3D12

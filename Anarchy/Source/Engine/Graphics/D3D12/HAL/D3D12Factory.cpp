@@ -1,11 +1,13 @@
+#ifdef AC_D3D12
+
 #include <d3d12.h>
 
-#include "DXGIFactory.h"
+#include "D3D12Factory.h"
 #include "../../../../Framework/Includes/FrameworkGlobals.h"
 
 namespace anarchy::engine::graphics::hal
 {
-	framework::AC_ComPtr<IDXGIAdapter4> DXGIFactory::GetD3D12SupportedHardwareAdapter() const
+	framework::AC_ComPtr<IDXGIAdapter4> D3D12Factory::GetD3D12SupportedHardwareAdapter() const
 	{
 		framework::AC_ComPtr<IDXGIAdapter4> hardwareAdapter;
 		framework::AC_ComPtr<IDXGIAdapter1> hardwareAdapter1;
@@ -34,7 +36,7 @@ namespace anarchy::engine::graphics::hal
 		return hardwareAdapter;
 	}
 	
-	framework::AC_ComPtr<IDXGISwapChain4> DXGIFactory::CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, const HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* desc, 
+	framework::AC_ComPtr<IDXGISwapChain4> D3D12Factory::CreateSwapChain(framework::AC_ComPtr<ID3D12CommandQueue> commandQueue, const HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* desc, 
 		const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, framework::AC_ComPtr<IDXGIOutput> restrictToOutput) const
 	{
 		framework::AC_ComPtr<IDXGISwapChain1> swapChain;
@@ -46,3 +48,5 @@ namespace anarchy::engine::graphics::hal
 		return outputSwapChain;
 	}
 } 
+
+#endif // AC_D3D12

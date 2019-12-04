@@ -1,3 +1,5 @@
+#ifdef AC_D3D12
+
 #ifndef _D3D12_RENDERER_H_
 #define _D3D12_RENDERER_H_
 
@@ -5,21 +7,25 @@
 #include <memory>
 #include <d3d12.h>
 
-#include "HAL/DXGIFactory.h"
+#include "../GfxRenderer.h"
+#include "HAL/D3D12Factory.h"
 #include "HAL/D3D12Hardware.h"
+#include "HLSLShader.h"
 
 namespace anarchy::engine::graphics
 {
 	constexpr D3D_FEATURE_LEVEL g_minFeatureLevel = D3D_FEATURE_LEVEL_12_0;
 	constexpr uint32_t g_numFrameBuffers = 2; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
 
-	class D3D12Renderer
+	class D3D12Renderer : public GfxRenderer
 	{
 	public:
 		D3D12Renderer() = default;
 		~D3D12Renderer() = default;
 
-		void Initialize();
+		virtual void Initialize() override;
+		virtual void UpdateSingleThreaded() override;
+		virtual void Destruct() override;
 	
 	private:
 
@@ -39,10 +45,11 @@ namespace anarchy::engine::graphics
 		void LoadPipiline();
 
 		void CreateRootSignature();
+		void CompileAllShaders();
 		// End Load Pipe
 
-		std::shared_ptr<hal::DXGIFactory> m_factory = std::make_shared<hal::DXGIFactory>();
-		std::shared_ptr<hal::DXGIAdapter> m_adapter = std::make_shared<hal::DXGIAdapter>();
+		std::shared_ptr<hal::D3D12Factory> m_factory = std::make_shared<hal::D3D12Factory>();
+		std::shared_ptr<hal::D3D12Adapter> m_adapter = std::make_shared<hal::D3D12Adapter>();
 		std::shared_ptr<hal::D3D12Device> m_device = std::make_shared<hal::D3D12Device>();
 		
 		framework::AC_ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
@@ -54,8 +61,13 @@ namespace anarchy::engine::graphics
 		framework::AC_ComPtr<ID3D12PipelineState> m_pipelineStateObject = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
 		framework::AC_ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
 
+		std::vector<HLSLShader> m_shaders = { };
+		std::vector<framework::AC_String> m_shaderFullFileNames = { };
+
 		uint32_t m_currentBackBufferIndex = 0;
 	};
 }
 
 #endif // _D3D12_RENDERER_H_
+
+#endif // AC_D3D12

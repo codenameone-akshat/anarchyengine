@@ -3,7 +3,7 @@
 
 namespace anarchy::utils
 {
-    size_t FileWatcher::AddFileForWatch(std::string filePath)
+    size_t FileWatcher::AddFileForWatch(framework::AC_String filePath)
     {
         assert(std::filesystem::exists(filePath));
         

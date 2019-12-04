@@ -1,3 +1,5 @@
+#ifdef AC_D3D12
+
 #ifndef _DXGI_FACTORY_H_
 #define _DXGI_FACTORY_H_
 
@@ -8,11 +10,11 @@
 
 namespace anarchy::engine::graphics::hal
 {
-	class DXGIFactory
+	class D3D12Factory
 	{
 	public:
-		DXGIFactory() = default;
-		~DXGIFactory() = default;
+		D3D12Factory() = default;
+		~D3D12Factory() = default;
 
 		inline void SetDXGIFactoryFlags(const uint32_t flags) { m_dxgiFactoryFlags = flags; }
 		inline void ClearDXGIFactoryFlags(const uint32_t flags) { m_dxgiFactoryFlags = NULL; }
@@ -33,3 +35,5 @@ namespace anarchy::engine::graphics::hal
 }
 
 #endif // _DXGI_FACTORY_H_
+
+#endif // AC_D3D12

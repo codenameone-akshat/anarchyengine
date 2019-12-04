@@ -10,7 +10,9 @@ namespace anarchy::framework
 		if (SUCCEEDED(hr))
 			return;
 		else
+		{
 			utils::Logger::LogError(utils::LogCategory::Graphics, false, message);
+		}
 	}
 //----------------------------------------------------------------------end of file-----------------------------------------------------------------------------
 }

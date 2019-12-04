@@ -1,5 +1,9 @@
+#ifdef AC_D3D12
+
 #ifndef _HLSL_SHADER_H_
 #define _HLSL_SHADER_H_
+
+#include <d3d12.h>
 
 #include "../../../Framework/Includes/FrameworkAliases.h"
 
@@ -21,10 +25,16 @@ namespace anarchy::engine::graphics
 		~HLSLShader() = default;
 
 		HLSLShader(framework::AC_String fileName, bool isInDeaultLocation = true);
+		HRESULT CompileShader();
 	private:
+		
 		framework::AC_String m_shaderFilePath = "";
-		HLSLShaderCache m_cache = {};
+		//framework::AC_Shader_ByteCode m_shaderByteCode = {};
+
+		// HLSLShaderCache m_cache = {};
 	};
 }
 
 #endif // _HLSL_SHADER_H_
+
+#endif // AC_D3D12
