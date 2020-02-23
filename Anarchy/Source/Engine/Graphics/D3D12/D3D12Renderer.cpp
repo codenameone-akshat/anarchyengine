@@ -3,6 +3,7 @@
 #include "D3D12Renderer.h"
 #include "../../Core/EngineContext.h"
 #include "../../../Utils/Logger/Logger.h"
+#include "../../../Utils/Time/ScopedTimer.h"
 #include "../../../Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "../../../Framework/Includes/FrameworkAliases.h"
 #include "../../../Framework/Includes/FrameworkGlobals.h"
@@ -34,6 +35,8 @@ namespace anarchy::engine::graphics
 		CreateSwapChain();
 		CreateRenderTargetView();
 		m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator);
+		PopulateShaders();
+		CompileAllShaders();
 	}
 
 	void D3D12Renderer::LoadPipiline()
@@ -112,6 +115,11 @@ namespace anarchy::engine::graphics
 			rtvDescriptorHandle.Offset(1, rtvHeapIncrementSize); // Move handle to the next ptr.
 		}
 	}
+
+	void D3D12Renderer::PopulateShaders()
+	{
+		m_shaders = core::EngineContext::GetGameSpecificSettings()->GetAllShaders();
+	}
 	
 	void D3D12Renderer::CreateRootSignature()
 	{
@@ -129,7 +137,15 @@ namespace anarchy::engine::graphics
 	
 	void D3D12Renderer::CompileAllShaders()
 	{
-		utils::Logger::LogInfo(utils::LogCategory::Graphics, "Compiling Shaders...");
+		ACScopedTimer("Shader Compilation");
+		utils::Logger::LogInfo(utils::Logger::LogCategory::Graphics, "Compiling Shaders Started...");
+		
+		for (auto& shader : m_shaders)
+		{
+			shader.CompileShader();
+		}
+
+		utils::Logger::LogInfo(utils::Logger::LogCategory::Graphics, "Shader Compilation Done!");
 	}
 }
 

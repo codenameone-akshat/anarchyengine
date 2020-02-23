@@ -7,6 +7,7 @@
 
 #include "../../../../Framework/Includes/FrameworkHeaders.h"
 #include "../../../../Framework/Includes/FrameworkAliases.h"
+#include "D3D11Hardware.h"
 
 namespace anarchy::engine::graphics::hal
 {
@@ -17,6 +18,10 @@ namespace anarchy::engine::graphics::hal
 		~D3D11Factory() = default;
 		
 		inline framework::AC_ComPtr<IDXGIFactory>& GetRawFactory() { return m_factory; }
+		inline void CreateSwapChain(std::shared_ptr<hal::D3D11Device> device, DXGI_SWAP_CHAIN_DESC& swapChainDesc, framework::AC_ComPtr<IDXGISwapChain>& swapChain)
+		{
+			framework::ComCheck(m_factory->CreateSwapChain(device->GetRawDevice().Get(), &swapChainDesc, &swapChain), "Failed to create D3D11 Device");
+		}
 
 		framework::AC_ComPtr<IDXGIAdapter> GetD3D11SupportedHardwareAdapter() const;
 

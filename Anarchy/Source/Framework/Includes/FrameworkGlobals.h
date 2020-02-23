@@ -30,6 +30,7 @@ namespace anarchy::framework
 // Com Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void ComCheck(HRESULT hr, AC_String message);
+	void ComCheck(HRESULT hr, AC_String message, framework::AC_ComPtr<ID3DBlob> errorMessagePtr);
 	
 //----------------------------------------------------------------------end of file-----------------------------------------------------------------------------
 }

@@ -10,7 +10,6 @@
     <ClCompile Include="Source\MainApp\Main.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D12\D3D12Renderer.cpp" />
     <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\D3D12\HLSLShader.cpp" />
     <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
@@ -18,6 +17,9 @@
     <ClCompile Include="Source\Engine\Graphics\D3D11\D3D11Renderer.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D12\HAL\D3D12Factory.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.cpp" />
+    <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
+    <ClCompile Include="Source\Game\GameSpecificMain.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\HLSL\HLSLShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
@@ -34,7 +36,6 @@
     <ClInclude Include="Source\Engine\Graphics\D3D12\D3D12Renderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Hardware.h" />
     <ClInclude Include="Source\Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HLSLShader.h" />
     <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
@@ -43,8 +44,19 @@
     <ClInclude Include="Source\Engine\Graphics\D3D11\D3D11Renderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Factory.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.h" />
+    <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h" />
+    <ClInclude Include="Source\Utils\StringUtils\StringUtils.h" />
+    <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
+    <ClInclude Include="Source\Game\GameSpecificMain.h" />
+    <ClInclude Include="Source\Engine\Graphics\HLSL\HLSLShader.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\Engine\Graphics\Shaders\EmptyShader.hlsl" />
   </ItemGroup>
 </Project>

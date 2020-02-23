@@ -130,7 +130,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">
+    <IncludePath>$(BOOST);$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -252,13 +254,14 @@
     <ClCompile Include="Source\Engine\Graphics\D3D11\D3D11Renderer.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.cpp" />
     <ClCompile Include="Source\Engine\Graphics\GfxRenderer.cpp" />
+    <ClCompile Include="Source\Game\GameSpecificMain.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
     <ClCompile Include="Source\Engine\Core\EngineCore.cpp" />
     <ClCompile Include="Source\Engine\Core\MainEngine.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D12\D3D12Renderer.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D12\HAL\D3D12Factory.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\D3D12\HLSLShader.cpp" />
+    <ClCompile Include="Source\Engine\Graphics\HLSL\HLSLShader.cpp" />
     <ClCompile Include="Source\Engine\System\System.cpp" />
     <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
@@ -266,12 +269,14 @@
     <ClCompile Include="Source\MainApp\Main.cpp" />
     <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="Source\Utils\Logger\Logger.cpp" />
+    <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Graphics\D3D11\D3D11Renderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.h" />
     <ClInclude Include="Source\Engine\Graphics\GfxRenderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Hardware.h" />
+    <ClInclude Include="Source\Game\GameSpecificMain.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
@@ -280,7 +285,7 @@
     <ClInclude Include="Source\Engine\Graphics\D3D12\D3D12Renderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Hardware.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Factory.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HLSLShader.h" />
+    <ClInclude Include="Source\Engine\Graphics\HLSL\HLSLShader.h" />
     <ClInclude Include="Source\Engine\System\System.h" />
     <ClInclude Include="Source\Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h" />
@@ -291,11 +296,29 @@
     <ClInclude Include="Source\Framework\Window\WindowManager.h" />
     <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h" />
     <ClInclude Include="Source\Utils\Logger\Logger.h" />
+    <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h" />
+    <ClInclude Include="Source\Utils\StringUtils\StringUtils.h" />
+    <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Source\Engine\Graphics\Shaders\EmptyShader.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\directxmath.2019.8.23.1\build\native\directxmath.targets" Condition="Exists('packages\directxmath.2019.8.23.1\build\native\directxmath.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\directxmath.2019.8.23.1\build\native\directxmath.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxmath.2019.8.23.1\build\native\directxmath.targets'))" />
+  </Target>
 </Project>

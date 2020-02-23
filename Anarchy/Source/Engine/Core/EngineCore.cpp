@@ -12,6 +12,10 @@ namespace anarchy::engine::core
 		AppContext::SetHandleToActiveWindow(m_windowManger->GetHandleToWindow(m_mainWindowIndex));
 		AppContext::SetMainWindowDesc(m_windowManger->GetWindowDesc(m_mainWindowIndex));
 
+		// Initialize the game specific settings
+		m_gameSpecificMain->InitializeSettings();
+		EngineContext::SetGameSpecificSettings(m_gameSpecificMain->GetSettings());
+
 		// Initialize the Renderer
 		m_renderer->Initialize();
 	}

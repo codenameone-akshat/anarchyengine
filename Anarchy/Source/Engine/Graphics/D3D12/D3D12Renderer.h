@@ -10,7 +10,7 @@
 #include "../GfxRenderer.h"
 #include "HAL/D3D12Factory.h"
 #include "HAL/D3D12Hardware.h"
-#include "HLSLShader.h"
+#include "../HLSL/HLSLShader.h"
 
 namespace anarchy::engine::graphics
 {
@@ -39,6 +39,7 @@ namespace anarchy::engine::graphics
 		void CreateGraphicsCommandQueue();
 		void CreateSwapChain();
 		void CreateRenderTargetView();
+		void PopulateShaders();
 		// End Initializing
 
 		// Load Pipe

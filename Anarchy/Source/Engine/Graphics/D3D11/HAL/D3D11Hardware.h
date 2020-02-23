@@ -51,6 +51,10 @@ namespace anarchy::engine::graphics::hal
 
 		inline framework::AC_ComPtr<ID3D11DeviceContext>& GetDeferredContext() { return m_deferredContext; }
 		inline void CreateDefferedContext() { m_device->CreateDeferredContext(NULL, &m_deferredContext); }
+		inline void CreateRenderTargetView(framework::AC_ComPtr<ID3D11Resource>& backBuffer, const D3D11_RENDER_TARGET_VIEW_DESC* rtvDesc, framework::AC_ComPtr<ID3D11RenderTargetView>& renderTargetView)
+		{
+			framework::ComCheck(m_device->CreateRenderTargetView(backBuffer.Get(), rtvDesc, renderTargetView.GetAddressOf()), "Failed To Create Render Target View");
+		}
 
 		inline void SetDeviceFlags(const uint32_t flags) { m_deviceFlags = flags; }
 		inline void ClearDeviceFlags(const uint32_t flags) { m_deviceFlags = NULL; }

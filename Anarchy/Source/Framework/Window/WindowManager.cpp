@@ -22,7 +22,7 @@ namespace anarchy::framework
 		{
 			AC_String errorMsg = "Cannot Create Requested Window ";
 			AC_String windowName = windowDesc.lpClassName;
-			utils::Logger::LogInfo(utils::LogCategory::Framework, (errorMsg + windowName).c_str());
+			utils::Logger::LogInfo(utils::Logger::LogCategory::Framework, (errorMsg + windowName).c_str());
 			return std::numeric_limits<uint32_t>::max();
 		}
 	}

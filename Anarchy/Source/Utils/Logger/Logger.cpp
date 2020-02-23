@@ -3,6 +3,7 @@
 
 #include "Logger.h"
 #include "../../Framework/Includes/FrameworkGlobals.h"
+#include "../../Framework/Includes/FrameworkDefines.h"
 
 namespace anarchy::utils
 {
@@ -11,17 +12,45 @@ namespace anarchy::utils
 		ProcessAndLogString(logCategory, outputStr);
 	}
 
+	void Logger::LogInfo(LogCategory logCategory, ID3DBlob* outputBufferPtr)
+	{
+		ProcessAndLogString(logCategory, outputBufferPtr);
+	}
+
 	void Logger::LogWarning(LogCategory logCategory, bool condition, framework::AC_String outputStr)
 	{
-		::MessageBoxA(nullptr, "Warning!!! Please check the output window!!!", "Warning!", MB_OK);
-		ProcessAndLogString(logCategory, outputStr);
+		if (!condition)
+		{
+			ProcessAndLogString(logCategory, outputStr);
+			AcBreak;
+		}
+	}
+
+	void Logger::LogWarning(LogCategory logCategory, bool condition, ID3DBlob* outputBufferPtrr)
+	{
+		if (!condition)
+		{
+			ProcessAndLogString(logCategory, outputBufferPtrr);
+			AcBreak;
+		}
 	}
 
 	void Logger::LogError(LogCategory logCategory, bool condition, framework::AC_String outputStr)
 	{
-		::MessageBoxA(nullptr, "Error!!! Please check the output window!!!", "Error!", MB_OK);
-		ProcessAndLogString(logCategory, outputStr);
-		assert(condition);
+		if (!condition)
+		{
+			ProcessAndLogString(logCategory, outputStr);
+			assert(condition);
+		}
+	}
+
+	void Logger::LogError(LogCategory logCategory, bool condition, ID3DBlob* outputBufferPtr)
+	{
+		if (!condition)
+		{
+			ProcessAndLogString(logCategory, outputBufferPtr);
+			assert(condition);
+		}
 	}
 
 	void Logger::ProcessAndLogString(LogCategory logCategory, framework::AC_String outputString)
@@ -32,9 +61,18 @@ namespace anarchy::utils
 		OutputDebugString(os_.str().c_str());
 	}
 
+	void Logger::ProcessAndLogString(LogCategory logCategory, ID3DBlob* outputBufferPtr)
+	{
+		framework::AC_String outputString = static_cast<const char*>(outputBufferPtr->GetBufferPointer());
+		framework::AC_String logCategoryString = GetStringForCategory(logCategory);
+		framework::AC_OStringStream os_;
+		os_ << logCategoryString << outputString << std::endl;
+		OutputDebugString(os_.str().c_str());
+	}
+
 	framework::AC_String Logger::GetStringForCategory(LogCategory logCategory)
 	{
-		framework::AC_String outputCategory = "[" + m_logCategoryStrings[static_cast<std::underlying_type_t<LogCategory>>(logCategory) - 1] + "]: ";
+		framework::AC_String outputCategory = "[" + LogCategory_Strings[static_cast<std::underlying_type_t<LogCategory>>(logCategory)] + "]: ";
 		return outputCategory;
 	}
 }

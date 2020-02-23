@@ -17,6 +17,11 @@ namespace anarchy::engine::system
 
 		// Post DT work here.
 	}
+
+	void System::Destruct()
+	{
+		m_engineCore->ShutDownEngine();
+	}
 	
 	void System::Update()
 	{

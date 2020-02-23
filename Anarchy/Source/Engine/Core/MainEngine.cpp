@@ -22,6 +22,9 @@ namespace anarchy::engine::core
 			system->SystemTick();
 	
 		} while (EngineContext::GetIsEngneRunning());
+
+		// End Running.
+		system->Destruct();
 	}
 	
 	void PollMessage()

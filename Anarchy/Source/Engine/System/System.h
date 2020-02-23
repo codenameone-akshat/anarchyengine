@@ -17,6 +17,7 @@ namespace anarchy::engine::system
 
 		void Initialize();
 		void SystemTick();
+		void Destruct();
 
 	private:
 		void Update();

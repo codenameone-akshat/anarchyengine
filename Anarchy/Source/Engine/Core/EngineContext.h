@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "../../Framework/Window/Window.h"
+#include "../../Game/GameSettings/GameSettings.h"
 
 namespace anarchy::engine::core
 {
@@ -16,13 +17,16 @@ namespace anarchy::engine::core
 
 		static bool GetIsEngneRunning() noexcept { return ms_isEngineRunning; }
 		static void SetIsEngneRunning(bool isEngineRunning) { ms_isEngineRunning = isEngineRunning; }
+
+		static std::shared_ptr<game::settings::GameSettings> GetGameSpecificSettings() { return m_gameSpecificSettings; }
+		static void SetGameSpecificSettings(std::shared_ptr<game::settings::GameSettings> settings) { m_gameSpecificSettings = settings; }
 		
 	private:
 		inline static bool ms_isEngineRunning = false;
+		inline static std::shared_ptr<game::settings::GameSettings> m_gameSpecificSettings = nullptr;
 	};
 
 	// Static context maintaining the state and info of the main app.
-	
 	struct MainParams
 	{
 		HINSTANCE hInstance = nullptr;
@@ -49,11 +53,15 @@ namespace anarchy::engine::core
 		static framework::WindowDesc GetMainWindowDesc() { return ms_mainWindowDesc; }
 		static void SetMainWindowDesc(framework::WindowDesc windowDesc) { ms_mainWindowDesc = windowDesc; }
 
+		static framework::AC_String GetSourceDirPath() { return ms_sourceDirPath; }
+		static void SetSourceDirPath(framework::AC_String path) { ms_sourceDirPath = path; }
+
 	private:
 		inline static MainParams ms_mainParams = {};
 		inline static framework::WndProcFunctor ms_wndProcFunctor = nullptr;
 		inline static std::shared_ptr<framework::Window> ms_mainWindow = nullptr;
 		inline static framework::WindowDesc ms_mainWindowDesc = {};
+		inline static framework::AC_String ms_sourceDirPath = {};
 	};
 }
 

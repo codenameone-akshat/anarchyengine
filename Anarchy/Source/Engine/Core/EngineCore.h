@@ -4,18 +4,19 @@
 #include <memory>
 
 #include "../../Framework/Window/WindowManager.h"
+#include "../../Game/GameSpecificMain.h"
 
 #ifdef AC_D3D12
 #include "../Graphics/D3D12/D3D12Renderer.h"
-#define	AC_RendererClass graphics::D3D12Renderer
+using AC_RendererClass = anarchy::engine::graphics::D3D12Renderer;
 
 #elif AC_D3D11
 #include "../Graphics/D3D11/D3D11Renderer.h"
-#define AC_RendererClass graphics::D3D11Renderer
+using AC_RendererClass = anarchy::engine::graphics::D3D11Renderer;
 
 #elif AC_VULKAN
 #include "../Graphics/Vulkan/VulkanRenderer.h"
-#define AC_RendererClass graphics::VulkanRenderer
+using AC_RendererClass = anarchy::engine::graphics::VulkanRenderer;
 
 #endif // AC_D3D12 | AC_D3D11 | AC_VULKAN
 
@@ -36,6 +37,7 @@ namespace anarchy::engine::core
 		uint32_t m_mainWindowIndex = 0;
 		std::unique_ptr<framework::WindowManager> m_windowManger = std::make_unique<framework::WindowManager>();
 		std::unique_ptr<graphics::GfxRenderer> m_renderer = std::make_unique<AC_RendererClass>();
+		std::unique_ptr<game::GameSpecificMain> m_gameSpecificMain = std::make_unique<game::GameSpecificMain>();
 	};
 }
 

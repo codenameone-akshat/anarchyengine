@@ -21,7 +21,9 @@ namespace anarchy::engine::graphics
 	void D3D11Renderer::InitializeAPI()
 	{
 		CreateAdapterAndFactory();
-		CreateDeviceAndSwapChain();
+		CreateDevice();
+		CreateSwapChain();
+		CreateRenderTargetView();
 	}
 
 	void D3D11Renderer::CreateAdapterAndFactory()
@@ -30,7 +32,7 @@ namespace anarchy::engine::graphics
 		m_adapter->SetAdapter(m_factory->GetD3D11SupportedHardwareAdapter());
 	}
 	
-	void D3D11Renderer::CreateDeviceAndSwapChain()
+	void D3D11Renderer::CreateDevice()
 	{
 #ifdef AC_DEBUG
 		m_device->AppendDeviceFlags(D3D11_CREATE_DEVICE_DEBUG);
@@ -38,6 +40,16 @@ namespace anarchy::engine::graphics
 
 		std::array<D3D_FEATURE_LEVEL, 2> featureLevels{ D3D_FEATURE_LEVEL_11_1, D3D_FEATURE_LEVEL_11_0 };
 
+		framework::ComCheck(D3D11CreateDevice(m_adapter->GetAdapter().Get(), D3D_DRIVER_TYPE_UNKNOWN, NULL, m_device->GetDeviceFlags(), featureLevels.data(), static_cast<uint32_t>(featureLevels.size()),
+			D3D11_SDK_VERSION, &m_device->GetRawDevice(), nullptr, nullptr), "Failed to create D3D11 Device");
+
+		m_device->CreateImmediateContext();
+		m_device->CreateDefferedContext();
+		
+	}
+
+	void D3D11Renderer::CreateSwapChain()
+	{
 		DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 
 		swapChainDesc.BufferDesc.Width = NULL; // Get automatically from hWND
@@ -51,12 +63,16 @@ namespace anarchy::engine::graphics
 		swapChainDesc.OutputWindow = core::AppContext::GetHandleToActiveWindow()->GetRawHandleToWindow();
 		swapChainDesc.Windowed = true;
 
-		// TODO: Create Factory and Adapter First
-		framework::ComCheck(D3D11CreateDeviceAndSwapChain(m_adapter->GetAdapter().Get(), D3D_DRIVER_TYPE_UNKNOWN, NULL, m_device->GetDeviceFlags(), featureLevels.data(), static_cast<uint32_t>(featureLevels.size()),
-			D3D11_SDK_VERSION, &swapChainDesc, &m_swapChain, &m_device->GetRawDevice(), nullptr, nullptr), "Failed to create D3D11 Device and SwapChain");
-		
-		m_device->CreateImmediateContext();
-		m_device->CreateDefferedContext();
+		m_factory->CreateSwapChain(m_device, swapChainDesc, m_swapChain);
+	}
+	
+	void D3D11Renderer::CreateRenderTargetView()
+	{
+		for(uint_fast32_t itr = 0; itr < g_numFrameBuffers; ++itr)
+		{
+			framework::ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
+			m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, m_renderTargetViews.at(itr));
+		}
 	}
 }
 
