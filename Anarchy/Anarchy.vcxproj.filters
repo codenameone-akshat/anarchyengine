@@ -49,6 +49,10 @@
     <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
     <ClInclude Include="Source\Game\GameSpecificMain.h" />
     <ClInclude Include="Source\Engine\Graphics\HLSL\HLSLShader.h" />
+    <ClInclude Include="Source\Framework\Math\Matrix\Matrix.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec4.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />

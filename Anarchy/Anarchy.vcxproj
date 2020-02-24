@@ -276,6 +276,10 @@
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.h" />
     <ClInclude Include="Source\Engine\Graphics\GfxRenderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Hardware.h" />
+    <ClInclude Include="Source\Framework\Math\Matrix\Matrix.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec4.hpp" />
     <ClInclude Include="Source\Game\GameSpecificMain.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
