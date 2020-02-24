@@ -29,7 +29,6 @@ namespace anarchy::engine::graphics
 #endif // AC_DEBUG
 
 		framework::AC_ComPtr<ID3DBlob> error;
-		framework::AC_ComPtr<ID3DBlob> shaderBlob;
 
 		framework::AC_String errorMessage = AC_STR_LITERAL("Failed To Compile Shader ") + m_shaderFilePath + AC_STR_LITERAL(".");
 		
@@ -37,10 +36,10 @@ namespace anarchy::engine::graphics
 		framework::AC_String entryPoint = m_shaderDesc.shaderEntryPoint;
 		framework::AC_String target = HLSLShaderTarget_GetName(m_shaderDesc.shaderTarget);
 
-		framework::ComCheck(D3DCompileFromFile(shaderwstr.c_str(), NULL, NULL, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &shaderBlob, &error), errorMessage, error);
+		framework::ComCheck(D3DCompileFromFile(shaderwstr.c_str(), NULL, NULL, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &m_shaderBlob, &error), errorMessage, error);
 
-		m_shaderByteCode.pShaderBytecode = shaderBlob->GetBufferPointer();
-		m_shaderByteCode.BytecodeLength = shaderBlob->GetBufferSize();
+		m_shaderByteCode.pShaderBytecode = m_shaderBlob->GetBufferPointer();
+		m_shaderByteCode.BytecodeLength = m_shaderBlob->GetBufferSize();
 	}
 }
 

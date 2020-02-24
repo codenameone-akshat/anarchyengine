@@ -48,10 +48,13 @@ namespace anarchy::engine::graphics
 		~HLSLShader() = default;
 
 		void CompileShader();
+		inline D3D12_SHADER_BYTECODE GetShaderByteCode() { return m_shaderByteCode; }
 	
 	private:
 		framework::AC_String m_shaderFilePath = "";
 		HLSLShaderDesc m_shaderDesc;
+		framework::AC_ComPtr<ID3DBlob> m_shaderBlob;
+
 		D3D12_SHADER_BYTECODE m_shaderByteCode = {};
 
 		//HLSLShaderCache m_cache = {};

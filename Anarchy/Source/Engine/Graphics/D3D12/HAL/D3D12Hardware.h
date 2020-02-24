@@ -58,9 +58,14 @@ namespace anarchy::engine::graphics::hal
 			framework::ComCheck(m_device->CreateCommandAllocator(type, IID_PPV_ARGS(&commandAllocator)), "Failed to create Command Allocator.");
 		}
 
-		inline void CreateRootSignature(std::uint32_t nodeMask,	const framework::AC_ComPtr<ID3DBlob> blobWithRootSignature, framework::AC_ComPtr<ID3D12RootSignature> rootSignature)
+		inline void CreateRootSignature(std::uint32_t nodeMask,	const framework::AC_ComPtr<ID3DBlob> blobWithRootSignature, framework::AC_ComPtr<ID3D12RootSignature>& rootSignature)
 		{
 			framework::ComCheck(m_device->CreateRootSignature(nodeMask, blobWithRootSignature->GetBufferPointer(), blobWithRootSignature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)), "Failed to Create Root Signature.");
+		}
+
+		inline void CreateGraphicsPipelineStateObject(D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc, framework::AC_ComPtr<ID3D12PipelineState>& graphicsPso)
+		{
+			framework::ComCheck(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&graphicsPso)), "Failed to Create Graphics Pipeline State Object.");
 		}
 
 	private:

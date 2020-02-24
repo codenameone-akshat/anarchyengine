@@ -47,6 +47,9 @@ namespace anarchy::engine::graphics
 
 		void CreateRootSignature();
 		void CompileAllShaders();
+		void CreateVertexInputLayout();
+		void CreateGraphicsPipelineStateObject();
+
 		// End Load Pipe
 
 		std::shared_ptr<hal::D3D12Factory> m_factory = std::make_shared<hal::D3D12Factory>();
@@ -56,13 +59,14 @@ namespace anarchy::engine::graphics
 		framework::AC_ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
 		framework::AC_ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
 		framework::AC_ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
-		std::array<framework::AC_ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets{};
+		std::array<framework::AC_ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets = { };
 		framework::AC_ComPtr<ID3D12CommandAllocator> m_commandAllocator = nullptr;
-		
-		framework::AC_ComPtr<ID3D12PipelineState> m_pipelineStateObject = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
+		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputElementDescs = { };
+
+		framework::AC_ComPtr<ID3D12PipelineState> m_graphicsPSO = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
 		framework::AC_ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
 
-		std::vector<HLSLShader> m_shaders = { };
+		std::vector<HLSLShader> m_shaders = { }; // Rework required for GraphicsPipelineState
 		std::vector<framework::AC_String> m_shaderFullFileNames = { };
 
 		uint32_t m_currentBackBufferIndex = 0;

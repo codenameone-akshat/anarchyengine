@@ -1,5 +1,7 @@
 #ifdef AC_D3D12
 
+#include <limits>
+
 #include "D3D12Renderer.h"
 #include "../../Core/EngineContext.h"
 #include "../../../Utils/Logger/Logger.h"
@@ -36,12 +38,14 @@ namespace anarchy::engine::graphics
 		CreateRenderTargetView();
 		m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator);
 		PopulateShaders();
-		CompileAllShaders();
 	}
 
 	void D3D12Renderer::LoadPipiline()
 	{
 		CreateRootSignature();
+		CompileAllShaders();
+		CreateVertexInputLayout(); // Modify this as per the shader??
+		CreateGraphicsPipelineStateObject();
 	}
 
 #ifdef AC_DEBUG
@@ -147,6 +151,60 @@ namespace anarchy::engine::graphics
 
 		utils::Logger::LogInfo(utils::Logger::LogCategory::Graphics, "Shader Compilation Done!");
 	}
+
+	void D3D12Renderer::CreateVertexInputLayout()
+	{
+		m_inputElementDescs.reserve(2);
+
+		D3D12_INPUT_ELEMENT_DESC inputElemDesc =
+		{
+			"POSITION",
+			0,
+			DXGI_FORMAT_R32G32B32_FLOAT, // Vec3
+			0,
+			0,
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+			0
+		};
+		
+		m_inputElementDescs.emplace_back(inputElemDesc);
+
+		inputElemDesc =
+		{
+			"COLOR",
+			0,
+			DXGI_FORMAT_R32G32B32_FLOAT, // Vec3
+			0,
+			12, // Size of Vec3. Find a better way to do this
+			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+			0
+		};
+		
+		m_inputElementDescs.emplace_back(inputElemDesc);
+	}
+
+	void D3D12Renderer::CreateGraphicsPipelineStateObject()
+	{
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+		psoDesc.pRootSignature = m_rootSignature.Get();
+		psoDesc.VS = m_shaders[0].GetShaderByteCode();
+		psoDesc.PS = m_shaders[1].GetShaderByteCode();
+		psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+		psoDesc.SampleMask = std::numeric_limits<uint32_t>::max(); // Default 0xffff
+		psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+		
+		psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
+		psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
+		
+		psoDesc.InputLayout = { m_inputElementDescs.data(), static_cast<uint32_t>(m_inputElementDescs.size()) };
+		psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+		psoDesc.NumRenderTargets = 1;
+		psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		psoDesc.SampleDesc.Count = 1;
+
+		m_device->CreateGraphicsPipelineStateObject(psoDesc, m_graphicsPSO);
+	}
+
 }
 
 #endif // AC_D3D12
