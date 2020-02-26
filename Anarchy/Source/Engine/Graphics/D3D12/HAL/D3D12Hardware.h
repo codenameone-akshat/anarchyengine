@@ -9,6 +9,7 @@
 #include "../../../../Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "../../../../Framework/Includes/FrameworkAliases.h"
 #include "../../../../Framework/Includes/FrameworkGlobals.h"
+#include "../../../../Utils/StringUtils/StringUtils.h"
 
 namespace anarchy::engine::graphics::hal
 {
@@ -68,6 +69,18 @@ namespace anarchy::engine::graphics::hal
 			framework::ComCheck(m_device->CreateGraphicsPipelineState(&psoDesc, IID_PPV_ARGS(&graphicsPso)), "Failed to Create Graphics Pipeline State Object.");
 		}
 
+		inline void CreateCommandList(D3D12_COMMAND_LIST_TYPE type, ID3D12CommandAllocator* commandAllocator, ID3D12PipelineState* pso, framework::AC_ComPtr<ID3D12GraphicsCommandList>& commandList)
+		{
+			// Sending nodemask as NULL for single GPU operation.
+			framework::ComCheck(m_device->CreateCommandList(NULL, type, commandAllocator, pso, IID_PPV_ARGS(&commandList)), "Failed to create Graphics Command List");
+		}
+
+		inline void CreateCommittedResource(const D3D12_HEAP_PROPERTIES& heapProperties, D3D12_HEAP_FLAGS heapFlags, const D3D12_RESOURCE_DESC& resourceDesc, D3D12_RESOURCE_STATES initialResourceState, 
+			const D3D12_CLEAR_VALUE* optimizedClearValue, framework::AC_ComPtr<ID3D12Resource>& resource, framework::AC_String resourceTag)
+		{
+			framework::ComCheck(m_device->CreateCommittedResource(&heapProperties, heapFlags, &resourceDesc, initialResourceState, optimizedClearValue, IID_PPV_ARGS(&resource)), "Failed to create D3DResource: " + resourceTag);
+			resource->SetName(utils::string_cast<std::wstring>(resourceTag).c_str());
+		}
 	private:
 		framework::AC_ComPtr<ID3D12Device6> m_device = nullptr;
 	};

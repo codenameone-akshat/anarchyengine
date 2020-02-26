@@ -10,12 +10,15 @@
 #include "../../../Framework/Includes/FrameworkAliases.h"
 #include "../../../Framework/Includes/FrameworkGlobals.h"
 
+#include"../../../Framework/Math/Vector/Vec3.hpp"
+#include"../../../Framework/Math/Vector/Vec4.hpp"
+
 namespace anarchy::engine::graphics
 {
 	void D3D12Renderer::Initialize()
 	{
 		InitializeAPI();
-		LoadPipiline();
+		InitalizeResources();
 	}
 
 	void D3D12Renderer::UpdateSingleThreaded()
@@ -40,23 +43,30 @@ namespace anarchy::engine::graphics
 		PopulateShaders();
 	}
 
-	void D3D12Renderer::LoadPipiline()
+	void D3D12Renderer::InitalizeResources()
 	{
 		CreateRootSignature();
 		CompileAllShaders();
 		CreateVertexInputLayout(); // Modify this as per the shader??
 		CreateGraphicsPipelineStateObject();
+		
+		CreateGraphicsCommandList();
+		// Populate code if something is there to record. Leaving it for now since there is nothing to records. Maybe put this in a Command List Manager?
+		CloseGraphicsCommandList();
+
+		CreateVertexBuffer();
 	}
 
 #ifdef AC_DEBUG
 	// Should be the first step.
 	void D3D12Renderer::EnableDebugLayer()
 	{
-		framework::AC_ComPtr<ID3D12Debug> debugController;
+		framework::AC_ComPtr<ID3D12Debug1> debugController;
 		auto size = sizeof(debugController);
 		if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 		{
 			debugController->EnableDebugLayer();
+			debugController->SetEnableGPUBasedValidation(true);
 
 			m_factory->AppendDXGIFactoryFlags(DXGI_CREATE_FACTORY_DEBUG);
 		}
@@ -173,7 +183,7 @@ namespace anarchy::engine::graphics
 		{
 			"COLOR",
 			0,
-			DXGI_FORMAT_R32G32B32_FLOAT, // Vec3
+			DXGI_FORMAT_R32G32B32A32_FLOAT, // Vec4
 			0,
 			12, // Size of Vec3. Find a better way to do this
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
@@ -205,6 +215,67 @@ namespace anarchy::engine::graphics
 		m_device->CreateGraphicsPipelineStateObject(psoDesc, m_graphicsPSO);
 	}
 
+	void D3D12Renderer::CreateGraphicsCommandList()
+	{
+		m_device->CreateCommandList(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_graphicsPSO.Get(), m_commandList);
+	}
+
+	void D3D12Renderer::CloseGraphicsCommandList()
+	{
+		m_commandList->Close();
+	}
+
+	void D3D12Renderer::CreateVertexBuffer()
+	{
+		// Creating Vertex Layout here for now
+		struct Vertex
+		{
+			framework::math::Vec3 position;
+			framework::math::Vec4 color;
+		};
+
+		Vertex vertexBufferData[] =
+		{
+			{ {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
+			{ {-1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+			{ {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} }
+		};
+
+		uint32_t vertexBufferSize = sizeof(vertexBufferData);
+
+		D3D12_HEAP_PROPERTIES heapProperties = {};
+		heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+		heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+		heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+		heapProperties.CreationNodeMask = NULL; // Single GPU.
+		heapProperties.VisibleNodeMask = NULL; // Single GPU.
+
+		D3D12_RESOURCE_DESC resourceDesc = {};
+		resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		resourceDesc.Alignment = 0;
+		resourceDesc.Width = vertexBufferSize;
+		resourceDesc.Height = 1;
+		resourceDesc.DepthOrArraySize = 1;
+		resourceDesc.MipLevels = 1;
+		resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
+		resourceDesc.SampleDesc.Count = 1;
+		resourceDesc.SampleDesc.Quality = 0;
+		resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+		resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+		m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_vertexBuffer, "Vertex Buffer");
+
+		D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
+		uint8_t* vertexDataGPUBuffer = nullptr;
+		
+		framework::ComCheck(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&vertexDataGPUBuffer)), "Failed to map resource");
+		memcpy_s(vertexDataGPUBuffer, vertexBufferSize, vertexBufferData, vertexBufferSize);
+		m_vertexBuffer->Unmap(NULL, nullptr);
+
+		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
+		m_vertexBufferView.StrideInBytes = sizeof(Vertex);
+		m_vertexBufferView.SizeInBytes = vertexBufferSize;
+	}
 }
 
 #endif // AC_D3D12

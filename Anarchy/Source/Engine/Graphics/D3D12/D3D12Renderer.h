@@ -43,13 +43,16 @@ namespace anarchy::engine::graphics
 		// End Initializing
 
 		// Load Pipe
-		void LoadPipiline();
+		void InitalizeResources();
 
 		void CreateRootSignature();
 		void CompileAllShaders();
 		void CreateVertexInputLayout();
 		void CreateGraphicsPipelineStateObject();
+		void CreateGraphicsCommandList();
+		void CloseGraphicsCommandList();
 
+		void CreateVertexBuffer();
 		// End Load Pipe
 
 		std::shared_ptr<hal::D3D12Factory> m_factory = std::make_shared<hal::D3D12Factory>();
@@ -66,8 +69,14 @@ namespace anarchy::engine::graphics
 		framework::AC_ComPtr<ID3D12PipelineState> m_graphicsPSO = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
 		framework::AC_ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
 
+		framework::AC_ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
+
 		std::vector<HLSLShader> m_shaders = { }; // Rework required for GraphicsPipelineState
 		std::vector<framework::AC_String> m_shaderFullFileNames = { };
+
+		// Here for now. TODO: Remove from here maybe?
+		framework::AC_ComPtr<ID3D12Resource> m_vertexBuffer = nullptr;
+		D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView = {};
 
 		uint32_t m_currentBackBufferIndex = 0;
 	};
