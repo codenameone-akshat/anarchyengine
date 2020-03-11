@@ -37,6 +37,7 @@ namespace anarchy::framework
 #endif // UNICODE
 
 	using AC_VoidPtr = void*;
+	using AC_Handle = void*;
 
 	// Com Specifics
 	template<typename T>

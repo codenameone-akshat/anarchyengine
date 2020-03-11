@@ -55,6 +55,7 @@ namespace anarchy::engine::graphics
 		CloseGraphicsCommandList();
 
 		CreateVertexBuffer();
+		CreateSyncObjects();
 	}
 
 #ifdef AC_DEBUG
@@ -275,6 +276,32 @@ namespace anarchy::engine::graphics
 		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
 		m_vertexBufferView.StrideInBytes = sizeof(Vertex);
 		m_vertexBufferView.SizeInBytes = vertexBufferSize;
+	}
+	
+	void D3D12Renderer::CreateSyncObjects()
+	{
+		m_device->CreateFence(0, D3D12_FENCE_FLAG_NONE, m_fence);
+		m_fenceValue = 1;
+
+		m_fenceEvent = CreateEvent(nullptr, false, false, AC_STR_LITERAL("FenceEvent"));
+		framework::AC_Assert(m_fenceEvent, "Failed to Create Fence Event");
+
+		WaitForPreviousFrame();
+	}
+	
+	void D3D12Renderer::WaitForPreviousFrame()
+	{
+		const uint64_t fenceVal = m_fenceValue;
+		framework::ComCheck(m_graphicsCommandQueue->Signal(m_fence.Get(), fenceVal), AC_STR_LITERAL("Failed to Update Fence Value"));
+		++m_fenceValue;
+
+		if (m_fence->GetCompletedValue() < fenceVal)
+		{
+			framework::ComCheck(m_fence->SetEventOnCompletion(fenceVal, m_fenceEvent), "Failed to Fire Event");
+			::WaitForSingleObjectEx(m_fenceEvent, INFINITE, false);
+		}
+
+		m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
 	}
 }
 

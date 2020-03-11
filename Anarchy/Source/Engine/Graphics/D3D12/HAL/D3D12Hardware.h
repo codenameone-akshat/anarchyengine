@@ -81,6 +81,12 @@ namespace anarchy::engine::graphics::hal
 			framework::ComCheck(m_device->CreateCommittedResource(&heapProperties, heapFlags, &resourceDesc, initialResourceState, optimizedClearValue, IID_PPV_ARGS(&resource)), "Failed to create D3DResource: " + resourceTag);
 			resource->SetName(utils::string_cast<std::wstring>(resourceTag).c_str());
 		}
+
+		inline void CreateFence(uint16_t initialVal, D3D12_FENCE_FLAGS fenceFlags, framework::AC_ComPtr<ID3D12Fence1>& fence)
+		{
+			framework::ComCheck(m_device->CreateFence(initialVal, fenceFlags, IID_PPV_ARGS(&fence)), "Failed to Create Fence");
+		}
+
 	private:
 		framework::AC_ComPtr<ID3D12Device6> m_device = nullptr;
 	};

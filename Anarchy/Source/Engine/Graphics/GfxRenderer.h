@@ -11,6 +11,9 @@ namespace anarchy::engine::graphics
 
 		virtual void Initialize() {};
 		virtual void UpdateSingleThreaded() {};
+		virtual void PreRender() {};
+		virtual void Render() {};
+		virtual void PostRender() {};
 		virtual void Destruct() {};
 	};
 }

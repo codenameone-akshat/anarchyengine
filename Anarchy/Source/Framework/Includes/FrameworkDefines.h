@@ -24,6 +24,8 @@ namespace anarchy::framework
 
 #ifdef AC_DEBUG
 #define AcBreak __debugbreak();
+#else
+#define AcBreak 
 #endif // AC_DEBUG
 
 }

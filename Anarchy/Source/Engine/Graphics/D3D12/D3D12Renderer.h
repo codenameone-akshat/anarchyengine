@@ -53,6 +53,8 @@ namespace anarchy::engine::graphics
 		void CloseGraphicsCommandList();
 
 		void CreateVertexBuffer();
+		void CreateSyncObjects();
+		void WaitForPreviousFrame();
 		// End Load Pipe
 
 		std::shared_ptr<hal::D3D12Factory> m_factory = std::make_shared<hal::D3D12Factory>();
@@ -77,6 +79,11 @@ namespace anarchy::engine::graphics
 		// Here for now. TODO: Remove from here maybe?
 		framework::AC_ComPtr<ID3D12Resource> m_vertexBuffer = nullptr;
 		D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView = {};
+		
+		// Sync Objects
+		framework::AC_ComPtr<ID3D12Fence1> m_fence = nullptr;
+		framework::AC_Handle m_fenceEvent = nullptr;
+		uint64_t m_fenceValue = 0;
 
 		uint32_t m_currentBackBufferIndex = 0;
 	};
