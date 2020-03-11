@@ -5,6 +5,7 @@
 #include "../Vector/Vec4.hpp"
 #include "../Vector/Vec3.hpp"
 #include "../Vector/Vec2.hpp"
+#include "../../Includes/FrameworkGlobals.h"
 
 #define FORCEINLINE __forceinline
 
@@ -50,7 +51,7 @@ namespace anarchy::framework::math
 		[[nodiscard]]
 		FORCEINLINE Vec4 GetRowVecAtIndex(uint32_t idx) const
 		{
-			assert(idx < 4);
+			AC_Assert(idx < 4, "Vector4 Requested Index > 4");
 
 			Vec4 row;
 			memcpy(&row, &m[idx][0], sizeof(Vec4));

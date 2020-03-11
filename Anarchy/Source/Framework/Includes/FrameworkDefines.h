@@ -22,10 +22,12 @@ namespace anarchy::framework
 
 #define ACScopedTimer(tag) anarchy::utils::ScopedTimer AC_UNIQUE_VARIABLE(timer)(tag);
 
+#define ACForceCrash *((uint64_t*)0) = 0xDEAD;
+
 #ifdef AC_DEBUG
-#define AcBreak __debugbreak();
+#define ACBreak __debugbreak();
 #else
-#define AcBreak 
+#define ACBreak 
 #endif // AC_DEBUG
 
 }

@@ -1,7 +1,7 @@
 #ifndef _SYSTEM_H_
 #define _SYSTEM_H_
 
-#include <stdint.h>
+#include <cstdint>
 #include <memory>
 
 #include "../Core/EngineCore.h"

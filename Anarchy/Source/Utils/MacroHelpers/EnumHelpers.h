@@ -2,7 +2,7 @@
 #define _ENUM_HELPERS_H_
 
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
 #include <boost/preprocessor/stringize.hpp>
 #include <boost/preprocessor/seq/enum.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>

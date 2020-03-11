@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cassert>
-#include <math.h>
+#include <cmath>
 #include <cstdint>
 
 #define FORCEINLINE __forceinline
@@ -164,7 +163,7 @@ namespace anarchy::framework::math
 		FORCEINLINE Vec4 operator/(const Vec4& operand) const
 		{
 			//divide by 0 error
-			assert(operand.x != 0 || operand.y != 0 || operand.z != 0 || operand.w != 0);
+			AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
 			Vec4 result;
 			result.x = this->x / operand.x;
@@ -179,7 +178,7 @@ namespace anarchy::framework::math
 		FORCEINLINE Vec4 operator/(const float operand) const
 		{
 			//divide by 0 error
-			assert(operand != 0);
+			AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
 			Vec4 result;
 			result.x = this->x / operand;
@@ -259,7 +258,7 @@ namespace anarchy::framework::math
 		FORCEINLINE Vec4 operator/=(const Vec4& operand)
 		{
 			//divide by 0 error
-			assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f);
+			AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
 			this->x /= operand.x;
 			this->y /= operand.y;
@@ -273,7 +272,7 @@ namespace anarchy::framework::math
 		FORCEINLINE Vec4 operator/=(const float operand)
 		{
 			//divide by 0 error
-			assert(operand != 0);
+			AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
 			this->x /= operand;
 			this->y /= operand;

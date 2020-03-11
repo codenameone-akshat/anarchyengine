@@ -1,6 +1,5 @@
-#include <cassert>
-
 #include "Window.h"
+#include "../Includes/FrameworkGlobals.h"
 
 namespace anarchy::framework
 {
@@ -15,7 +14,8 @@ namespace anarchy::framework
 		m_wndDesc = windowParams;
 		RegisterClassInternal();
 		CreateWindowInternal();
-		assert(m_hWnd);
+		m_hWnd = NULL;
+		AC_Assert(m_hWnd, "Handle to window (hWnd) NULL After Attempting to create a window.");
 		
 		return S_OK;
 	}

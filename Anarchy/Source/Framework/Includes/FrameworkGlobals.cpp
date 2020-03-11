@@ -1,5 +1,4 @@
 #include <d3d12.h>
-#include <cassert>
 
 #include "FrameworkGlobals.h"
 #include "FrameworkDefines.h"
@@ -47,7 +46,7 @@ namespace anarchy::framework
 		if (!condition)
 		{
 			utils::Logger::LogInfo(LogCategory::System, message);
-			assert(false);
+			ACForceCrash;
 		}
 	}
 
@@ -57,7 +56,7 @@ namespace anarchy::framework
 		{
 			utils::Logger::LogInfo(LogCategory::System, message);
 			Sleep(500); // Giving it a little suspense
-			AcBreak;
+			ACBreak;
 		}
 	}
 

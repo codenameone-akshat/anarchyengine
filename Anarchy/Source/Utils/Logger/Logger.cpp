@@ -1,4 +1,3 @@
-#include <cassert>
 #include <sstream>
 
 #include "Logger.h"
@@ -22,7 +21,7 @@ namespace anarchy::utils
 		if (!condition)
 		{
 			ProcessAndLogString(logCategory, outputStr);
-			AcBreak;
+			ACBreak;
 		}
 	}
 
@@ -31,7 +30,7 @@ namespace anarchy::utils
 		if (!condition)
 		{
 			ProcessAndLogString(logCategory, outputBufferPtrr);
-			AcBreak;
+			ACBreak;
 		}
 	}
 
@@ -40,7 +39,7 @@ namespace anarchy::utils
 		if (!condition)
 		{
 			ProcessAndLogString(logCategory, outputStr);
-			assert(condition);
+			ACForceCrash;
 		}
 	}
 
@@ -49,7 +48,7 @@ namespace anarchy::utils
 		if (!condition)
 		{
 			ProcessAndLogString(logCategory, outputBufferPtr);
-			assert(condition);
+			ACForceCrash;
 		}
 	}
 

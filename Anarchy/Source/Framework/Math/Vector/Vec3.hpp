@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cassert>
 #include <cstdint>
 #include <cmath>
 
@@ -149,7 +148,7 @@ namespace anarchy::framework::math
 		[[nodiscard]] FORCEINLINE Vec3 operator/(const Vec3& operand) const
 		{
 			//divide by 0 error
-			assert(operand.x != 0 || operand.y != 0 || operand.z != 0);
+			AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
 			Vec3 result;
 			result.x = this->x / operand.x;
@@ -163,7 +162,7 @@ namespace anarchy::framework::math
 		[[nodiscard]] FORCEINLINE Vec3 operator/(const float operand) const
 		{
 			//divide by 0 error
-			assert(operand != 0);
+			AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
 			Vec3 result;
 			result.x = this->x / operand;
@@ -230,7 +229,7 @@ namespace anarchy::framework::math
 		[[maybe_unused]] FORCEINLINE Vec3 operator/=(const Vec3& operand)
 		{
 			//divide by 0 error
-			assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f);
+			AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
 			this->x /= operand.x;
 			this->y /= operand.y;
@@ -242,7 +241,7 @@ namespace anarchy::framework::math
 		[[maybe_unused]] FORCEINLINE Vec3 operator/=(const float operand)
 		{
 			//divide by 0 error
-			assert(operand != 0);
+			AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
 			this->x /= operand;
 			this->y /= operand;

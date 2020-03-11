@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <memory>
-#include <stdint.h>
+#include <cstdint>
 
 #include "Window.h"
 #include "../../Framework/Includes/FrameworkDefines.h"
