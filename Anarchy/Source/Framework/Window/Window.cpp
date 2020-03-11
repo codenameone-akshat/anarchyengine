@@ -14,7 +14,6 @@ namespace anarchy::framework
 		m_wndDesc = windowParams;
 		RegisterClassInternal();
 		CreateWindowInternal();
-		m_hWnd = NULL;
 		AC_Assert(m_hWnd, "Handle to window (hWnd) NULL After Attempting to create a window.");
 		
 		return S_OK;
