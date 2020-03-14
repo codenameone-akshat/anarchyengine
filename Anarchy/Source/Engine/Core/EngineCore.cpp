@@ -22,7 +22,9 @@ namespace anarchy::engine::core
 	
 	void EngineCore::Update()
 	{
-		// Stub
+		m_renderer->PreRender();
+		m_renderer->Render();
+		m_renderer->PostRender();
 	}
 
 	void EngineCore::ShutDownEngine()

@@ -29,7 +29,7 @@ namespace anarchy::engine::graphics::hal
 			if (adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE) // Ignore Software Devices
 				continue;
 
-			if(SUCCEEDED(D3D12CreateDevice(hardwareAdapter.Get(), D3D_FEATURE_LEVEL_12_0, __uuidof(ID3D12Device), nullptr)))
+			if(SUCCEEDED(D3D12CreateDevice(hardwareAdapter.Get(), D3D_FEATURE_LEVEL_12_1, __uuidof(ID3D12Device), nullptr)))
 				break; // Exit on first hardware device that supports D3D12
 		}
 		

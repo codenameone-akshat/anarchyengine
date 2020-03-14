@@ -21,7 +21,6 @@ namespace anarchy::engine::graphics
 		~D3D11Renderer() = default;
 
 		virtual void Initialize() override;
-		virtual void UpdateSingleThreaded() override;
 		virtual void Destruct() override;
 
 	private:

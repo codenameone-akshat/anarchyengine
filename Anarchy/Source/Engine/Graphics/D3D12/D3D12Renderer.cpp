@@ -15,20 +15,43 @@
 
 namespace anarchy::engine::graphics
 {
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Public Members
+	//////////////////////////////////////////////////////////////////////////////////////
+
 	void D3D12Renderer::Initialize()
 	{
 		InitializeAPI();
 		InitalizeResources();
 	}
+	
+	void D3D12Renderer::PreRender()
+	{
+		RecordCommands();
+	}
 
-	void D3D12Renderer::UpdateSingleThreaded()
+	void D3D12Renderer::Render()
+	{
+		ID3D12CommandList* ppCommandList[] = { m_commandList.Get() };
+		m_graphicsCommandQueue->ExecuteCommandLists(1, ppCommandList);
+
+		framework::ComCheck(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
+
+		WaitForPreviousFrame();
+	}
+
+	void D3D12Renderer::PostRender()
 	{
 	}
 
 	void D3D12Renderer::Destruct()
 	{
 	}
-	
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	// Private Members
+	//////////////////////////////////////////////////////////////////////////////////////
+
 	void D3D12Renderer::InitializeAPI()
 	{
 #ifdef AC_DEBUG
@@ -41,6 +64,22 @@ namespace anarchy::engine::graphics
 		CreateRenderTargetView();
 		m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator);
 		PopulateShaders();
+
+		m_viewport = 
+		{ 
+			0.0f, 
+			0.0f, 
+			static_cast<float>(core::AppContext::GetMainWindowDesc().width), 
+			static_cast<float>(core::AppContext::GetMainWindowDesc().height)
+		};
+
+		m_scissorRect =
+		{
+			0,
+			0,
+			core::AppContext::GetMainWindowDesc().width,
+			core::AppContext::GetMainWindowDesc().height
+		};
 	}
 
 	void D3D12Renderer::InitalizeResources()
@@ -63,7 +102,6 @@ namespace anarchy::engine::graphics
 	void D3D12Renderer::EnableDebugLayer()
 	{
 		framework::AC_ComPtr<ID3D12Debug1> debugController;
-		auto size = sizeof(debugController);
 		if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 		{
 			debugController->EnableDebugLayer();
@@ -120,14 +158,14 @@ namespace anarchy::engine::graphics
 		rtvDesc.NumDescriptors = g_numFrameBuffers;
 
 		m_device->CreateDescriptorHeap(rtvDesc, m_rtvHeap);
-		uint32_t rtvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(rtvDesc.Type);
+		m_rtvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(rtvDesc.Type);
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
 		for (uint_fast32_t itr = 0; itr < g_numFrameBuffers; ++itr)
 		{
 			framework::ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
 			m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
-			rtvDescriptorHandle.Offset(1, rtvHeapIncrementSize); // Move handle to the next ptr.
+			rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
 		}
 	}
 
@@ -237,9 +275,9 @@ namespace anarchy::engine::graphics
 
 		Vertex vertexBufferData[] =
 		{
-			{ {1.0f, 1.0f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
-			{ {-1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
-			{ {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} }
+			{ {0.0f, 0.50f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
+			{ {0.25f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
+			{ {-0.25f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} }
 		};
 
 		uint32_t vertexBufferSize = sizeof(vertexBufferData);
@@ -302,6 +340,51 @@ namespace anarchy::engine::graphics
 		}
 
 		m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+	}
+	
+	void D3D12Renderer::RecordCommands()
+	{
+		framework::ComCheck(m_commandAllocator->Reset(), "Failed to reset the command allocator");
+		framework::ComCheck(m_commandList->Reset(m_commandAllocator.Get(), m_graphicsPSO.Get()), "Failed to reset the command list");
+		
+		m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+		m_commandList->RSSetViewports(1, &m_viewport);
+		m_commandList->RSSetScissorRects(1, &m_scissorRect);
+
+		// Back Buffer as a Render Target
+		D3D12_RESOURCE_BARRIER renderTargetBarrier = {};
+		renderTargetBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+		renderTargetBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		renderTargetBarrier.Transition.pResource = (m_renderTargets.at(m_currentBackBufferIndex)).Get();
+		renderTargetBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_PRESENT; // used as present in the last execution
+		renderTargetBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
+		renderTargetBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+		m_commandList->ResourceBarrier(1, &renderTargetBarrier);
+
+		D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
+		rtvHandle.ptr += (m_currentBackBufferIndex * m_rtvHeapIncrementSize);
+
+		m_commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
+
+		const float color[] = { 0.0f, 0.5f, 0.7f, 1.0f };
+		m_commandList->ClearRenderTargetView(rtvHandle, color, 0, nullptr);
+		m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
+		m_commandList->DrawInstanced(3, 1, 0, 0);
+
+		// Back Buffer used to Present
+		D3D12_RESOURCE_BARRIER presentBarrier = {};
+		presentBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+		presentBarrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		presentBarrier.Transition.pResource = (m_renderTargets.at(m_currentBackBufferIndex)).Get();
+		presentBarrier.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET; // used as present in the last execution
+		presentBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PRESENT;
+		presentBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+
+		m_commandList->ResourceBarrier(1, &presentBarrier);
+
+		framework::ComCheck(m_commandList->Close(), "Failed to close the command list");
 	}
 }
 

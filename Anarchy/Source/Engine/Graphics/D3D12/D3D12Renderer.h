@@ -14,7 +14,7 @@
 
 namespace anarchy::engine::graphics
 {
-	constexpr D3D_FEATURE_LEVEL g_minFeatureLevel = D3D_FEATURE_LEVEL_12_0;
+	constexpr D3D_FEATURE_LEVEL g_minFeatureLevel = D3D_FEATURE_LEVEL_12_1;
 	constexpr uint32_t g_numFrameBuffers = 2; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
 
 	class D3D12Renderer : public GfxRenderer
@@ -24,7 +24,9 @@ namespace anarchy::engine::graphics
 		~D3D12Renderer() = default;
 
 		virtual void Initialize() override;
-		virtual void UpdateSingleThreaded() override;
+		virtual void PreRender() override;
+		virtual void Render() override;
+		virtual void PostRender() override;
 		virtual void Destruct() override;
 	
 	private:
@@ -57,6 +59,10 @@ namespace anarchy::engine::graphics
 		void WaitForPreviousFrame();
 		// End Load Pipe
 
+		// Render
+		void RecordCommands();
+		// End Render
+
 		std::shared_ptr<hal::D3D12Factory> m_factory = std::make_shared<hal::D3D12Factory>();
 		std::shared_ptr<hal::D3D12Adapter> m_adapter = std::make_shared<hal::D3D12Adapter>();
 		std::shared_ptr<hal::D3D12Device> m_device = std::make_shared<hal::D3D12Device>();
@@ -86,6 +92,11 @@ namespace anarchy::engine::graphics
 		uint64_t m_fenceValue = 0;
 
 		uint32_t m_currentBackBufferIndex = 0;
+		uint32_t m_rtvHeapIncrementSize = 0;
+
+		// Render Objects
+		D3D12_VIEWPORT m_viewport = {};
+		D3D12_RECT m_scissorRect = {};
 	};
 }
 
