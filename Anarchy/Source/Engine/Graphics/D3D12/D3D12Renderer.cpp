@@ -46,6 +46,8 @@ namespace anarchy::engine::graphics
 
 	void D3D12Renderer::Destruct()
 	{
+		WaitForPreviousFrame();
+		CloseHandle(m_fenceEvent);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +96,7 @@ namespace anarchy::engine::graphics
 		CloseGraphicsCommandList();
 
 		CreateVertexBuffer();
+		CreateIndexBuffer();
 		CreateSyncObjects();
 	}
 
@@ -275,9 +278,15 @@ namespace anarchy::engine::graphics
 
 		Vertex vertexBufferData[] =
 		{
-			{ {0.0f, 0.50f, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
-			{ {0.25f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
-			{ {-0.25f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} }
+			{ {-0.5f,-0.5f,-0.5f}, {1.0f, 0.0f, 0.0f, 1.0f} },
+			{ {-0.5f,-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f, 1.0f} },
+			{ {-0.5f, 0.5f,-0.5f}, {0.0f, 0.0f, 1.0f, 1.0f} },
+			{ {-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+
+			{ {0.5f,-0.5f,-0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+			{ {0.5f,-0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+			{ {0.5f, 0.5f,-0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+			{ {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} }
 		};
 
 		uint32_t vertexBufferSize = sizeof(vertexBufferData);
@@ -314,6 +323,66 @@ namespace anarchy::engine::graphics
 		m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
 		m_vertexBufferView.StrideInBytes = sizeof(Vertex);
 		m_vertexBufferView.SizeInBytes = vertexBufferSize;
+	}
+
+	void D3D12Renderer::CreateIndexBuffer()
+	{
+		uint32_t indexBufferData[] =
+		{
+		0,2,1, // -x
+		1,2,3,
+
+		4,5,6, // +x
+		5,7,6,
+
+		0,1,5, // -y
+		0,5,4,
+
+		2,6,7, // +y
+		2,7,3,
+
+		0,4,6, // -z
+		0,6,2,
+
+		1,3,7, // +z
+		1,7,5,
+		};
+
+		uint32_t indexBufferSize = sizeof(indexBufferData);
+		m_indicesPerInstance = indexBufferSize / sizeof(uint32_t);
+
+		D3D12_HEAP_PROPERTIES heapProperties = {};
+		heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+		heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+		heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+		heapProperties.CreationNodeMask = NULL; // Single GPU.
+		heapProperties.VisibleNodeMask = NULL; // Single GPU.
+
+		D3D12_RESOURCE_DESC resourceDesc = {};
+		resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		resourceDesc.Alignment = 0;
+		resourceDesc.Width = indexBufferSize;
+		resourceDesc.Height = 1;
+		resourceDesc.DepthOrArraySize = 1;
+		resourceDesc.MipLevels = 1;
+		resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
+		resourceDesc.SampleDesc.Count = 1;
+		resourceDesc.SampleDesc.Quality = 0;
+		resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+		resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+		m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_indexBuffer, "Index Buffer");
+
+		D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
+		uint8_t* indexDataGPUBuffer = nullptr;
+
+		framework::ComCheck(m_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&indexDataGPUBuffer)), "Failed to map resource");
+		memcpy_s(indexDataGPUBuffer, indexBufferSize, indexBufferData, indexBufferSize);
+		m_indexBuffer->Unmap(NULL, nullptr);
+
+		m_indexBufferView.BufferLocation = m_indexBuffer->GetGPUVirtualAddress();
+		m_indexBufferView.Format = DXGI_FORMAT_R32_UINT;
+		m_indexBufferView.SizeInBytes = indexBufferSize;
 	}
 	
 	void D3D12Renderer::CreateSyncObjects()
@@ -371,7 +440,8 @@ namespace anarchy::engine::graphics
 		m_commandList->ClearRenderTargetView(rtvHandle, color, 0, nullptr);
 		m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
-		m_commandList->DrawInstanced(3, 1, 0, 0);
+		m_commandList->IASetIndexBuffer(&m_indexBufferView);
+		m_commandList->DrawIndexedInstanced(m_indicesPerInstance, 1, 0, 0, 0);
 
 		// Back Buffer used to Present
 		D3D12_RESOURCE_BARRIER presentBarrier = {};

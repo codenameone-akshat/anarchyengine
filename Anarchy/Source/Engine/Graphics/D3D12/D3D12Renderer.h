@@ -55,6 +55,7 @@ namespace anarchy::engine::graphics
 		void CloseGraphicsCommandList();
 
 		void CreateVertexBuffer();
+		void CreateIndexBuffer();
 		void CreateSyncObjects();
 		void WaitForPreviousFrame();
 		// End Load Pipe
@@ -85,6 +86,9 @@ namespace anarchy::engine::graphics
 		// Here for now. TODO: Remove from here maybe?
 		framework::AC_ComPtr<ID3D12Resource> m_vertexBuffer = nullptr;
 		D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView = {};
+		framework::AC_ComPtr<ID3D12Resource> m_indexBuffer = nullptr;
+		D3D12_INDEX_BUFFER_VIEW m_indexBufferView = {};
+		uint32_t m_indicesPerInstance = 0;
 		
 		// Sync Objects
 		framework::AC_ComPtr<ID3D12Fence1> m_fence = nullptr;
