@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _FILE_WATCHER_H_
+#define _FILE_WATCHER_H_
 
 #include <filesystem>
 #include <string>
@@ -22,3 +23,6 @@ namespace anarchy::utils
 		std::vector<std::filesystem::file_time_type> m_watchFilesLastWriteTime = {};
     };
 }
+
+#endif // _FILE_WATCHER_H_
+ 
