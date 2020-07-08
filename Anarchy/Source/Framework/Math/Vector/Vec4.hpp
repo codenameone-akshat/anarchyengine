@@ -3,6 +3,8 @@
 #include <cmath>
 #include <cstdint>
 
+#include "../../Includes/FrameworkGlobals.h"
+
 #define FORCEINLINE __forceinline
 
 namespace anarchy::framework::math
