@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "../../Includes/FrameworkGlobals.h"
+#include "../../Includes/SerializationHelpers.h"
 
 #define FORCEINLINE __forceinline
 
@@ -28,6 +29,12 @@ namespace anarchy::framework::math
 		{
 			x = 0.0f;
 			y = 0.0f;
+		}
+
+		SERIALIZE_IMPL()
+		{
+            SERIALIZE_MEMBER(x);
+            SERIALIZE_MEMBER(y);
 		}
 
 		[[nodiscard]]

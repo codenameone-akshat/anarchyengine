@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "../../Includes/FrameworkGlobals.h"
+#include "../../Includes/SerializationHelpers.h"
 
 #define FORCEINLINE __forceinline
 
@@ -32,6 +33,13 @@ namespace anarchy::framework::math
 			y = 0.0f;
 			z = 0.0f;
 		}
+
+        SERIALIZE_IMPL()
+        {
+            SERIALIZE_MEMBER(x);
+            SERIALIZE_MEMBER(y);
+            SERIALIZE_MEMBER(z);
+        }
 
 		[[nodiscard]] FORCEINLINE float GetLength() const
 		{
