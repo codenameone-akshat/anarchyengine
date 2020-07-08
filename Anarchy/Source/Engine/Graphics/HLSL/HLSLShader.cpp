@@ -8,7 +8,6 @@
 #include "../../../Framework/Includes/FrameworkDefines.h"
 #include "../../../Utils/StringUtils/StringUtils.h"
 
-
 namespace anarchy::engine::graphics
 {
 	HLSLShader::HLSLShader(framework::AC_String fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation)
@@ -36,7 +35,7 @@ namespace anarchy::engine::graphics
 		framework::AC_String entryPoint = m_shaderDesc.shaderEntryPoint;
 		framework::AC_String target = HLSLShaderTarget_GetName(m_shaderDesc.shaderTarget);
 
-		framework::ComCheck(D3DCompileFromFile(shaderwstr.c_str(), NULL, NULL, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &m_shaderBlob, &error), errorMessage, error);
+		framework::ComCheck((D3DCompileFromFile(shaderwstr.c_str(), NULL, NULL, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &m_shaderBlob, &error)), errorMessage, error);
 
 		m_shaderByteCode.pShaderBytecode = m_shaderBlob->GetBufferPointer();
 		m_shaderByteCode.BytecodeLength = m_shaderBlob->GetBufferSize();

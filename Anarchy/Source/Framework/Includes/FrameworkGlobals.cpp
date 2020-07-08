@@ -20,7 +20,7 @@ namespace anarchy::framework
 		}
 	}
 
-	void ComCheck(HRESULT hr, AC_String message, framework::AC_ComPtr<ID3DBlob> errorMessagePtr)
+	void ComCheck(HRESULT hr, AC_String message, framework::AC_ComPtr<ID3DBlob>& errorMessagePtr)
 	{
 		if (SUCCEEDED(hr))
 		{

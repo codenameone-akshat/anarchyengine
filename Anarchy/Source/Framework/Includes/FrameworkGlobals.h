@@ -21,7 +21,7 @@ namespace anarchy::framework
 
 	auto constexpr AC_Str_Default = "";
 
-	template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>
+	template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>	
 	auto constexpr AC_To_String(T x) { return std::to_string(x); }
 
 #endif // UNICODE
@@ -30,7 +30,7 @@ namespace anarchy::framework
 // Com Helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	void ComCheck(HRESULT hr, AC_String message);
-	void ComCheck(HRESULT hr, AC_String message, framework::AC_ComPtr<ID3DBlob> errorMessagePtr);
+	void ComCheck(HRESULT hr, AC_String message, framework::AC_ComPtr<ID3DBlob>& errorMessagePtr);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Assertion
