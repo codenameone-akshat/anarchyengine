@@ -30,6 +30,11 @@ namespace anarchy::framework
 #define ACBreak 
 #endif // AC_DEBUG
 
+#ifdef AC_DEBUG
+#define AC_DEBUGONLY(x) x
+#else
+#define AC_DEBUGONLY(x)
+#endif // AC_DEBUG
 }
 
 #endif // _FRAMEWORK_DEFINES_H_
