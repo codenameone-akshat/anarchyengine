@@ -6,7 +6,7 @@
 #include "../../Framework/Includes/FrameworkAliases.h"
 #include "../../Engine/Graphics/HLSL/HLSLShader.h"
 
-namespace anarchy::game::settings
+namespace anarchy::game
 {
 	// Transfer to .ini file later.
 	class GameSettings
@@ -15,13 +15,13 @@ namespace anarchy::game::settings
 		GameSettings() = default;
 		~GameSettings() = default;
 	
-		inline std::vector<engine::graphics::HLSLShader> GetAllShaders() const noexcept { return m_shaderList; }
+		inline std::vector<HLSLShader> GetAllShaders() const noexcept { return m_shaderList; }
 
 		// TODO: Later maybe have AddVertexShader, AddPixelShader. Fill desc automatically. :)
-		void AddShaderFileToList(framework::AC_String fileName, engine::graphics::HLSLShaderDesc shaderDesc, bool isInDeaultLocation = true);
+		void AddShaderFileToList(AC_String fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation = true);
 	
 	private:
-		std::vector<engine::graphics::HLSLShader> m_shaderList = {};
+		std::vector<HLSLShader> m_shaderList = {};
 	};
 }
 

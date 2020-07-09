@@ -2,11 +2,11 @@
 
 #include "GameSettings.h"
 
-namespace anarchy::game::settings
+namespace anarchy::game
 {
-	void GameSettings::AddShaderFileToList(framework::AC_String fileName, engine::graphics::HLSLShaderDesc shaderDesc, bool isInDeaultLocation)
+	void GameSettings::AddShaderFileToList(AC_String fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation)
 	{
-		engine::graphics::HLSLShader shader(fileName, shaderDesc, isInDeaultLocation);
+		HLSLShader shader(fileName, shaderDesc, isInDeaultLocation);
 		
 		// TODO: shader.Validate() before adding to vector.
 		m_shaderList.emplace_back(shader);

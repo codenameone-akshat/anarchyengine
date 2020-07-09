@@ -5,7 +5,7 @@
 
 #include "boost/archive/binary_oarchive.hpp"
 
-namespace anarchy::system
+namespace anarchy
 {
     class Serializer
     {

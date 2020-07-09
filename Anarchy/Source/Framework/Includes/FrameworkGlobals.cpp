@@ -3,9 +3,9 @@
 #include "FrameworkGlobals.h"
 #include "FrameworkDefines.h"
 
-namespace anarchy::framework
+namespace anarchy
 {
-	using LogCategory = utils::Logger::LogCategory;
+	using LogCategory = Logger::LogCategory;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Com Helpers
@@ -16,25 +16,25 @@ namespace anarchy::framework
 			return;
 		else
 		{
-			utils::Logger::LogError(LogCategory::Graphics, false, message);
+			Logger::LogError(LogCategory::Graphics, false, message);
 		}
 	}
 
-	void ComCheck(HRESULT hr, AC_String message, framework::AC_ComPtr<ID3DBlob>& errorMessagePtr)
+	void ComCheck(HRESULT hr, AC_String message, AC_ComPtr<ID3DBlob>& errorMessagePtr)
 	{
 		if (SUCCEEDED(hr))
 		{
 			if (errorMessagePtr)
-				utils::Logger::LogWarning(LogCategory::Graphics, false, errorMessagePtr.Get());
+				Logger::LogWarning(LogCategory::Graphics, false, errorMessagePtr.Get());
 
 			return;
 		}
 		else
 		{
 			if (errorMessagePtr)
-				utils::Logger::LogError(LogCategory::Graphics, false, errorMessagePtr.Get());
+				Logger::LogError(LogCategory::Graphics, false, errorMessagePtr.Get());
 			else
-				utils::Logger::LogError(LogCategory::Graphics, false, message);
+				Logger::LogError(LogCategory::Graphics, false, message);
 		}
 	}
 
@@ -45,7 +45,7 @@ namespace anarchy::framework
 	{
 		if (!condition)
 		{
-			utils::Logger::LogInfo(LogCategory::System, message);
+			Logger::LogInfo(LogCategory::System, message);
 			ACForceCrash;
 		}
 	}
@@ -54,7 +54,7 @@ namespace anarchy::framework
 	{
 		if (!condition)
 		{
-			utils::Logger::LogInfo(LogCategory::System, message);
+			Logger::LogInfo(LogCategory::System, message);
 			Sleep(500); // Giving it a little suspense
 			ACBreak;
 		}

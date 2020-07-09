@@ -10,7 +10,7 @@
 #include "HAL/D3D11Hardware.h"
 #include "HAL/D3D11Factory.h"	
 
-namespace anarchy::engine::graphics
+namespace anarchy
 {
 	constexpr uint32_t g_numFrameBuffers = 2; // TODO: Maybe Retrieve from D3D11Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
 
@@ -30,14 +30,14 @@ namespace anarchy::engine::graphics
 		void CreateSwapChain();
 		void CreateRenderTargetView();
 
-		std::shared_ptr<hal::D3D11Factory> m_factory = std::make_shared<hal::D3D11Factory>();
-		std::shared_ptr<hal::D3D11Adapter> m_adapter = std::make_shared<hal::D3D11Adapter>();
-		std::shared_ptr<hal::D3D11Device> m_device = std::make_shared<hal::D3D11Device>();
-		framework::AC_ComPtr<IDXGISwapChain> m_swapChain = nullptr;
-		framework::AC_ComPtr<ID3D11RenderTargetView> m_renderTargetView = nullptr;
+		std::shared_ptr<D3D11Factory> m_factory = std::make_shared<D3D11Factory>();
+		std::shared_ptr<D3D11Adapter> m_adapter = std::make_shared<D3D11Adapter>();
+		std::shared_ptr<D3D11Device> m_device = std::make_shared<D3D11Device>();
+		AC_ComPtr<IDXGISwapChain> m_swapChain = nullptr;
+		AC_ComPtr<ID3D11RenderTargetView> m_renderTargetView = nullptr;
 		
-		std::array<framework::AC_ComPtr<ID3D11Resource>, g_numFrameBuffers> m_renderTargets{};
-		std::array<framework::AC_ComPtr<ID3D11RenderTargetView>, g_numFrameBuffers> m_renderTargetViews{};
+		std::array<AC_ComPtr<ID3D11Resource>, g_numFrameBuffers> m_renderTargets{};
+		std::array<AC_ComPtr<ID3D11RenderTargetView>, g_numFrameBuffers> m_renderTargetViews{};
 	};
 }
 

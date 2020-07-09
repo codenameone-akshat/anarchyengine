@@ -1,6 +1,6 @@
 #ifndef _CLASS_HELPERS_H
 
-namespace anarchy::framework
+namespace anarchy
 {
 
 #define DECLARE_DEFAULT_CLASSMEMBERS(className)\

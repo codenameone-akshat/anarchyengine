@@ -16,17 +16,17 @@
 #include SERIALIZE_STD_VECTOR_INCLUDE
 #include SERIALIZE_STD_STRING_INCLUDE
 
-namespace anarchy::graphics
+namespace anarchy
 {
     class MeshGPUData
     {
         DECLARE_DEFAULT_CLASSMEMBERS(MeshGPUData);
 
-        DECLARE_DEFAULT_PROPERTY(std::vector<framework::math::Vec3>, vertices, Vertices);
-        DECLARE_DEFAULT_PROPERTY(std::vector<framework::math::Vec3>, normals, Normals);
-        DECLARE_DEFAULT_PROPERTY(std::vector<framework::math::Vec2>, texCoords, TexCoords);
-        DECLARE_DEFAULT_PROPERTY(std::vector<framework::math::Vec3>, tangents, Tangents);
-        DECLARE_DEFAULT_PROPERTY(std::vector<framework::math::Vec3>, biTangents, BiTangents);
+        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3>, vertices, Vertices);
+        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3>, normals, Normals);
+        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec2>, texCoords, TexCoords);
+        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3>, tangents, Tangents);
+        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3>, biTangents, BiTangents);
         // TODO: make this Vec3<uint32_t> when Vec3 is templatized
         DECLARE_DEFAULT_PROPERTY(std::vector<uint32_t>, indices, Indices);
 

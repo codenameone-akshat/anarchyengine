@@ -6,25 +6,25 @@
 
 #include "../Core/EngineCore.h"
 
-namespace anarchy::engine::system
+namespace anarchy
 {
-	// Will Handle the engine, IO and timers.
-	class System final
-	{
-	public:
-		System() = default;
-		~System() = default;
+    // Will Handle the engine, IO and timers.
+    class System final
+    {
+    public:
+        System() = default;
+        ~System() = default;
 
-		void Initialize();
-		void SystemTick();
-		void Destruct();
+        void Initialize();
+        void SystemTick();
+        void Destruct();
 
-	private:
-		void Update();
+    private:
+        void Update();
 
-		uint_fast16_t m_dt = 0;
-		std::unique_ptr<core::EngineCore> m_engineCore = std::make_unique<core::EngineCore>();
-	};
+        uint_fast16_t m_dt = 0;
+        std::unique_ptr<EngineCore> m_engineCore = std::make_unique<EngineCore>();
+    };
 }
 
 #endif // _SYSTEM_H_

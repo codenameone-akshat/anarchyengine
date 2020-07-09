@@ -7,7 +7,7 @@
 
 #include "../../Framework/Includes/FrameworkAliases.h"
 
-namespace anarchy::utils
+namespace anarchy
 {
     class FileWatcher
     {
@@ -15,14 +15,13 @@ namespace anarchy::utils
         FileWatcher() = default;
         ~FileWatcher() = default;
 
-        [[nodiscard]]size_t AddFileForWatch(framework::AC_String filePath);
+        [[nodiscard]] size_t AddFileForWatch(AC_String filePath);
         bool IsFileModified(size_t fileIndex);
 
     private:
-		std::vector<framework::AC_String> m_filePathsToWatch = {};
-		std::vector<std::filesystem::file_time_type> m_watchFilesLastWriteTime = {};
+        std::vector<AC_String> m_filePathsToWatch = {};
+        std::vector<std::filesystem::file_time_type> m_watchFilesLastWriteTime = {};
     };
 }
 
 #endif // _FILE_WATCHER_H_
- 

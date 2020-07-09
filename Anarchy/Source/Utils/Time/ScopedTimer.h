@@ -6,19 +6,19 @@
 
 #include"../../Framework/Includes/FrameworkAliases.h"
 
-namespace anarchy::utils
+namespace anarchy
 {
 	class ScopedTimer
 	{
 	public:
 		ScopedTimer() = delete;
-		ScopedTimer(framework::AC_String timerTag);
+		ScopedTimer(AC_String timerTag);
 		~ScopedTimer();
 	
 	private:
 		std::chrono::high_resolution_clock::time_point m_start = std::chrono::high_resolution_clock::now();
 		std::chrono::high_resolution_clock::time_point m_end = std::chrono::high_resolution_clock::now();
-		framework::AC_String m_tag = "UnTagged";
+		AC_String m_tag = "UnTagged";
 	};
 }
 

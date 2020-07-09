@@ -5,14 +5,16 @@
 
 #include "D3D11Factory.h"
 #include "../../../../Framework/Includes/FrameworkGlobals.h"
-#pragma comment(lib,"d3d11.lib")
-namespace anarchy::engine::graphics::hal
-{
-	framework::AC_ComPtr<IDXGIAdapter> D3D11Factory::GetD3D11SupportedHardwareAdapter() const
-	{
-		framework::AC_ComPtr<IDXGIAdapter> hardwareAdapter;
 
-		auto enumAdapter = [&hardwareAdapter](uint32_t adapterIdx, framework::AC_ComPtr<IDXGIFactory> factory)
+#pragma comment(lib,"d3d11.lib")
+
+namespace anarchy
+{
+	AC_ComPtr<IDXGIAdapter> D3D11Factory::GetD3D11SupportedHardwareAdapter() const
+	{
+		AC_ComPtr<IDXGIAdapter> hardwareAdapter;
+
+		auto enumAdapter = [&hardwareAdapter](uint32_t adapterIdx, AC_ComPtr<IDXGIFactory> factory)
 		{
 			return (factory->EnumAdapters(adapterIdx, &hardwareAdapter) != DXGI_ERROR_NOT_FOUND);
 		};

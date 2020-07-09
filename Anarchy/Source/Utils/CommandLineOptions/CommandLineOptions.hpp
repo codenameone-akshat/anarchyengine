@@ -5,7 +5,7 @@
 
 #include "../../Framework/Includes/FrameworkAliases.h"
 
-namespace anarchy::utils
+namespace anarchy
 {
 	class CommandLineOptions
 	{
@@ -16,13 +16,13 @@ namespace anarchy::utils
 		void Init();
 
 		template <typename T>
-		void RegisterCommandLineOption(framework::AC_String optionString, std::function<void(T arg...)> functor);
+		void RegisterCommandLineOption(AC_String optionString, std::function<void(T arg...)> functor);
 	private:
 		
 	};
 	
 	template<typename T>
-	inline void CommandLineOptions::RegisterCommandLineOption(framework::AC_String optionString, std::function<void(T arg...)> functor)
+	inline void CommandLineOptions::RegisterCommandLineOption(AC_String optionString, std::function<void(T arg...)> functor)
 	{
 	}
 }

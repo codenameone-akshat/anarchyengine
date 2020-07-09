@@ -7,22 +7,22 @@
 
 namespace anarchy::game
 {
-	class GameSpecificMain
-	{
-	public:
-		GameSpecificMain() = default;
-		~GameSpecificMain() = default;
+    class GameSpecificMain
+    {
+    public:
+        GameSpecificMain() = default;
+        ~GameSpecificMain() = default;
 
-		void InitializeSettings();
-		void MainRun();
-		
-		inline std::shared_ptr<settings::GameSettings> GetSettings() { return m_settings; }
-	
-	private:
-		void AddAllShaders();
+        void InitializeSettings();
+        void MainRun();
 
-		std::shared_ptr<settings::GameSettings> m_settings = std::make_shared<settings::GameSettings>();
-	};
+        inline std::shared_ptr<GameSettings> GetSettings() { return m_settings; }
+
+    private:
+        void AddAllShaders();
+
+        std::shared_ptr<GameSettings> m_settings = std::make_shared<GameSettings>();
+    };
 }
 
 #endif // _GAME_SPECIFIC_MAIN_

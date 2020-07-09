@@ -5,7 +5,7 @@
 #include <windows.h>
 #include <concepts>
 
-namespace anarchy::system
+namespace anarchy
 {
     template <typename T>
     concept Pointer = std::is_pointer<T>::value;

@@ -7,11 +7,10 @@
 #include "../../Framework/Includes/ClassHelpers.h"
 #include "../../Framework/Includes/FrameworkAliases.h"
 
-namespace anarchy::engine::core { class Entity; }
 
-namespace anarchy::utils
+namespace anarchy
 {
-    using Buffer = framework::AC_CharPtr;
+    using Buffer = AC_CharPtr;
 
     constexpr int32_t gcx_meshLoaderImportFlags = aiProcess_CalcTangentSpace |
         aiProcess_Triangulate |
@@ -20,15 +19,16 @@ namespace anarchy::utils
         aiProcess_RemoveRedundantMaterials | aiProcess_ValidateDataStructure |
         aiProcess_FlipUVs | aiProcess_OptimizeMeshes;
 
+    class Entity;
     class ModelImporter
     {
         DECLARE_DEFAULT_CLASSMEMBERS(ModelImporter);
 
-        void ReadFile(framework::AC_String fileName);
+        void ReadFile(AC_String fileName);
 
     private:
-        void PopulateEntityAndSerialize(const aiScene* scene, framework::AC_String shortFileName);
-        void SerializeEntity(anarchy::engine::core::Entity entity, std::string filename);
+        void PopulateEntityAndSerialize(const aiScene* scene, AC_String shortFileName);
+        void SerializeEntity(Entity entity, std::string filename);
 
         Assimp::Importer m_importer = {}; // Assimp Lib Member
     };

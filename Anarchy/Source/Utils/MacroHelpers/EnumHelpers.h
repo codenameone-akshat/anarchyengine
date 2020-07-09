@@ -26,14 +26,14 @@ enum class Color : uint16_t
     Blue,
 };
 
-std::vector<framework::AC_String> Color_Strings = 
+std::vector<AC_String> Color_Strings =
 {
     "Red",
     "Green",
     "Blue",
 };
 
-framework::AC_String Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint16_t>(enumVal)]; }
+AC_String Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint16_t>(enumVal)]; }
 
 --------------------------------------------------------------------------------
 Note: Use the Static Macro for Static String Vector
@@ -47,33 +47,33 @@ Note: Use the Static Macro for Static String Vector
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    std::vector<framework::AC_String> EnumName##_Strings = \
+    std::vector<AC_String> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static framework::AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
+    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
 
 #define DECLARE_STATIC_STRING_ENUM(EnumName, EnumValues)\
     enum class EnumName : uint16_t\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    static std::vector<framework::AC_String> EnumName##_Strings = \
+    static std::vector<AC_String> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static framework::AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
+    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
 
 #define DECLARE_STATIC_INLINE_STRING_ENUM(EnumName, EnumValues)\
     enum class EnumName : uint16_t\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    inline static std::vector<framework::AC_String> EnumName##_Strings = \
+    inline static std::vector<AC_String> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    inline static framework::AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
+    inline static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
 
 /*
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -90,14 +90,14 @@ enum class Color : uint32_t
     Blue,
 };
 
-std::vector<framework::AC_String> Color_Strings =
+std::vector<AC_String> Color_Strings =
 {
     "Red",
     "Green",
     "Blue",
 };
 
-framework::AC_String Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint32_t>(enumVal)]; }
+AC_String Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint32_t>(enumVal)]; }
 --------------------------------------------------------------------------------
 Note: Use the Static Macro for Static String Vector
 --------------------------------------------------------------------------------
@@ -110,33 +110,33 @@ Note: Use the Static Macro for Static String Vector
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    std::vector<framework::AC_String> EnumName##_Strings = \
+    std::vector<AC_String> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static framework::AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
+    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
 
 #define DECLARE_EXPLICIT_TYPE_STATIC_STRING_ENUM(EnumType, EnumName, EnumValues)\
     enum class EnumName : EnumType\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    static std::vector<framework::AC_String> EnumName##_Strings = \
+    static std::vector<AC_String> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static framework::AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
+    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
 
 #define DECLARE_EXPLICIT_TYPE_STATIC_INLINE_STRING_ENUM(EnumType, EnumName, EnumValues)\
     enum class EnumName : EnumType\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    inline static std::vector<framework::AC_String> EnumName##_Strings = \
+    inline static std::vector<AC_String> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    inline static framework::AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
+    inline static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
 
 
 #endif // _ENUM_HELPERS_H_

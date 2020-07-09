@@ -5,7 +5,7 @@
 
 #include "boost/archive/binary_iarchive.hpp"
 
-namespace anarchy::system
+namespace anarchy
 {
     // Reader Class using Boost Binary Archive
     class DeSerializer
@@ -35,5 +35,5 @@ namespace anarchy::system
         std::string m_fileName = "";
         std::ifstream m_inStream;
 
-}
+    }
 #endif // _DESERIALIZER_H_

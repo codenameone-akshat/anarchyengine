@@ -10,16 +10,16 @@
 
 #define ENTITY_FILE_EXT ".acentity"
 
-namespace anarchy::engine::core
+namespace anarchy
 {
     class Entity
     {
         DECLARE_DEFAULT_CLASSMEMBERS(Entity);
-        DECLARE_DEFAULT_PROPERTY(std::vector<graphics::Mesh>, meshes, Meshes);
+        DECLARE_DEFAULT_PROPERTY(std::vector<Mesh>, meshes, Meshes);
     
     public:
         inline void ReserveMeshMemory(uint32_t elementCount) { m_meshes.reserve(elementCount); }
-        inline void AddMesh(graphics::Mesh mesh) { m_meshes.emplace_back(mesh); }
+        inline void AddMesh(Mesh mesh) { m_meshes.emplace_back(mesh); }
 
     private:
         SERIALIZATION_PRIVATE_IMPL_ENABLE;

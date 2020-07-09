@@ -2,10 +2,10 @@
 
 #include "../../Engine/Core/EngineContext.h"
 
-namespace anarchy::utils
+namespace anarchy
 {
-	void anarchy::utils::CommandLineOptions::Init()
+	void anarchy::CommandLineOptions::Init()
 	{
-		framework::AC_String commandLineString = engine::core::AppContext::GetMainParams().lpCmdLine;
+		AC_String commandLineString = AppContext::GetMainParams().lpCmdLine;
 	}
 }

@@ -5,7 +5,7 @@
 
 // Everything Starts Here
 
-namespace anarchy::engine::core
+namespace anarchy
 {
 	void EngineMain();
 	void PollMessage();

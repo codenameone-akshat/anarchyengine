@@ -3,7 +3,7 @@
 #include "D3D11Renderer.h"
 #include "../../Core/EngineContext.h"
 
-namespace anarchy::engine::graphics
+namespace anarchy
 {
 	void D3D11Renderer::Initialize()
 	{
@@ -28,7 +28,7 @@ namespace anarchy::engine::graphics
 
 	void D3D11Renderer::CreateAdapterAndFactory()
 	{
-		framework::ComCheck(CreateDXGIFactory(IID_PPV_ARGS(&(m_factory->GetRawFactory()))), "Failed to Create DXGIFactory.");
+		ComCheck(CreateDXGIFactory(IID_PPV_ARGS(&(m_factory->GetRawFactory()))), "Failed to Create DXGIFactory.");
 		m_adapter->SetAdapter(m_factory->GetD3D11SupportedHardwareAdapter());
 	}
 	
@@ -40,7 +40,7 @@ namespace anarchy::engine::graphics
 
 		std::array<D3D_FEATURE_LEVEL, 2> featureLevels{ D3D_FEATURE_LEVEL_11_1, D3D_FEATURE_LEVEL_11_0 };
 
-		framework::ComCheck(D3D11CreateDevice(m_adapter->GetAdapter().Get(), D3D_DRIVER_TYPE_UNKNOWN, NULL, m_device->GetDeviceFlags(), featureLevels.data(), static_cast<uint32_t>(featureLevels.size()),
+		ComCheck(D3D11CreateDevice(m_adapter->GetAdapter().Get(), D3D_DRIVER_TYPE_UNKNOWN, NULL, m_device->GetDeviceFlags(), featureLevels.data(), static_cast<uint32_t>(featureLevels.size()),
 			D3D11_SDK_VERSION, &m_device->GetRawDevice(), nullptr, nullptr), "Failed to create D3D11 Device");
 
 		m_device->CreateImmediateContext();
@@ -60,7 +60,7 @@ namespace anarchy::engine::graphics
 		swapChainDesc.SampleDesc.Count = 1;
 		swapChainDesc.SampleDesc.Quality = 0;
 		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-		swapChainDesc.OutputWindow = core::AppContext::GetHandleToActiveWindow()->GetRawHandleToWindow();
+		swapChainDesc.OutputWindow = AppContext::GetHandleToActiveWindow()->GetRawHandleToWindow();
 		swapChainDesc.Windowed = true;
 
 		m_factory->CreateSwapChain(m_device, swapChainDesc, m_swapChain);
@@ -70,7 +70,7 @@ namespace anarchy::engine::graphics
 	{
 		for(uint_fast32_t itr = 0; itr < g_numFrameBuffers; ++itr)
 		{
-			framework::ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
+			ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
 			m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, m_renderTargetViews.at(itr));
 		}
 	}
