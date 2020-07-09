@@ -10,7 +10,6 @@
     <ClCompile Include="Source\MainApp\Main.cpp" />
     <ClCompile Include="Source\Engine\Graphics\D3D12\D3D12Renderer.cpp" />
     <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
-    <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
     <ClCompile Include="Source\Engine\Graphics\GfxRenderer.cpp" />
@@ -20,6 +19,8 @@
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
     <ClCompile Include="Source\Game\GameSpecificMain.cpp" />
     <ClCompile Include="Source\Engine\Graphics\HLSL\HLSLShader.cpp" />
+    <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp" />
+    <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
@@ -36,7 +37,6 @@
     <ClInclude Include="Source\Engine\Graphics\D3D12\D3D12Renderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Hardware.h" />
     <ClInclude Include="Source\Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
-    <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Hardware.h" />
@@ -53,6 +53,15 @@
     <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp" />
     <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp" />
     <ClInclude Include="Source\Framework\Math\Vector\Vec4.hpp" />
+    <ClInclude Include="Source\Utils\ModelHelper\ModelImporter.h" />
+    <ClInclude Include="Source\Engine\Graphics\GraphicObjects\Mesh.h" />
+    <ClInclude Include="Source\Framework\Includes\ClassHelpers.h" />
+    <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
+    <ClInclude Include="Source\Engine\System\File.h" />
+    <ClInclude Include="Source\Engine\System\Serializer.h" />
+    <ClInclude Include="Source\Engine\System\DeSerializer.h" />
+    <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h" />
+    <ClInclude Include="Source\Framework\Includes\SerializationHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />

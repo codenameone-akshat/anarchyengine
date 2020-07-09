@@ -80,7 +80,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
-    <EnableUnitySupport>false</EnableUnitySupport>
+    <EnableUnitySupport>true</EnableUnitySupport>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
     <WholeProgramOptimization>false</WholeProgramOptimization>
   </PropertyGroup>
@@ -131,7 +131,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">
-    <IncludePath>$(BOOST);$(IncludePath)</IncludePath>
+    <IncludePath>Source\Extern\Graphics\assimp\static\include;$(BOOST);$(IncludePath)</IncludePath>
+    <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
+    <LibraryPath>$(BOOST)\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -199,11 +201,15 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PreprocessorDefinitions>_MBCS;AC_DEBUG;AC_D3D12;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;Source\Extern\Graphics\assimp\static\lib\assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(SolutionDir)Source\Extern\Graphics\assimp\dynamic\assimp-vc142-mt.dll $(TargetDir)\assimp-vc142-mt.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D3D11_Debug|x64'">
     <ClCompile>
@@ -269,13 +275,21 @@
     <ClCompile Include="Source\MainApp\Main.cpp" />
     <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="Source\Utils\Logger\Logger.cpp" />
+    <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp" />
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\D3D11Renderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.h" />
     <ClInclude Include="Source\Engine\Graphics\GfxRenderer.h" />
     <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Hardware.h" />
+    <ClInclude Include="Source\Engine\Graphics\GraphicObjects\Mesh.h" />
+    <ClInclude Include="Source\Engine\System\DeSerializer.h" />
+    <ClInclude Include="Source\Engine\System\File.h" />
+    <ClInclude Include="Source\Engine\System\Serializer.h" />
+    <ClInclude Include="Source\Framework\Includes\ClassHelpers.h" />
+    <ClInclude Include="Source\Framework\Includes\SerializationHelpers.h" />
     <ClInclude Include="Source\Framework\Math\Matrix\Matrix.hpp" />
     <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp" />
     <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp" />
@@ -301,6 +315,7 @@
     <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h" />
     <ClInclude Include="Source\Utils\Logger\Logger.h" />
     <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h" />
+    <ClInclude Include="Source\Utils\ModelHelper\ModelImporter.h" />
     <ClInclude Include="Source\Utils\StringUtils\StringUtils.h" />
     <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
   </ItemGroup>
