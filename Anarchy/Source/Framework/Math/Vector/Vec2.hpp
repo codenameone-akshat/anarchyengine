@@ -10,16 +10,17 @@
 
 namespace anarchy::math
 {
+    template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     struct Vec2
     {
     public:
         Vec2()
-            :x(0.0f),
-            y(0.0f)
+            :x(),
+            y()
         {
         }
 
-        Vec2(float _x, float _y)
+        Vec2(T _x, T _y)
             :x(_x),
             y(_y)
         {
@@ -27,8 +28,8 @@ namespace anarchy::math
 
         ~Vec2()
         {
-            x = 0.0f;
-            y = 0.0f;
+            x = T();
+            y = T();
         }
 
         SERIALIZE_IMPL()
@@ -46,11 +47,11 @@ namespace anarchy::math
         [[nodiscard]]
         FORCEINLINE float GetSquaredLength() const
         {
-            return (x * x + y * y);
+            return static_cast<float>(x * x + y * y);
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 Normalize()
+        FORCEINLINE Vec2<T> Normalize()
         {
             float length = GetLength();
             *this /= length;
@@ -59,34 +60,34 @@ namespace anarchy::math
 
         // Subscript operator to access elements in the vector
         [[nodiscard]]
-        FORCEINLINE float& operator[](const uint8_t index)
+        FORCEINLINE T& operator[](const uint8_t index)
         {
             return ((&x)[index]);
         }
 
         // Subscript operator to access elements in the vector
         [[nodiscard]]
-        FORCEINLINE float operator[](const uint8_t index) const
+        FORCEINLINE T operator[](const uint8_t index) const
         {
             return ((&x)[index]);
         }
 
-        // Binary Operation for two Vec2
+        // Binary Operation for two Vec2<T>
         [[nodiscard]]
-        FORCEINLINE Vec2 operator+(const Vec2& operand) const
+        FORCEINLINE Vec2<T> operator+(const Vec2<T>& operand) const
         {
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x + operand.x;
             result.y = this->y + operand.y;
 
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec2 operator+(const float operand) const
+        FORCEINLINE Vec2<T> operator+(const T operand) const
         {
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x + operand;
             result.y = this->y + operand;
 
@@ -95,27 +96,27 @@ namespace anarchy::math
 
         // Unary Operation
         [[nodiscard]]
-        FORCEINLINE Vec2 operator+() const
+        FORCEINLINE Vec2<T> operator+() const
         {
             return *this;
         }
 
-        // Binary Operation for two Vec2
+        // Binary Operation for two Vec2<T>
         [[nodiscard]]
-        FORCEINLINE Vec2 operator-(const Vec2& operand) const
+        FORCEINLINE Vec2<T> operator-(const Vec2<T>& operand) const
         {
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x - operand.x;
             result.y = this->y - operand.y;
 
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec2 operator-(const float operand) const
+        FORCEINLINE Vec2<T> operator-(const T operand) const
         {
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x - operand;
             result.y = this->y - operand;
 
@@ -124,7 +125,7 @@ namespace anarchy::math
 
         // Unary Operation
         [[nodiscard]]
-        FORCEINLINE Vec2 operator-()
+        FORCEINLINE Vec2<T> operator-()
         {
             this->x = -this->x;
             this->y = -this->y;
@@ -132,56 +133,56 @@ namespace anarchy::math
             return *this;
         }
 
-        // Binary Operation for two Vec2
+        // Binary Operation for two Vec2<T>
         [[nodiscard]]
-        FORCEINLINE Vec2 operator*(const Vec2& operand) const
+        FORCEINLINE Vec2<T> operator*(const Vec2<T>& operand) const
         {
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x * operand.x;
             result.y = this->y * operand.y;
 
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec2 operator*(const float operand) const
+        FORCEINLINE Vec2<T> operator*(const T operand) const
         {
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x * operand;
             result.y = this->y * operand;
 
             return result;
         }
 
-        // Binary Operation for two Vec2
+        // Binary Operation for two Vec2<T>
         [[nodiscard]]
-        FORCEINLINE Vec2 operator/(const Vec2& operand) const
+        FORCEINLINE Vec2<T> operator/(const Vec2<T>& operand) const
         {
             //divide by 0 error
             AC_Assert(operand.x != 0.0f || operand.y != 0.0f, "Attempting Divide by 0 | Vector2 Division");
 
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x / operand.x;
             result.y = this->y / operand.y;
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec2 operator/(const float operand) const
+        FORCEINLINE Vec2<T> operator/(const T operand) const
         {
             //divide by 0 error
             AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector2 Division");
 
-            Vec2 result;
+            Vec2<T> result;
             result.x = this->x / operand;
             result.y = this->y / operand;
             return result;
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator+=(const Vec2& operand)
+        FORCEINLINE Vec2<T> operator+=(const Vec2<T>& operand)
         {
             this->x += operand.x;
             this->y += operand.y;
@@ -190,7 +191,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator+=(const float operand)
+        FORCEINLINE Vec2<T> operator+=(const T operand)
         {
             this->x += operand;
             this->y += operand;
@@ -199,7 +200,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator-=(const Vec2& operand)
+        FORCEINLINE Vec2<T> operator-=(const Vec2<T>& operand)
         {
             this->x -= operand.x;
             this->y -= operand.y;
@@ -208,7 +209,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator-=(const float operand)
+        FORCEINLINE Vec2<T> operator-=(const T operand)
         {
             this->x -= operand;
             this->y -= operand;
@@ -217,7 +218,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator*=(const Vec2& operand)
+        FORCEINLINE Vec2<T> operator*=(const Vec2<T>& operand)
         {
             this->x *= operand.x;
             this->y *= operand.y;
@@ -226,7 +227,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator*=(const float operand)
+        FORCEINLINE Vec2<T> operator*=(const T operand)
         {
             this->x *= operand;
             this->y *= operand;
@@ -235,7 +236,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator/=(const Vec2& operand)
+        FORCEINLINE Vec2<T> operator/=(const Vec2<T>& operand)
         {
             //divide by 0 error
             AC_Assert(operand.x != 0.0f || operand.y != 0.0f, "Attempting Divide by 0 | Vector2 Division");
@@ -247,7 +248,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec2 operator/=(const float operand)
+        FORCEINLINE Vec2<T> operator/=(const T operand)
         {
             //divide by 0 error
             AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector2 Division");
@@ -259,12 +260,12 @@ namespace anarchy::math
         }
 
         [[nodiscard]]
-        friend float Dot2(Vec2 vec, Vec2 otherVec)
+        friend float Dot2(Vec2<T> vec, Vec2<T> otherVec)
         {
-            return ((vec.x * otherVec.x) + (vec.y * otherVec.y));
+            return static_cast<float>((vec.x * otherVec.x) + (vec.y * otherVec.y));
         }
 
-        float x;
-        float y;
+        T x;
+        T y;
     };
 }

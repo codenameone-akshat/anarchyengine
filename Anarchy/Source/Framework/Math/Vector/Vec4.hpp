@@ -10,14 +10,15 @@
 
 namespace anarchy::math
 {
+    template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     struct Vec4
     {
     public:
         Vec4()
-            :x(0.0f),
-            y(0.0f),
-            z(0.0f),
-            w(0.0f)
+            :x(),
+            y(),
+            z(),
+            w()
         {
         }
 
@@ -31,10 +32,10 @@ namespace anarchy::math
 
         ~Vec4()
         {
-            x = 0.0f;
-            y = 0.0f;
-            z = 0.0f;
-            w = 0.0f;
+            x = T();
+            y = T();
+            z = T();
+            w = T();
         }
 
         SERIALIZE_IMPL()
@@ -58,7 +59,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 Normalize()
+        FORCEINLINE Vec4<T> Normalize()
         {
             float length = GetLength();
             *this /= length;
@@ -67,23 +68,23 @@ namespace anarchy::math
 
         // Subscript operator to access elements in the vector
         [[nodiscard]]
-        FORCEINLINE float& operator[](const uint8_t index)
+        FORCEINLINE T& operator[](const uint8_t index)
         {
             return ((&x)[index]);
         }
 
         // Subscript operator to access elements in the vector
         [[nodiscard]]
-        FORCEINLINE float operator[](const uint8_t index) const
+        FORCEINLINE T operator[](const uint8_t index) const
         {
             return ((&x)[index]);
         }
 
         // Binary Operation for two Vec4
         [[nodiscard]]
-        FORCEINLINE Vec4 operator+(const Vec4& operand) const
+        FORCEINLINE Vec4<T> operator+(const Vec4<T>& operand) const
         {
-            Vec4 result;
+            Vec4<T> result;
             result.x = this->x + operand.x;
             result.y = this->y + operand.y;
             result.z = this->z + operand.z;
@@ -91,11 +92,11 @@ namespace anarchy::math
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec4 operator+(const float operand) const
+        FORCEINLINE Vec4<T> operator+(const T operand) const
         {
-            Vec4 result;
+            Vec4<T> result;
             result.x = this->x + operand;
             result.y = this->y + operand;
             result.z = this->z + operand;
@@ -112,9 +113,9 @@ namespace anarchy::math
 
         // Binary Operation for two Vec4
         [[nodiscard]]
-        FORCEINLINE Vec4 operator-(const Vec4& operand) const
+        FORCEINLINE Vec4<T> operator-(const Vec4<T>& operand) const
         {
-            Vec4 result;
+            Vec4<T> result;
             result.x = this->x - operand.x;
             result.y = this->y - operand.y;
             result.z = this->z - operand.z;
@@ -122,11 +123,11 @@ namespace anarchy::math
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec4 operator-(const float operand) const
+        FORCEINLINE Vec4<T> operator-(const T operand) const
         {
-            Vec4 result;
+            Vec4<T> result;
             result.x = this->x - operand;
             result.y = this->y - operand;
             result.z = this->z - operand;
@@ -136,7 +137,7 @@ namespace anarchy::math
 
         // Unary Operation
         [[nodiscard]]
-        FORCEINLINE Vec4 operator-()
+        FORCEINLINE Vec4<T> operator-()
         {
             this->x = -this->x;
             this->y = -this->y;
@@ -147,9 +148,9 @@ namespace anarchy::math
 
         // Binary Operation for two Vec4
         [[nodiscard]]
-        FORCEINLINE Vec4 operator*(const Vec4& operand) const
+        FORCEINLINE Vec4<T> operator*(const Vec4<T>& operand) const
         {
-            Vec4 result;
+            Vec4<T> result;
             result.x = this->x * operand.x;
             result.y = this->y * operand.y;
             result.z = this->z * operand.z;
@@ -157,9 +158,9 @@ namespace anarchy::math
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec4 operator*(const float operand) const
+        FORCEINLINE Vec4<T> operator*(const T operand) const
         {
             Vec4 result;
             result.x = this->x * operand;
@@ -171,12 +172,12 @@ namespace anarchy::math
 
         // Binary Operation for two Vec4
         [[nodiscard]]
-        FORCEINLINE Vec4 operator/(const Vec4& operand) const
+        FORCEINLINE Vec4<T> operator/(const Vec4<T>& operand) const
         {
             //divide by 0 error
             AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
-            Vec4 result;
+            Vec4<T> result;
             result.x = this->x / operand.x;
             result.y = this->y / operand.y;
             result.z = this->z / operand.z;
@@ -184,14 +185,14 @@ namespace anarchy::math
             return result;
         }
 
-        // Binary Operation with a float
+        // Binary Operation with a T
         [[nodiscard]]
-        FORCEINLINE Vec4 operator/(const float operand) const
+        FORCEINLINE Vec4<T> operator/(const T operand) const
         {
             //divide by 0 error
             AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
-            Vec4 result;
+            Vec4<T> result;
             result.x = this->x / operand;
             result.y = this->y / operand;
             result.z = this->z / operand;
@@ -200,7 +201,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator+=(const Vec4& operand)
+        FORCEINLINE Vec4<T> operator+=(const Vec4<T>& operand)
         {
             this->x += operand.x;
             this->y += operand.y;
@@ -211,7 +212,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator+=(const float operand)
+        FORCEINLINE Vec4<T> operator+=(const T operand)
         {
             this->x += operand;
             this->y += operand;
@@ -222,7 +223,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator-=(const Vec4& operand)
+        FORCEINLINE Vec4<T> operator-=(const Vec4<T>& operand)
         {
             this->x -= operand.x;
             this->y -= operand.y;
@@ -233,7 +234,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator-=(const float operand)
+        FORCEINLINE Vec4<T> operator-=(const T operand)
         {
             this->x -= operand;
             this->y -= operand;
@@ -244,7 +245,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator*=(const Vec4& operand)
+        FORCEINLINE Vec4<T> operator*=(const Vec4<T>& operand)
         {
             this->x *= operand.x;
             this->y *= operand.y;
@@ -255,7 +256,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator*=(const float operand)
+        FORCEINLINE Vec4<T> operator*=(const T operand)
         {
             this->x *= operand;
             this->y *= operand;
@@ -266,7 +267,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator/=(const Vec4& operand)
+        FORCEINLINE Vec4<T> operator/=(const Vec4<T>& operand)
         {
             //divide by 0 error
             AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
@@ -280,7 +281,7 @@ namespace anarchy::math
         }
 
         [[maybe_unused]]
-        FORCEINLINE Vec4 operator/=(const float operand)
+        FORCEINLINE Vec4<T> operator/=(const T operand)
         {
             //divide by 0 error
             AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
@@ -294,15 +295,15 @@ namespace anarchy::math
         }
 
         [[nodiscard]]
-        friend float Dot4(Vec4 vec, Vec4 otherVec)
+        friend float Dot4(Vec4<T> vec, Vec4<T> otherVec)
         {
             return ((vec.x * otherVec.x) + (vec.y * otherVec.y) + (vec.z * otherVec.z) + (vec.w * otherVec.w));
         }
 
         [[nodiscard]]
-        friend Vec4 Cross(Vec4 vec, Vec4 otherVec)
+        friend Vec4 Cross(Vec4<T> vec, Vec4<T> otherVec)
         {
-            return (Vec4((vec.y * otherVec.z - vec.z * otherVec.y),
+            return (Vec4<T>((vec.y * otherVec.z - vec.z * otherVec.y),
                 (vec.z * otherVec.x - vec.x * otherVec.z),
                 (vec.x * otherVec.y - vec.y * otherVec.x),
                 0.0f));

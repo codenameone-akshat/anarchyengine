@@ -24,7 +24,7 @@ namespace anarchy
 
         auto aiVector3ToVec3 = [](aiVector3D vec)
         {
-            return math::Vec3(vec.x, vec.y, vec.z);
+            return math::Vec3<float>(vec.x, vec.y, vec.z);
         };
 
         auto aiVector3ToVec2 = [](aiVector3D vec)
@@ -37,16 +37,16 @@ namespace anarchy
             auto mesh = meshes[itr];
             Mesh engineMesh = {};
 
-            std::vector<math::Vec3> vertices(mesh->mNumVertices);
-            std::vector<math::Vec3> normals(mesh->mNumVertices);
-            std::vector<math::Vec2> texCoords(mesh->mNumVertices);
-            std::vector<math::Vec3> tangents(mesh->mNumVertices);
-            std::vector<math::Vec3> biTangents(mesh->mNumVertices);
+            std::vector<math::Vec3<float>> vertices(mesh->mNumVertices);
+            std::vector<math::Vec3<float>> normals(mesh->mNumVertices);
+            std::vector<math::Vec2<float>> texCoords(mesh->mNumVertices);
+            std::vector<math::Vec3<float>> tangents(mesh->mNumVertices);
+            std::vector<math::Vec3<float>> biTangents(mesh->mNumVertices);
 
             for (uint32_t itr = 0; itr < mesh->mNumVertices; ++itr)
             {
-                math::Vec3 vec3 = {};
-                math::Vec2 vec2 = {};
+                math::Vec3<float> vec3 = {};
+                math::Vec2<float> vec2 = {};
 
                 vertices.emplace_back(aiVector3ToVec3(mesh->mVertices[itr]));
 
@@ -72,8 +72,8 @@ namespace anarchy
                 else
                 {
                     vec3.x = vec3.y = vec3.z = 0.0f;
-                    tangents.emplace_back(math::Vec3(0.0f, 0.0f, 0.0f));
-                    biTangents.emplace_back(math::Vec3(0.0f, 0.0f, 0.0f));
+                    tangents.emplace_back(math::Vec3<float>(0.0f, 0.0f, 0.0f));
+                    biTangents.emplace_back(math::Vec3<float>(0.0f, 0.0f, 0.0f));
                 }
             }
 

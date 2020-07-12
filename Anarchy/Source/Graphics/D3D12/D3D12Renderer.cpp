@@ -272,8 +272,8 @@ namespace anarchy
         // Creating Vertex Layout here for now
         struct Vertex
         {
-            math::Vec3 position;
-            math::Vec4 color;
+            math::Vec3<float> position;
+            math::Vec4<float> color;
         };
 
         Vertex vertexBufferData[] =
