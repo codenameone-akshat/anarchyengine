@@ -2,9 +2,9 @@
 #include <assimp/scene.h>
 
 #include "ModelImporter.h"
-#include "../../Engine/Graphics/GraphicObjects/Mesh.h"
-#include "../../Engine/Core/Entity/Entity.h"
-#include "../../Engine/System/Serializer.h"
+#include "Graphics/GraphicObjects/Mesh.h"
+#include "Engine/Core/Entity/Entity.h"
+#include "System/Serializer.h"
 
 namespace anarchy
 {

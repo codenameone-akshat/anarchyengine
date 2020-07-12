@@ -6,10 +6,10 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 
-#include "../../../../Extern/Graphics/D3D12/D3DX12/d3dx12.h"
-#include "../../../../Framework/Includes/FrameworkAliases.h"
-#include "../../../../Framework/Includes/FrameworkGlobals.h"
-#include "../../../../Utils/StringUtils/StringUtils.h"
+#include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
+#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkGlobals.h"
+#include "Utils/StringUtils/StringUtils.h"
 
 namespace anarchy
 {

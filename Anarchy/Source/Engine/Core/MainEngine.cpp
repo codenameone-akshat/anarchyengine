@@ -2,8 +2,8 @@
 
 #include "MainEngine.h"
 #include "EngineContext.h"
-#include "../System/System.h"
-#include "../../Utils/Logger/Logger.h"
+#include "System/System.h"
+#include "Utils/Logger/Logger.h"
 
 namespace anarchy
 {

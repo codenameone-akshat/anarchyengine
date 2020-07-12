@@ -7,12 +7,12 @@
 #include <string>
 #endif // AC_DEBUG
 
-#include "../../../Framework/Math/Vector/Vec3.hpp"
-#include "../../../Framework/Math/Vector/Vec2.hpp"
+#include "Framework/Math/Vector/Vec3.hpp"
+#include "Framework/Math/Vector/Vec2.hpp"
 
-#include "../../../Framework/Includes/FrameworkDefines.h"
-#include "../../../Framework/Includes/ClassHelpers.h"
-#include "../../../Framework/Includes/SerializationHelpers.h"
+#include "Framework/Includes/FrameworkDefines.h"
+#include "Framework/Includes/ClassHelpers.h"
+#include "Framework/Includes/SerializationHelpers.h"
 #include SERIALIZE_STD_VECTOR_INCLUDE
 #include SERIALIZE_STD_STRING_INCLUDE
 

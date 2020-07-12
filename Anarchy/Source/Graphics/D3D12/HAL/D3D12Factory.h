@@ -5,8 +5,8 @@
 
 #include <dxgi1_6.h>
 
-#include "../../../../Framework/Includes/FrameworkHeaders.h"
-#include "../../../../Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkHeaders.h"
+#include "Framework/Includes/FrameworkAliases.h"
 
 namespace anarchy
 {

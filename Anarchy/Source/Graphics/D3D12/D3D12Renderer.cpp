@@ -3,15 +3,15 @@
 #include <limits>
 
 #include "D3D12Renderer.h"
-#include "../../Core/EngineContext.h"
-#include "../../../Utils/Logger/Logger.h"
-#include "../../../Utils/Time/ScopedTimer.h"
-#include "../../../Extern/Graphics/D3D12/D3DX12/d3dx12.h"
-#include "../../../Framework/Includes/FrameworkAliases.h"
-#include "../../../Framework/Includes/FrameworkGlobals.h"
+#include "Engine/Core/EngineContext.h"
+#include "Utils/Logger/Logger.h"
+#include "Utils/Time/ScopedTimer.h"
+#include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
+#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 
-#include"../../../Framework/Math/Vector/Vec3.hpp"
-#include"../../../Framework/Math/Vector/Vec4.hpp"
+#include "Framework/Math/Vector/Vec3.hpp"
+#include "Framework/Math/Vector/Vec4.hpp"
 
 namespace anarchy
 {

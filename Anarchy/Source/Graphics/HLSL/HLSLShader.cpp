@@ -3,10 +3,10 @@
 #include <d3dcompiler.h>
 
 #include "HLSLShader.h"
-#include "../../Core/EngineContext.h"
-#include "../../../Framework/Includes/FrameworkDefines.h"
-#include "../../../Framework/Includes/FrameworkDefines.h"
-#include "../../../Utils/StringUtils/StringUtils.h"
+#include "Engine/Core/EngineContext.h"
+#include "Framework/Includes/FrameworkDefines.h"
+#include "Framework/Includes/FrameworkDefines.h"
+#include "Utils/StringUtils/StringUtils.h"
 
 namespace anarchy
 {
@@ -14,7 +14,7 @@ namespace anarchy
         :m_shaderDesc({})
     {
         if (isInDeaultLocation)
-            m_shaderFilePath = AppContext::GetSourceDirPath() + AC_STR_LITERAL("Engine\\Graphics\\Shaders\\") + fileName;
+            m_shaderFilePath = AppContext::GetSourceDirPath() + AC_STR_LITERAL("Graphics\\Shaders\\") + fileName;
         else
             m_shaderFilePath = fileName;
 

@@ -3,19 +3,19 @@
 
 #include <memory>
 
-#include "../../Framework/Window/WindowManager.h"
-#include "../../Game/GameSpecificMain.h"
+#include "Framework/Window/WindowManager.h"
+#include "Game/GameSpecificMain.h"
 
 #ifdef AC_D3D12
-#include "../Graphics/D3D12/D3D12Renderer.h"
+#include "Graphics/D3D12/D3D12Renderer.h"
 using AC_RendererClass = anarchy::D3D12Renderer;
 
 #elif AC_D3D11
-#include "../Graphics/D3D11/D3D11Renderer.h"
+#include "Graphics/D3D11/D3D11Renderer.h"
 using AC_RendererClass = anarchy::D3D11Renderer;
 
 #elif AC_VULKAN
-#include "../Graphics/Vulkan/VulkanRenderer.h"
+#include "Graphics/Vulkan/VulkanRenderer.h"
 using AC_RendererClass = anarchy::VulkanRenderer;
 
 #endif // AC_D3D12 | AC_D3D11 | AC_VULKAN

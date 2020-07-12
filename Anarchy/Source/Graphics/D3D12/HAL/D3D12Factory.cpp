@@ -3,7 +3,7 @@
 #include <d3d12.h>
 
 #include "D3D12Factory.h"
-#include "../../../../Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 
 namespace anarchy
 {

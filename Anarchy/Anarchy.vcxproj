@@ -131,7 +131,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">
-    <IncludePath>Source\Extern\Graphics\assimp\static\include;$(BOOST);$(IncludePath)</IncludePath>
+    <IncludePath>$(AC_ROOT)\Extern\Graphics\assimp\static\include;$(BOOST);$(AC_SOURCE);$(AC_ROOT);$(IncludePath)</IncludePath>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <LibraryPath>$(BOOST)\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -202,13 +202,14 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PreprocessorDefinitions>_MBCS;AC_DEBUG;AC_D3D12;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;Source\Extern\Graphics\assimp\static\lib\assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;$(AC_ROOT)\Extern\Graphics\assimp\static\lib\assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(SolutionDir)Source\Extern\Graphics\assimp\dynamic\assimp-vc142-mt.dll $(TargetDir)\assimp-vc142-mt.dll</Command>
+      <Command>copy $(AC_ROOT)\Extern\Graphics\assimp\dynamic\assimp-vc142-mt.dll $(TargetDir)\assimp-vc142-mt.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D3D11_Debug|x64'">
@@ -257,18 +258,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Engine\Graphics\D3D11\D3D11Renderer.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\GfxRenderer.cpp" />
+    <ClCompile Include="Source\Graphics\D3D11\D3D11Renderer.cpp" />
+    <ClCompile Include="Source\Graphics\D3D11\HAL\D3D11Factory.cpp" />
+    <ClCompile Include="Source\Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Source\Game\GameSpecificMain.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
     <ClCompile Include="Source\Engine\Core\EngineCore.cpp" />
     <ClCompile Include="Source\Engine\Core\MainEngine.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\D3D12\D3D12Renderer.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\D3D12\HAL\D3D12Factory.cpp" />
-    <ClCompile Include="Source\Engine\Graphics\HLSL\HLSLShader.cpp" />
-    <ClCompile Include="Source\Engine\System\System.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\D3D12Renderer.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\HAL\D3D12Factory.cpp" />
+    <ClCompile Include="Source\Graphics\HLSL\HLSLShader.cpp" />
+    <ClCompile Include="Source\System\System.cpp" />
     <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\Framework\Window\WindowManager.cpp" />
@@ -280,14 +281,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D11\D3D11Renderer.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Factory.h" />
-    <ClInclude Include="Source\Engine\Graphics\GfxRenderer.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D11\HAL\D3D11Hardware.h" />
-    <ClInclude Include="Source\Engine\Graphics\GraphicObjects\Mesh.h" />
-    <ClInclude Include="Source\Engine\System\DeSerializer.h" />
-    <ClInclude Include="Source\Engine\System\File.h" />
-    <ClInclude Include="Source\Engine\System\Serializer.h" />
+    <ClInclude Include="Source\Graphics\D3D11\D3D11Renderer.h" />
+    <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Factory.h" />
+    <ClInclude Include="Source\Graphics\GfxRenderer.h" />
+    <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Hardware.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\Mesh.h" />
+    <ClInclude Include="Source\System\DeSerializer.h" />
+    <ClInclude Include="Source\System\File.h" />
+    <ClInclude Include="Source\System\Serializer.h" />
     <ClInclude Include="Source\Framework\Includes\ClassHelpers.h" />
     <ClInclude Include="Source\Framework\Includes\SerializationHelpers.h" />
     <ClInclude Include="Source\Framework\Math\Matrix\Matrix.hpp" />
@@ -300,12 +301,12 @@
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
     <ClInclude Include="Source\Engine\Core\EngineCore.h" />
     <ClInclude Include="Source\Engine\Core\MainEngine.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\D3D12Renderer.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Hardware.h" />
-    <ClInclude Include="Source\Engine\Graphics\D3D12\HAL\D3D12Factory.h" />
-    <ClInclude Include="Source\Engine\Graphics\HLSL\HLSLShader.h" />
-    <ClInclude Include="Source\Engine\System\System.h" />
-    <ClInclude Include="Source\Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
+    <ClInclude Include="Source\Graphics\D3D12\D3D12Renderer.h" />
+    <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Hardware.h" />
+    <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Factory.h" />
+    <ClInclude Include="Source\Graphics\HLSL\HLSLShader.h" />
+    <ClInclude Include="Source\System\System.h" />
+    <ClInclude Include="Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkDefines.h" />
     <ClInclude Include="Source\Framework\Includes\FrameworkGlobals.h" />
@@ -326,7 +327,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Source\Engine\Graphics\Shaders\EmptyShader.hlsl">
+    <FxCompile Include="Source\Graphics\Shaders\EmptyShader.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">true</ExcludedFromBuild>
     </FxCompile>
   </ItemGroup>
