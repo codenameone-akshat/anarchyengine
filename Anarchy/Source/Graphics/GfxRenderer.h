@@ -7,7 +7,7 @@ namespace anarchy
     {
     public:
         GfxRenderer() = default;
-        ~GfxRenderer() = default;
+        virtual ~GfxRenderer() = default;
 
         virtual void Initialize() {};
         virtual void PreRender() {};
