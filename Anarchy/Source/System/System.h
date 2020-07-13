@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Engine/Core/EngineCore.h"
+#include "System/Input/InputHandler.h"
 
 namespace anarchy
 {
@@ -24,6 +25,7 @@ namespace anarchy
 
         uint_fast16_t m_dt = 0;
         std::unique_ptr<EngineCore> m_engineCore = std::make_unique<EngineCore>();
+        InputHandler& m_input = InputHandler::GetInstance();
     };
 }
 

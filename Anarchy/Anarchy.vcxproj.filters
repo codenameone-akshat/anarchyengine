@@ -1,305 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source\Graphics\Shaders">
-      <UniqueIdentifier>{a2671474-8f49-414c-8db8-c0809636e2d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics">
-      <UniqueIdentifier>{3835a971-9a0c-4699-9cf8-0f1d104127ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source">
-      <UniqueIdentifier>{f9bb11e9-a6f2-4d5c-bc2e-6816aa9fdcc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics\D3D11">
-      <UniqueIdentifier>{55ba035d-6f93-4029-a65d-ecb805aafa66}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics\D3D11\HAL">
-      <UniqueIdentifier>{de656d84-46fd-4cd5-8884-0778187c1ce9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Game">
-      <UniqueIdentifier>{3c1b0ed5-fd16-48d2-ac70-639a0d50069f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils\CommandLineOptions">
-      <UniqueIdentifier>{9652c71f-d478-4158-8148-46812da7ea87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils">
-      <UniqueIdentifier>{d5e540cf-300d-4bf4-916e-a583eb46859a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Game\GameSettings">
-      <UniqueIdentifier>{8f86d913-236a-498d-9b02-c1b552a68d79}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Engine\Core">
-      <UniqueIdentifier>{d54b54aa-ec1c-431e-80de-b604e4b1891a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Engine">
-      <UniqueIdentifier>{8853fb0e-08ce-4670-bfef-e21c3d66a242}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics\D3D12">
-      <UniqueIdentifier>{adc0bd9b-54c1-4e76-9785-f7482b492cd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics\D3D12\HAL">
-      <UniqueIdentifier>{af6d1d05-48cb-4664-8bef-b4e397017f55}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics\HLSL">
-      <UniqueIdentifier>{b328311f-910a-4986-8041-1686ab8495fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\System">
-      <UniqueIdentifier>{b844e50b-e9b3-4301-8143-72c1272362d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Includes">
-      <UniqueIdentifier>{4188b024-827e-43d0-9664-0400748d35f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework">
-      <UniqueIdentifier>{1af1c90f-ab40-44a8-b4ff-19f4973fa190}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Window">
-      <UniqueIdentifier>{23347275-73fc-4036-b7cb-65468aeea8cc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\MainApp">
-      <UniqueIdentifier>{8a1a6c39-df37-480d-8ba3-b2704c264768}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils\FileWatcher">
-      <UniqueIdentifier>{e3a3bcb5-bbfb-4ac0-9d5a-f50df6c7da43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils\Logger">
-      <UniqueIdentifier>{27ef73fe-48a5-4cac-ace9-9dc72c45a813}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils\ModelHelper">
-      <UniqueIdentifier>{ad97ee89-851d-4236-98fc-cae9305e9aed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils\Time">
-      <UniqueIdentifier>{c1229df3-da3f-4301-9f22-f3d528da581a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Engine\Core\Entity">
-      <UniqueIdentifier>{3b7e59de-f727-48f7-94ca-81b109c8baf0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Graphics\GraphicObjects">
-      <UniqueIdentifier>{bd6f76f9-73c3-4cee-acaa-1d728756a09b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Math\Matrix">
-      <UniqueIdentifier>{6c697ada-b449-4253-8ae7-f5c64380a1c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Math">
-      <UniqueIdentifier>{043f9762-4dfd-4e7e-a55d-11f4ce41da40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Framework\Math\Vector">
-      <UniqueIdentifier>{c70acf9a-8728-41c0-9dfd-76302caa90de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Extern\Graphics\D3D12\D3DX12">
-      <UniqueIdentifier>{fa14d407-5fae-4db2-8642-0e74653f668e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Extern\Graphics\D3D12">
-      <UniqueIdentifier>{ac1a200d-132e-40ae-a708-c4e0e569cd1f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Extern\Graphics">
-      <UniqueIdentifier>{f635efe1-f99a-4e51-a2f4-81c1eb827080}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Extern">
-      <UniqueIdentifier>{2b35b780-77e6-432c-bde1-caf291305168}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils\MacroHelpers">
-      <UniqueIdentifier>{9e3ab868-733b-4d7a-94d8-0ab9c93ae08f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Utils\StringUtils">
-      <UniqueIdentifier>{644a41d6-1827-425e-bd2e-40526a39caa2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{fc098350-b34f-46ed-bc34-3d760be60b67}</UniqueIdentifier>
-    </Filter>
+    <FxCompile Include="Source\Graphics\Shaders\EmptyShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Source\Graphics\Shaders\EmptyShader.hlsl">
-      <Filter>Source\Graphics\Shaders</Filter>
-    </FxCompile>
+    <ClCompile Include="Source\Graphics\D3D11\D3D11Renderer.cpp" />
+    <ClCompile Include="Source\Graphics\D3D11\HAL\D3D11Factory.cpp" />
+    <ClCompile Include="Source\Graphics\GfxRenderer.cpp" />
+    <ClCompile Include="Source\Game\GameSpecificMain.cpp" />
+    <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
+    <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
+    <ClCompile Include="Source\Engine\Core\EngineCore.cpp" />
+    <ClCompile Include="Source\Engine\Core\MainEngine.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\D3D12Renderer.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\HAL\D3D12Factory.cpp" />
+    <ClCompile Include="Source\Graphics\HLSL\HLSLShader.cpp" />
+    <ClCompile Include="Source\System\System.cpp" />
+    <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
+    <ClCompile Include="Source\Framework\Window\Window.cpp" />
+    <ClCompile Include="Source\Framework\Window\WindowManager.cpp" />
+    <ClCompile Include="Source\MainApp\Main.cpp" />
+    <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
+    <ClCompile Include="Source\Utils\Logger\Logger.cpp" />
+    <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp" />
+    <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
+    <ClCompile Include="Source\System\Input\InputHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Graphics\D3D11\D3D11Renderer.cpp">
-      <Filter>Source\Graphics\D3D11</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphics\D3D11\HAL\D3D11Factory.cpp">
-      <Filter>Source\Graphics\D3D11\HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphics\GfxRenderer.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameSpecificMain.cpp">
-      <Filter>Source\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp">
-      <Filter>Source\Utils\CommandLineOptions</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp">
-      <Filter>Source\Game\GameSettings</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Core\EngineCore.cpp">
-      <Filter>Source\Engine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Engine\Core\MainEngine.cpp">
-      <Filter>Source\Engine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphics\D3D12\D3D12Renderer.cpp">
-      <Filter>Source\Graphics\D3D12</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphics\D3D12\HAL\D3D12Factory.cpp">
-      <Filter>Source\Graphics\D3D12\HAL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Graphics\HLSL\HLSLShader.cpp">
-      <Filter>Source\Graphics\HLSL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\System\System.cpp">
-      <Filter>Source\System</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp">
-      <Filter>Source\Framework\Includes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Window\Window.cpp">
-      <Filter>Source\Framework\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Framework\Window\WindowManager.cpp">
-      <Filter>Source\Framework\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\MainApp\Main.cpp">
-      <Filter>Source\MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp">
-      <Filter>Source\Utils\FileWatcher</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\Logger\Logger.cpp">
-      <Filter>Source\Utils\Logger</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp">
-      <Filter>Source\Utils\ModelHelper</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp">
-      <Filter>Source\Utils\Time</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Source\Engine\Core\Entity\Entity.h">
-      <Filter>Source\Engine\Core\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\D3D11\D3D11Renderer.h">
-      <Filter>Source\Graphics\D3D11</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Factory.h">
-      <Filter>Source\Graphics\D3D11\HAL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\GfxRenderer.h">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Hardware.h">
-      <Filter>Source\Graphics\D3D11\HAL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\GraphicObjects\Mesh.h">
-      <Filter>Source\Graphics\GraphicObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\System\DeSerializer.h">
-      <Filter>Source\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\System\File.h">
-      <Filter>Source\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\System\Serializer.h">
-      <Filter>Source\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Includes\ClassHelpers.h">
-      <Filter>Source\Framework\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Includes\SerializationHelpers.h">
-      <Filter>Source\Framework\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Math\Matrix\Matrix.hpp">
-      <Filter>Source\Framework\Math\Matrix</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp">
-      <Filter>Source\Framework\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp">
-      <Filter>Source\Framework\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Math\Vector\Vec4.hpp">
-      <Filter>Source\Framework\Math\Vector</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameSpecificMain.h">
-      <Filter>Source\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp">
-      <Filter>Source\Utils\CommandLineOptions</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game\GameSettings\GameSettings.h">
-      <Filter>Source\Game\GameSettings</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Core\EngineContext.h">
-      <Filter>Source\Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Core\EngineCore.h">
-      <Filter>Source\Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Engine\Core\MainEngine.h">
-      <Filter>Source\Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\D3D12\D3D12Renderer.h">
-      <Filter>Source\Graphics\D3D12</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Hardware.h">
-      <Filter>Source\Graphics\D3D12\HAL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Factory.h">
-      <Filter>Source\Graphics\D3D12\HAL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Graphics\HLSL\HLSLShader.h">
-      <Filter>Source\Graphics\HLSL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\System\System.h">
-      <Filter>Source\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Extern\Graphics\D3D12\D3DX12\d3dx12.h">
-      <Filter>Extern\Graphics\D3D12\D3DX12</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h">
-      <Filter>Source\Framework\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Includes\FrameworkDefines.h">
-      <Filter>Source\Framework\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Includes\FrameworkGlobals.h">
-      <Filter>Source\Framework\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Includes\FrameworkHeaders.h">
-      <Filter>Source\Framework\Includes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Window\Window.h">
-      <Filter>Source\Framework\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Framework\Window\WindowManager.h">
-      <Filter>Source\Framework\Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h">
-      <Filter>Source\Utils\FileWatcher</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\Logger\Logger.h">
-      <Filter>Source\Utils\Logger</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h">
-      <Filter>Source\Utils\MacroHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\ModelHelper\ModelImporter.h">
-      <Filter>Source\Utils\ModelHelper</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\StringUtils\StringUtils.h">
-      <Filter>Source\Utils\StringUtils</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Utils\Time\ScopedTimer.h">
-      <Filter>Source\Utils\Time</Filter>
-    </ClInclude>
+    <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
     <ClInclude Include="Source\Framework\App\AppContext.h" />
+    <ClInclude Include="Source\Graphics\D3D11\D3D11Renderer.h" />
+    <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Factory.h" />
+    <ClInclude Include="Source\Graphics\GfxRenderer.h" />
+    <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Hardware.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\Mesh.h" />
+    <ClInclude Include="Source\System\DeSerializer.h" />
+    <ClInclude Include="Source\System\File.h" />
+    <ClInclude Include="Source\System\Serializer.h" />
+    <ClInclude Include="Source\Framework\Includes\ClassHelpers.h" />
+    <ClInclude Include="Source\Framework\Includes\SerializationHelpers.h" />
+    <ClInclude Include="Source\Framework\Math\Matrix\Matrix.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector\Vec4.hpp" />
+    <ClInclude Include="Source\Game\GameSpecificMain.h" />
+    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
+    <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
+    <ClInclude Include="Source\Engine\Core\EngineContext.h" />
+    <ClInclude Include="Source\Engine\Core\EngineCore.h" />
+    <ClInclude Include="Source\Engine\Core\MainEngine.h" />
+    <ClInclude Include="Source\Graphics\D3D12\D3D12Renderer.h" />
+    <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Hardware.h" />
+    <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Factory.h" />
+    <ClInclude Include="Source\Graphics\HLSL\HLSLShader.h" />
+    <ClInclude Include="Source\System\System.h" />
+    <ClInclude Include="Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
+    <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h" />
+    <ClInclude Include="Source\Framework\Includes\FrameworkDefines.h" />
+    <ClInclude Include="Source\Framework\Includes\FrameworkGlobals.h" />
+    <ClInclude Include="Source\Framework\Includes\FrameworkHeaders.h" />
+    <ClInclude Include="Source\Framework\Window\Window.h" />
+    <ClInclude Include="Source\Framework\Window\WindowManager.h" />
+    <ClInclude Include="Source\Utils\FileWatcher\FileWatcher.h" />
+    <ClInclude Include="Source\Utils\Logger\Logger.h" />
+    <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h" />
+    <ClInclude Include="Source\Utils\ModelHelper\ModelImporter.h" />
+    <ClInclude Include="Source\Utils\StringUtils\StringUtils.h" />
+    <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
+    <ClInclude Include="Source\System\Input\InputHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Docs\CodeGuildelinesAndRules.txt">
-      <Filter>Docs</Filter>
-    </Text>
+    <Text Include="Docs\CodeGuildelinesAndRules.txt" />
   </ItemGroup>
 </Project>
