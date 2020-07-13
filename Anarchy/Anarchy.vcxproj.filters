@@ -292,8 +292,11 @@
     <ClInclude Include="Source\Utils\Time\ScopedTimer.h">
       <Filter>Source\Utils\Time</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Framework\App\AppContext.h" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt">
       <Filter>Docs</Filter>

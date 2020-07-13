@@ -1,5 +1,6 @@
 #include "EngineCore.h"
 #include "EngineContext.h"
+#include "Framework/App/AppContext.h"
 
 namespace anarchy
 {

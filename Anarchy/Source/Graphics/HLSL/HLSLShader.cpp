@@ -3,8 +3,7 @@
 #include <d3dcompiler.h>
 
 #include "HLSLShader.h"
-#include "Engine/Core/EngineContext.h"
-#include "Framework/Includes/FrameworkDefines.h"
+#include "Framework/App/AppContext.h"
 #include "Framework/Includes/FrameworkDefines.h"
 #include "Utils/StringUtils/StringUtils.h"
 

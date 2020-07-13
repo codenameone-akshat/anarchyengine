@@ -1,5 +1,5 @@
-#include "../Framework/Includes/FrameworkHeaders.h"
-#include "../Engine/Core/EngineContext.h"
+#include "Framework/App/AppContext.h"
+#include "Framework/Includes/FrameworkHeaders.h"
 
 #define PROJECT_PARENT_DIR_NAME AC_STR_LITERAL("anarchyengine")
 

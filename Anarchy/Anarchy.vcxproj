@@ -281,6 +281,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
+    <ClInclude Include="Source\Framework\App\AppContext.h" />
     <ClInclude Include="Source\Graphics\D3D11\D3D11Renderer.h" />
     <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Factory.h" />
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
