@@ -6,8 +6,8 @@
 #include <d3d11.h>
 #include <dxgi.h>
 
-#include "../../../../Framework/Includes/FrameworkAliases.h"
-#include "../../../../Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 
 namespace anarchy
 {

@@ -1,8 +1,8 @@
 #include <string>
 
 #include "WindowManager.h"
-#include "../Includes/FrameworkGlobals.h"
-#include "../../Utils/Logger/Logger.h"
+#include "Framework/Includes/FrameworkGlobals.h"
+#include "Utils/Logger/Logger.h"
 
 namespace anarchy
 {

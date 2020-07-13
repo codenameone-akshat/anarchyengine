@@ -5,8 +5,8 @@
 #include <memory>
 #include <cstdint>
 
-#include "Window.h"
-#include "../../Framework/Includes/FrameworkDefines.h"
+#include "Framework/Includes/FrameworkDefines.h"
+#include "Framework/Window/Window.h"
 
 namespace anarchy
 {

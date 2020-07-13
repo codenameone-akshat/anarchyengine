@@ -5,8 +5,8 @@
 
 #include <dxgi.h>
 
-#include "../../../../Framework/Includes/FrameworkHeaders.h"
-#include "../../../../Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkHeaders.h"
+#include "Framework/Includes/FrameworkAliases.h"
 #include "D3D11Hardware.h"
 
 namespace anarchy

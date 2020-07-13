@@ -4,7 +4,7 @@
 #include<string>
 #include<chrono>
 
-#include"../../Framework/Includes/FrameworkAliases.h"
+#include"Framework/Includes/FrameworkAliases.h"
 
 namespace anarchy
 {

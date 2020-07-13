@@ -1,13 +1,13 @@
 #ifndef _ENUM_HELPERS_H_
 #define _ENUM_HELPERS_H_
 
-#include <vector>
-#include <cstdint>
-#include <boost/preprocessor/stringize.hpp>
 #include <boost/preprocessor/seq/enum.hpp>
 #include <boost/preprocessor/seq/for_each.hpp>
+#include <boost/preprocessor/stringize.hpp>
+#include <cstdint>
+#include <vector>
 
-#include "../../Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkAliases.h"
 
 #define ENUM_VAL_TO_STRING(r, data, elem) BOOST_PP_STRINGIZE(elem),
 

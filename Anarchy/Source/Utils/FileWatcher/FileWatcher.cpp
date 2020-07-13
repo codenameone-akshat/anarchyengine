@@ -1,5 +1,5 @@
 #include "FileWatcher.h"
-#include "../../Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 
 namespace anarchy
 {

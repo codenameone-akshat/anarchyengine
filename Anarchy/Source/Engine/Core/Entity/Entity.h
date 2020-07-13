@@ -2,9 +2,9 @@
 
 #include <vector>
 
-#include "../../../Framework/Includes/ClassHelpers.h"
-#include "../../Graphics/GraphicObjects/Mesh.h"
-#include "../../../Framework/Includes/SerializationHelpers.h"
+#include "Framework/Includes/ClassHelpers.h"
+#include "Graphics/GraphicObjects/Mesh.h"
+#include "Framework/Includes/SerializationHelpers.h"
 
 #include SERIALIZE_STD_VECTOR_INCLUDE
 

@@ -4,8 +4,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
-#include "../../Framework/Includes/ClassHelpers.h"
-#include "../../Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/ClassHelpers.h"
+#include "Framework/Includes/FrameworkAliases.h"
 
 
 namespace anarchy

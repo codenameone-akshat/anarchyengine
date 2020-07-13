@@ -160,6 +160,5 @@ namespace anarchy
         std::array<unsigned char, 256> m_keyStates = {};
         MouseState m_mouseState = {};
     };
-
 }
 #endif

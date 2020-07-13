@@ -4,7 +4,7 @@
 #include <d3d11_1.h>
 
 #include "D3D11Factory.h"
-#include "../../../../Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 
 #pragma comment(lib,"d3d11.lib")
 

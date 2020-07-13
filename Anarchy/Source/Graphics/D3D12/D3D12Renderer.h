@@ -7,10 +7,10 @@
 #include <memory>
 #include <d3d12.h>
 
-#include "../GfxRenderer.h"
-#include "HAL/D3D12Factory.h"
-#include "HAL/D3D12Hardware.h"
-#include "../HLSL/HLSLShader.h"
+#include "Graphics/GfxRenderer.h"
+#include "Graphics/HLSL/HLSLShader.h"
+#include "Graphics/D3D12/HAL/D3D12Factory.h"
+#include "Graphics/D3D12/HAL/D3D12Hardware.h"
 
 namespace anarchy
 {

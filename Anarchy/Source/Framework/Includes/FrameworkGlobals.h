@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../../Utils/Logger/Logger.h"
+#include "Utils/Logger/Logger.h"
 
 namespace anarchy
 {

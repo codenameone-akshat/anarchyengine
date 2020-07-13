@@ -1,7 +1,7 @@
 #ifdef AC_D3D11
 
 #include "D3D11Renderer.h"
-#include "../../Core/EngineContext.h"
+#include "Core/EngineContext.h"
 
 namespace anarchy
 {

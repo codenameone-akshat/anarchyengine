@@ -3,10 +3,10 @@
 
 #include <functional>
 
-#include "../../Framework/Includes/FrameworkHeaders.h"
-#include "../../Framework/Includes/FrameworkAliases.h"
-#include "../../Framework/Includes/FrameworkDefines.h"
-#include "../../Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkDefines.h"
+#include "Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkHeaders.h"
 
 namespace anarchy
 {

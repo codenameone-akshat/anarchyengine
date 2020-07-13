@@ -6,8 +6,8 @@
 #include <d3d12.h>
 #include <vector>
 
-#include "Framework/Includes/FrameworkGlobals.h"
 #include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 #include "Utils/MacroHelpers/EnumHelpers.h"
 
 namespace anarchy

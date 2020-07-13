@@ -2,16 +2,14 @@
 #define _LOGGER_H_
 
 #include <array>
-#include <tuple>
 #include <d3d12.h>
 
-#include "../../Framework/Includes/FrameworkAliases.h"
-#include "../../Framework/Includes/FrameworkHeaders.h"
-#include "../../Utils/MacroHelpers/EnumHelpers.h"
+#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkHeaders.h"
+#include "Utils/MacroHelpers/EnumHelpers.h"
 
 namespace anarchy
 {
-
     class Logger
     {
     public:

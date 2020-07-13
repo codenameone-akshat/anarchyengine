@@ -2,6 +2,7 @@
 
 #include "MainEngine.h"
 #include "EngineContext.h"
+#include "Framework/App/AppContext.h"
 #include "System/System.h"
 #include "Utils/Logger/Logger.h"
 

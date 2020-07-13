@@ -1,6 +1,7 @@
 #include "System.h"
 #include "Engine/Core/EngineContext.h"
 #include "Utils/Logger/Logger.h"
+
 namespace anarchy
 {
     void System::Initialize()

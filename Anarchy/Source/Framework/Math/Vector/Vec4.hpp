@@ -3,8 +3,8 @@
 #include <cmath>
 #include <cstdint>
 
-#include "../../Includes/FrameworkGlobals.h"
-#include "../../Includes/SerializationHelpers.h"
+#include "Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/SerializationHelpers.h"
 
 #define FORCEINLINE __forceinline
 

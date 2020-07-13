@@ -6,7 +6,7 @@
 #include <memory>
 #include <d3d11.h>
 
-#include "../GfxRenderer.h"
+#include "GfxRenderer.h"
 #include "HAL/D3D11Hardware.h"
 #include "HAL/D3D11Factory.h"	
 
