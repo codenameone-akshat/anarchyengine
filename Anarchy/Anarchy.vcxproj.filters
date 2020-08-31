@@ -23,8 +23,8 @@
     <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp" />
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
     <ClCompile Include="Source\System\Input\InputHandler.cpp" />
-    <ClCompile Include="Source\MainApp\Win32\ApplicationMain_Win32.cpp" />
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
+    <ClCompile Include="Source\Game\Windows\GameSpecificMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
@@ -70,6 +70,8 @@
     <ClInclude Include="Source\Engine\Core\EngineLoop.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Game\GameSpecificCommands.h" />
+    <ClInclude Include="Source\Framework\Platform\Platform_Windows.h" />
+    <ClInclude Include="Source\Framework\Platform\Platform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

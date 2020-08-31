@@ -200,7 +200,7 @@
       <ConformanceMode>true</ConformanceMode>
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <PreprocessorDefinitions>_MBCS;AC_DEBUG;AC_D3D12;NOMINMAX;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;AC_DEBUG;AC_D3D12;NOMINMAX;WIN32_LEAN_AND_MEAN;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -258,11 +258,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Game\Windows\GameSpecificMain.cpp" />
     <ClCompile Include="Source\Graphics\D3D11\D3D11Renderer.cpp" />
     <ClCompile Include="Source\Graphics\D3D11\HAL\D3D11Factory.cpp" />
     <ClCompile Include="Source\Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
-    <ClCompile Include="Source\MainApp\Win32\ApplicationMain_Win32.cpp" />
     <ClCompile Include="Source\System\Input\InputHandler.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
@@ -285,6 +285,8 @@
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Framework\App\AppContext.h" />
+    <ClInclude Include="Source\Framework\Platform\Platform.h" />
+    <ClInclude Include="Source\Framework\Platform\Platform_Windows.h" />
     <ClInclude Include="Source\Graphics\D3D11\D3D11Renderer.h" />
     <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Factory.h" />
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
