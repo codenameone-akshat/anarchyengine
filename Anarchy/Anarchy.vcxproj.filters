@@ -19,12 +19,12 @@
     <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\Framework\Window\WindowManager.cpp" />
-    <ClCompile Include="Source\MainApp\Main.cpp" />
     <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="Source\Utils\Logger\Logger.cpp" />
     <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp" />
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
     <ClCompile Include="Source\System\Input\InputHandler.cpp" />
+    <ClCompile Include="Source\MainApp\Win32\ApplicationMain_Win32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
@@ -68,6 +68,8 @@
     <ClInclude Include="Source\Utils\StringUtils\StringUtils.h" />
     <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
     <ClInclude Include="Source\System\Input\InputHandler.h" />
+    <ClInclude Include="Source\Engine\Core\EngineLoop.h" />
+    <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -38,7 +38,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{69C0199A-BF73-4480-9B42-C3744A6A38BA}</ProjectGuid>
     <RootNamespace>Anarchy</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -262,6 +262,7 @@
     <ClCompile Include="Source\Graphics\D3D11\HAL\D3D11Factory.cpp" />
     <ClCompile Include="Source\Graphics\GfxRenderer.cpp" />
     <ClCompile Include="Source\Game\GameSpecificMain.cpp" />
+    <ClCompile Include="Source\MainApp\Win32\ApplicationMain_Win32.cpp" />
     <ClCompile Include="Source\System\Input\InputHandler.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
@@ -274,14 +275,15 @@
     <ClCompile Include="Source\Framework\Includes\FrameworkGlobals.cpp" />
     <ClCompile Include="Source\Framework\Window\Window.cpp" />
     <ClCompile Include="Source\Framework\Window\WindowManager.cpp" />
-    <ClCompile Include="Source\MainApp\Main.cpp" />
     <ClCompile Include="Source\Utils\FileWatcher\FileWatcher.cpp" />
     <ClCompile Include="Source\Utils\Logger\Logger.cpp" />
     <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp" />
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Engine\Core\EngineLoop.h" />
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
+    <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Framework\App\AppContext.h" />
     <ClInclude Include="Source\Graphics\D3D11\D3D11Renderer.h" />
     <ClInclude Include="Source\Graphics\D3D11\HAL\D3D11Factory.h" />
