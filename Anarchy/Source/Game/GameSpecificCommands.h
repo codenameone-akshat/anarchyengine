@@ -7,14 +7,13 @@
 
 namespace anarchy::game
 {
-    class GameSpecificMain
+    class GameSpecificCommands
     {
     public:
-        GameSpecificMain() = default;
-        ~GameSpecificMain() = default;
+        GameSpecificCommands() = default;
+        ~GameSpecificCommands() = default;
 
         void InitializeSettings();
-        void MainRun();
 
         inline std::shared_ptr<GameSettings> GetSettings() { return m_settings; }
 

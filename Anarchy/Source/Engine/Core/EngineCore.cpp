@@ -14,8 +14,8 @@ namespace anarchy
         AppContext::SetMainWindowDesc(m_windowManger->GetWindowDesc(m_mainWindowIndex));
 
         // Initialize the game specific settings
-        m_gameSpecificMain->InitializeSettings();
-        EngineContext::SetGameSpecificSettings(m_gameSpecificMain->GetSettings());
+        m_gameSpecificCommands->InitializeSettings();
+        EngineContext::SetGameSpecificSettings(m_gameSpecificCommands->GetSettings());
 
         // Initialize the Renderer
         m_renderer->Initialize();
