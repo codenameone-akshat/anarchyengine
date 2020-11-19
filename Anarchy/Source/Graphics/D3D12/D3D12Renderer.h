@@ -12,6 +12,7 @@
 #include "Graphics/HLSL/HLSLShader.h"
 #include "Graphics/D3D12/HAL/D3D12Factory.h"
 #include "Graphics/D3D12/HAL/D3D12Hardware.h"
+#include "Graphics/ImGui/ImGuiWrapper.h"
 
 namespace anarchy
 {
@@ -68,7 +69,8 @@ namespace anarchy
 
         std::shared_ptr<D3D12Factory> m_factory = std::make_shared<D3D12Factory>();
         std::shared_ptr<D3D12Adapter> m_adapter = std::make_shared<D3D12Adapter>();
-        std::shared_ptr<D3D12Device> m_device = std::make_shared<D3D12Device>();
+		std::shared_ptr<D3D12Device> m_device = std::make_shared<D3D12Device>();
+		std::shared_ptr<ImGuiWrapper> m_imGuiWrapper = std::make_shared<ImGuiWrapper>();
 
         ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
         ComPtr<IDXGISwapChain4> m_swapChain = nullptr;

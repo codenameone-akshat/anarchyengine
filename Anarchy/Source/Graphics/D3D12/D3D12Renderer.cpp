@@ -23,6 +23,7 @@ namespace anarchy
     {
         InitializeAPI();
         InitalizeResources();
+        m_imGuiWrapper->InitializeImGuiLib();
     }
 
     void D3D12Renderer::PreRender()
@@ -47,6 +48,7 @@ namespace anarchy
     void D3D12Renderer::Destruct()
     {
         WaitForPreviousFrame();
+        m_imGuiWrapper->Shutdown();
         CloseHandle(m_fenceEvent);
     }
 
