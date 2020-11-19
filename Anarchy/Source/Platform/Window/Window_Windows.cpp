@@ -33,7 +33,8 @@ namespace anarchy
 
 	void Window_Windows::ShowWindow()
 	{
-		::ShowWindow(m_rawWindowHandle, 0);
+		::ShowWindow(m_rawWindowHandle, SW_SHOWNORMAL);
+		auto error = ::GetLastError();
 	}
 
 	void Window_Windows::DestroyWindow()
