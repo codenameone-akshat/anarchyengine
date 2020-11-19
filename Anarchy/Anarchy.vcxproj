@@ -204,6 +204,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
+    <ClCompile Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.cpp" />
+    <ClCompile Include="Source\Graphics\ImGui\imgui.cpp" />
+    <ClCompile Include="Source\Graphics\ImGui\ImGuiWrapper.cpp" />
+    <ClCompile Include="Source\Graphics\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="Source\Graphics\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="Source\Graphics\ImGui\Windows\imgui_impl_win32.cpp" />
     <ClCompile Include="Source\Platform\Window\WindowEventHandler_Windows.cpp" />
     <ClCompile Include="Source\Platform\Window\Window_Windows.cpp" />
     <ClCompile Include="Source\Engine\Input\InputHandler.cpp" />
@@ -225,6 +231,15 @@
     <ClInclude Include="Source\Framework\ClassHelpers.h" />
     <ClInclude Include="Source\Framework\FrameworkHelpers.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
+    <ClInclude Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.h" />
+    <ClInclude Include="Source\Graphics\ImGui\imconfig.h" />
+    <ClInclude Include="Source\Graphics\ImGui\imgui.h" />
+    <ClInclude Include="Source\Graphics\ImGui\ImGuiWrapper.h" />
+    <ClInclude Include="Source\Graphics\ImGui\imgui_internal.h" />
+    <ClInclude Include="Source\Graphics\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="Source\Graphics\ImGui\imstb_textedit.h" />
+    <ClInclude Include="Source\Graphics\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Source\Graphics\ImGui\Windows\imgui_impl_win32.h" />
     <ClInclude Include="Source\Platform\Assertion.h" />
     <ClInclude Include="Source\Platform\ResultHelper.h" />
     <ClInclude Include="Source\Platform\Platform.h" />
