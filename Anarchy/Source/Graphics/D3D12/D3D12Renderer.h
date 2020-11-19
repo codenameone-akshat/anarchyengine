@@ -30,7 +30,7 @@ namespace anarchy
         virtual void PreRender() override;
         virtual void Render() override;
         virtual void PostRender() override;
-        virtual void Destruct() override;
+        virtual void Shutdown() override;
 
     private:
 

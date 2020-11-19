@@ -13,7 +13,7 @@ namespace anarchy
         virtual void PreRender() {};
         virtual void Render() {};
         virtual void PostRender() {};
-        virtual void Destruct() {};
+        virtual void Shutdown() {};
     };
 }
 

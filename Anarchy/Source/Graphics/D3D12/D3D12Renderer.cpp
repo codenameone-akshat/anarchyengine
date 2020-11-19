@@ -47,7 +47,7 @@ namespace anarchy
     {
     }
 
-    void D3D12Renderer::Destruct()
+    void D3D12Renderer::Shutdown()
     {
         WaitForPreviousFrame();
         m_imGuiWrapper->Shutdown();
@@ -461,7 +461,8 @@ namespace anarchy
         m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
         m_commandList->IASetIndexBuffer(&m_indexBufferView);
         m_commandList->DrawIndexedInstanced(m_indicesPerInstance, 1, 0, 0, 0);
-		m_imGuiWrapper->Render(m_commandList);
+		
+        m_imGuiWrapper->Render(m_commandList);
 
         // Back Buffer used to Present
         D3D12_RESOURCE_BARRIER presentBarrier = {};

@@ -39,6 +39,7 @@ namespace anarchy
     void EngineCore::ShutDownEngine()
     {
         // Cleanup. Maybe call from Dtor for RAII?
+        m_renderer->Shutdown();
         m_mainWindow->DestroyWindow();
     }
 }

@@ -39,9 +39,9 @@ namespace anarchy
 		static int counter = 0;
 		static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-		ImGui::Begin("Debug Menu");                          // Create a window called "Hello, world!" and append into it.
+		ImGui::Begin("Debug Menu");
 
-		ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+		ImGui::ColorEdit3("Clear Color", (float*)&clear_color); // Edit 3 floats representing a color
 		EngineContext::SetClearColor(math::Vec4<float>(clear_color.x, clear_color.y, clear_color.z, clear_color.w));
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
