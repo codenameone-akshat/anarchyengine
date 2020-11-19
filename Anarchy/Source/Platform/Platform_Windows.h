@@ -50,7 +50,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return string("");
 	}();
 	Assert(!sourceDirPath.empty(), "Cannot find root directory.");
-	AppContext::SetSourceDirPath(sourceDirPath);
 
 	const int32 argc = [](const string& argv)
 	{
