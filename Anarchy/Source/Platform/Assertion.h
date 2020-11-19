@@ -34,9 +34,11 @@ namespace anarchy
 #ifdef AC_DEBUG
 #define Assert(x, message) TriggerAssertion(x, message, __FILE__, __LINE__)
 #define SoftAssert(x, message) TriggerSoftAssertion(x, message, __FILE__, __LINE__)
+#define NoImplAssert TriggerAssertion(false, "No implementation error", __FILE__, __LINE__)
 #else
 #define Assert(x, message)
 #define SoftAssert(x, message)
+#define NoImplAssert TriggerAssertion(false, "No implementation error", __FILE__, __LINE__)
 #endif // AC_DEBUG
 }
 

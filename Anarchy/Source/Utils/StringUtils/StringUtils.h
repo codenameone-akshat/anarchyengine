@@ -5,6 +5,8 @@
 #include <windows.h>
 #endif // PLATFORM_WINDOWS
 
+#include "Platform/Assertion.h"
+
 namespace anarchy
 {
 	template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>
@@ -49,6 +51,19 @@ namespace anarchy
         return std::string(); // Return an empty string.
     }
 }
+#else
+	template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::string>>>
+    T string_cast(const std::wstring input)
+    {
+        NoImplAssert;
+    }
+
+	template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::wstring>>>
+    T string_cast(const std::string input)
+    {
+		NoImplAssert;
+    }
 #endif // PLATFORM_WINDOWS
+
 
 #endif // _STRING_UTILS_H_
