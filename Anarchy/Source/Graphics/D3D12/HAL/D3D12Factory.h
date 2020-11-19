@@ -5,7 +5,8 @@
 
 #include <dxgi1_6.h>
 
-#include "Platform/Types/Types.h"
+#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkHeaders.h"
 
 namespace anarchy
 {
@@ -20,16 +21,16 @@ namespace anarchy
         inline void AppendDXGIFactoryFlags(const uint32_t flags) { m_dxgiFactoryFlags |= flags; }
         inline uint32_t GetDXGIFactoryFlags() const { return m_dxgiFactoryFlags; }
 
-        inline ComPtr<IDXGIFactory7>& GetRawFactory() { return m_factory; }
+        inline AC_ComPtr<IDXGIFactory7>& GetRawFactory() { return m_factory; }
 
-        ComPtr<IDXGIAdapter4> GetD3D12SupportedHardwareAdapter() const;
+        AC_ComPtr<IDXGIAdapter4> GetD3D12SupportedHardwareAdapter() const;
 
-        ComPtr<IDXGISwapChain4> CreateSwapChain(ComPtr<ID3D12CommandQueue> commandQueue, const HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* desc,
-            const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, ComPtr<IDXGIOutput> restrictToOutput) const;
+        AC_ComPtr<IDXGISwapChain4> CreateSwapChain(AC_ComPtr<ID3D12CommandQueue> commandQueue, const HWND hWnd, const DXGI_SWAP_CHAIN_DESC1* desc,
+            const DXGI_SWAP_CHAIN_FULLSCREEN_DESC* fullscreenDesc, AC_ComPtr<IDXGIOutput> restrictToOutput) const;
 
     private:
         uint32_t m_dxgiFactoryFlags = NULL;
-        ComPtr<IDXGIFactory7> m_factory = nullptr;
+        AC_ComPtr<IDXGIFactory7> m_factory = nullptr;
     };
 }
 

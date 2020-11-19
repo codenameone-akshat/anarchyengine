@@ -1,4 +1,4 @@
-#if defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
+#ifdef AC_D3D12
 
 #ifndef _D3D12_RENDERER_H_
 #define _D3D12_RENDERER_H_
@@ -7,7 +7,6 @@
 #include <memory>
 #include <d3d12.h>
 
-#include "Framework/ClassHelpers.h"
 #include "Graphics/GfxRenderer.h"
 #include "Graphics/HLSL/HLSLShader.h"
 #include "Graphics/D3D12/HAL/D3D12Factory.h"
@@ -20,7 +19,6 @@ namespace anarchy
 
     class D3D12Renderer : public GfxRenderer
     {
-        VIRTUAL_DTOR_GUARD(GfxRenderer);
     public:
         D3D12Renderer() = default;
         ~D3D12Renderer() = default;
@@ -70,31 +68,31 @@ namespace anarchy
         std::shared_ptr<D3D12Adapter> m_adapter = std::make_shared<D3D12Adapter>();
         std::shared_ptr<D3D12Device> m_device = std::make_shared<D3D12Device>();
 
-        ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
-        ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
-        ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
-        std::array<ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets = { };
-        ComPtr<ID3D12CommandAllocator> m_commandAllocator = nullptr;
+        AC_ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
+        AC_ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
+        AC_ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
+        std::array<AC_ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets = { };
+        AC_ComPtr<ID3D12CommandAllocator> m_commandAllocator = nullptr;
         std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputElementDescs = { };
 
-        ComPtr<ID3D12PipelineState> m_graphicsPSO = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
-        ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
+        AC_ComPtr<ID3D12PipelineState> m_graphicsPSO = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
+        AC_ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
 
-        ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
+        AC_ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
 
         std::vector<HLSLShader> m_shaders = { }; // Rework required for GraphicsPipelineState
-        std::vector<string> m_shaderFullFileNames = { };
+        std::vector<AC_String> m_shaderFullFileNames = { };
 
         // Here for now. TODO: Remove from here maybe?
-        ComPtr<ID3D12Resource> m_vertexBuffer = nullptr;
+        AC_ComPtr<ID3D12Resource> m_vertexBuffer = nullptr;
         D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView = {};
-        ComPtr<ID3D12Resource> m_indexBuffer = nullptr;
+        AC_ComPtr<ID3D12Resource> m_indexBuffer = nullptr;
         D3D12_INDEX_BUFFER_VIEW m_indexBufferView = {};
         uint32_t m_indicesPerInstance = 0;
 
         // Sync Objects
-        ComPtr<ID3D12Fence1> m_fence = nullptr;
-        handle m_fenceEvent = nullptr;
+        AC_ComPtr<ID3D12Fence1> m_fence = nullptr;
+        AC_Handle m_fenceEvent = nullptr;
         uint64_t m_fenceValue = 0;
 
         uint32_t m_currentBackBufferIndex = 0;
@@ -108,4 +106,4 @@ namespace anarchy
 
 #endif // _D3D12_RENDERER_H_
 
-#endif // defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
+#endif // AC_D3D12
