@@ -8,7 +8,7 @@
 #endif // AC_DEBUG
 
 #include "Framework/ClassHelpers.h"
-#include "Framework/FrameworkDefines.h"
+#include "Framework/FrameworkHelpers.h"
 #include "Framework/SerializationHelpers.h"
 #include "Framework/Math/Vector/Vec2.hpp"
 #include "Framework/Math/Vector/Vec3.hpp"

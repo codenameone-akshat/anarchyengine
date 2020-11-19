@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "Logger.h"
-#include "Framework/FrameworkDefines.h"
+#include "Framework/FrameworkHelpers.h"
 
 namespace anarchy
 {

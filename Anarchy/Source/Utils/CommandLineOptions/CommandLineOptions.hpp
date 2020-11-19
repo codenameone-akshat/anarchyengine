@@ -3,7 +3,6 @@
 
 #include <functional>
 
-#include "Framework/FrameworkAliases.h"
 #include "Platform/Types/Types.h"
 
 namespace anarchy
