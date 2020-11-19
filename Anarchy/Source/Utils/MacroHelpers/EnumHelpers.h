@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <vector>
 
+#include "Framework/FrameworkAliases.h"
 #include "Platform/Types/Types.h"
 
 using namespace anarchy;

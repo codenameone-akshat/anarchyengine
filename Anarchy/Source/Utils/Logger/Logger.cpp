@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "Logger.h"
+#include "Framework/FrameworkGlobals.h"
 #include "Framework/FrameworkDefines.h"
 
 namespace anarchy

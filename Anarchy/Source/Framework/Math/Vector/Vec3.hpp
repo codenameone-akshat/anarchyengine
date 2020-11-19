@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cmath>
 
+#include "Framework/FrameworkGlobals.h"
 #include "Framework/SerializationHelpers.h"
 
 #define FORCEINLINE __forceinline
@@ -158,7 +159,7 @@ namespace anarchy::math
         [[nodiscard]] FORCEINLINE Vec3<T> operator/(const Vec3<T>& operand) const
         {
             //divide by 0 error
-            Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f, "Attempting Divide by 0 | Vector3 Division");
+            AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
             Vec3<T> result;
             result.x = this->x / operand.x;
@@ -172,7 +173,7 @@ namespace anarchy::math
         [[nodiscard]] FORCEINLINE Vec3<T> operator/(const T operand) const
         {
             //divide by 0 error
-            Assert(operand != 0.0f, "Attempting Divide by 0 | Vector3 Division");
+            AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
             Vec3<T> result;
             result.x = this->x / operand;
@@ -239,7 +240,7 @@ namespace anarchy::math
         [[maybe_unused]] FORCEINLINE Vec3<T> operator/=(const Vec3<T>& operand)
         {
             //divide by 0 error
-            Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f, "Attempting Divide by 0 | Vector3 Division");
+            AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
             this->x /= operand.x;
             this->y /= operand.y;
@@ -251,7 +252,7 @@ namespace anarchy::math
         [[maybe_unused]] FORCEINLINE Vec3<T> operator/=(const T operand)
         {
             //divide by 0 error
-            Assert(operand != 0.0f, "Attempting Divide by 0 | Vector3 Division");
+            AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector3 Division");
 
             this->x /= operand;
             this->y /= operand;

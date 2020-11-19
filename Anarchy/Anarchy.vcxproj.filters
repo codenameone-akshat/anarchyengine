@@ -16,6 +16,7 @@
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
     <ClCompile Include="Source\Platform\Window\Window_Windows.cpp" />
+    <ClCompile Include="Source\Framework\FrameworkGlobals.cpp" />
     <ClCompile Include="Source\Platform\Window\WindowEventHandler_Windows.cpp" />
     <ClCompile Include="Source\Engine\Input\InputHandler.cpp" />
   </ItemGroup>
@@ -65,6 +66,10 @@
     <ClInclude Include="Source\Platform\Types\Types.h" />
     <ClInclude Include="Source\Framework\AppContext.h" />
     <ClInclude Include="Source\Framework\ClassHelpers.h" />
+    <ClInclude Include="Source\Framework\FrameworkAliases.h" />
+    <ClInclude Include="Source\Framework\FrameworkDefines.h" />
+    <ClInclude Include="Source\Framework\FrameworkGlobals.h" />
+    <ClInclude Include="Source\Framework\FrameworkHeaders.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
     <ClInclude Include="Source\Platform\Assertion.h" />
     <ClInclude Include="Source\Platform\Window\WindowDesc_Common.h" />
@@ -74,8 +79,6 @@
     <ClInclude Include="Source\Engine\Serialization\DeSerializer.h" />
     <ClInclude Include="Source\Engine\Serialization\Serializer.h" />
     <ClInclude Include="Source\Platform\File.h" />
-    <ClInclude Include="Source\Platform\ResultHelper.h" />
-    <ClInclude Include="Source\Framework\FrameworkHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

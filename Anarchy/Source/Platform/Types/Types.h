@@ -3,10 +3,6 @@
 
 #include <string>
 
-#ifdef PLATFORM_WINDOWS
-#include <wrl.h>
-#endif // PLATFORM_WINDOWS
-
 namespace anarchy
 {
 	// byte
@@ -46,11 +42,5 @@ namespace anarchy
 	// typeless
 	using voidptr			= void*;
 	using handle			= void*;
-
-#ifdef PLATFORM_WINDOWS
-	template<typename T>
-	using ComPtr			= Microsoft::WRL::ComPtr<T>;
-#endif // PLATFORM_WINDOWS
-
 }
 #endif // !_TYPES_H_

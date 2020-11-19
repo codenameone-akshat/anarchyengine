@@ -203,6 +203,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Framework\FrameworkGlobals.cpp" />
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
     <ClCompile Include="Source\Platform\Window\WindowEventHandler_Windows.cpp" />
     <ClCompile Include="Source\Platform\Window\Window_Windows.cpp" />
@@ -223,10 +224,12 @@
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Framework\AppContext.h" />
     <ClInclude Include="Source\Framework\ClassHelpers.h" />
-    <ClInclude Include="Source\Framework\FrameworkHelpers.h" />
+    <ClInclude Include="Source\Framework\FrameworkAliases.h" />
+    <ClInclude Include="Source\Framework\FrameworkDefines.h" />
+    <ClInclude Include="Source\Framework\FrameworkGlobals.h" />
+    <ClInclude Include="Source\Framework\FrameworkHeaders.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
     <ClInclude Include="Source\Platform\Assertion.h" />
-    <ClInclude Include="Source\Platform\ResultHelper.h" />
     <ClInclude Include="Source\Platform\Platform.h" />
     <ClInclude Include="Source\Framework\App\AppContext.h" />
     <ClInclude Include="Source\Framework\Types\NumericTypeLimits.h" />
