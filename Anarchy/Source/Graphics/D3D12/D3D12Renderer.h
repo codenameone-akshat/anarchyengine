@@ -1,4 +1,4 @@
-#ifdef AC_D3D12
+#if defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
 
 #ifndef _D3D12_RENDERER_H_
 #define _D3D12_RENDERER_H_
@@ -7,6 +7,7 @@
 #include <memory>
 #include <d3d12.h>
 
+#include "Framework/ClassHelpers.h"
 #include "Graphics/GfxRenderer.h"
 #include "Graphics/HLSL/HLSLShader.h"
 #include "Graphics/D3D12/HAL/D3D12Factory.h"
@@ -19,6 +20,7 @@ namespace anarchy
 
     class D3D12Renderer : public GfxRenderer
     {
+        VIRTUAL_DTOR_GUARD(GfxRenderer);
     public:
         D3D12Renderer() = default;
         ~D3D12Renderer() = default;
@@ -81,7 +83,7 @@ namespace anarchy
         AC_ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
 
         std::vector<HLSLShader> m_shaders = { }; // Rework required for GraphicsPipelineState
-        std::vector<AC_String> m_shaderFullFileNames = { };
+        std::vector<string> m_shaderFullFileNames = { };
 
         // Here for now. TODO: Remove from here maybe?
         AC_ComPtr<ID3D12Resource> m_vertexBuffer = nullptr;
@@ -92,7 +94,7 @@ namespace anarchy
 
         // Sync Objects
         AC_ComPtr<ID3D12Fence1> m_fence = nullptr;
-        AC_Handle m_fenceEvent = nullptr;
+        handle m_fenceEvent = nullptr;
         uint64_t m_fenceValue = 0;
 
         uint32_t m_currentBackBufferIndex = 0;
@@ -106,4 +108,4 @@ namespace anarchy
 
 #endif // _D3D12_RENDERER_H_
 
-#endif // AC_D3D12
+#endif // defined(AC_D3D12) && defined(PLATFORM_WINDOWS)

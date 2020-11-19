@@ -2,7 +2,7 @@
 
 #include <cstring>
 
-#include "Framework/Includes/FrameworkGlobals.h"
+#include "Framework/FrameworkGlobals.h"
 #include "Framework/Math/Vector/Vec2.hpp"
 #include "Framework/Math/Vector/Vec3.hpp"
 #include "Framework/Math/Vector/Vec4.hpp"

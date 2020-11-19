@@ -3,7 +3,8 @@
 
 #include <functional>
 
-#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/FrameworkAliases.h"
+#include "Platform/Types/Types.h"
 
 namespace anarchy
 {
@@ -16,13 +17,13 @@ namespace anarchy
 		void Init();
 
 		template <typename T>
-		void RegisterCommandLineOption(AC_String optionString, std::function<void(T arg...)> functor);
+		void RegisterCommandLineOption(string optionString, std::function<void(T arg...)> functor);
 	private:
 		
 	};
 	
 	template<typename T>
-	inline void CommandLineOptions::RegisterCommandLineOption(AC_String optionString, std::function<void(T arg...)> functor)
+	inline void CommandLineOptions::RegisterCommandLineOption(string optionString, std::function<void(T arg...)> functor)
 	{
 	}
 }

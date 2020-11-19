@@ -1,28 +1,36 @@
-#include "EngineCore.h"
-#include "EngineContext.h"
-#include "Framework/App/AppContext.h"
+#include "Engine/Core/EngineCore.h"
+#include "Engine/Core/EngineContext.h"
+#include "Framework/AppContext.h"
 
 namespace anarchy
 {
-    void EngineCore::StartEngine()
+    void EngineCore::InitializeEngine()
     {
         // Initialize
-        m_mainWindowIndex = m_windowManger->RequestNewDefaultWindow(AppContext::GetMainParams().hInstance, AppContext::GetWndProcHandle());
-        m_windowManger->ShowWindow(m_mainWindowIndex, AppContext::GetMainParams().nShowCmd);
+        m_windowEventHandler->Initialize();
+		AppContext::SetWindowEventHandler(m_windowEventHandler);
 
-        AppContext::SetHandleToActiveWindow(m_windowManger->GetHandleToWindow(m_mainWindowIndex));
-        AppContext::SetMainWindowDesc(m_windowManger->GetWindowDesc(m_mainWindowIndex));
+        m_mainWindow->InitWindowParams(); // default init
+        m_mainWindow->SetMessageProcedureFunctor(AppContext::GetMessageHandlerFunctor());
+        m_mainWindow->CreateNewWindow();
+        m_mainWindow->ShowWindow();
+
+        AppContext::SetHandleToMainWindow(m_mainWindow);
+        AppContext::SetMainWindowDesc(m_mainWindow->GetWindowDesc());
 
         // Initialize the game specific settings
         m_gameSpecificCommands->InitializeSettings();
         EngineContext::SetGameSpecificSettings(m_gameSpecificCommands->GetSettings());
-
+        
         // Initialize the Renderer
         m_renderer->Initialize();
     }
 
     void EngineCore::Update()
     {
+        m_windowEventHandler->PollMessage();
+		m_input.PollInputFromOS();
+
         m_renderer->PreRender();
         m_renderer->Render();
         m_renderer->PostRender();
@@ -31,5 +39,6 @@ namespace anarchy
     void EngineCore::ShutDownEngine()
     {
         // Cleanup. Maybe call from Dtor for RAII?
+        m_mainWindow->DestroyWindow();
     }
 }

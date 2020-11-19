@@ -94,6 +94,11 @@ Anarchy Specifics
 
 	- Guards will be of the form _HEADER_FILE_NAME_H_.
 		- Example: _ENGINE_CONTEXT_H_
+	
+	- Please use includes from the AC_ROOT folders
+		- Example: #include "Platform/Types/Types.h"
+
+	- Please use forward slash / in include statements.
 
 	- Follow Cpp Core Guidelines as much as possible. (http://isocpp.github.io/CppCoreGuidelines)
 

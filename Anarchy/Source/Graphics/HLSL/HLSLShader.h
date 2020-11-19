@@ -6,8 +6,8 @@
 #include <d3d12.h>
 #include <vector>
 
-#include "Framework/Includes/FrameworkAliases.h"
-#include "Framework/Includes/FrameworkGlobals.h"
+#include "Framework/FrameworkAliases.h"
+#include "Framework/FrameworkGlobals.h"
 #include "Utils/MacroHelpers/EnumHelpers.h"
 
 namespace anarchy
@@ -27,7 +27,7 @@ namespace anarchy
     class HLSLShaderDesc
     {
     public:
-        AC_String shaderEntryPoint = "";
+        string shaderEntryPoint = "";
         HLSLShaderTarget shaderTarget;
         uint32_t shaderCompileFlags = NULL;
     };
@@ -44,14 +44,14 @@ namespace anarchy
         vs_5_0	Vertex shader*/
 
         HLSLShader() = default;
-        HLSLShader(AC_String fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation = true);
+        HLSLShader(string fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation = true);
         ~HLSLShader() = default;
 
         void CompileShader();
         inline D3D12_SHADER_BYTECODE GetShaderByteCode() { return m_shaderByteCode; }
 
     private:
-        AC_String m_shaderFilePath = "";
+        string m_shaderFilePath = "";
         HLSLShaderDesc m_shaderDesc;
         AC_ComPtr<ID3DBlob> m_shaderBlob;
 

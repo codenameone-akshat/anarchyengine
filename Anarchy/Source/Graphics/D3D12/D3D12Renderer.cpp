@@ -1,13 +1,14 @@
-#ifdef AC_D3D12
+#if defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
 
 #include <limits>
 
 #include "D3D12Renderer.h"
 #include "Engine/Core/EngineContext.h"
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
-#include "Framework/App/AppContext.h"
-#include "Framework/Includes/FrameworkAliases.h"
-#include "Framework/Includes/FrameworkGlobals.h"
+#include "Framework/AppContext.h"
+#include "Framework/FrameworkAliases.h"
+#include "Framework/FrameworkGlobals.h"
+#include "Framework/FrameworkDefines.h"
 #include "Framework/Math/Vector/Vec3.hpp"
 #include "Framework/Math/Vector/Vec4.hpp"
 #include "Utils/Logger/Logger.h"
@@ -148,7 +149,7 @@ namespace anarchy
         swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
         swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 
-        m_swapChain = m_factory->CreateSwapChain(m_graphicsCommandQueue, AppContext::GetHandleToActiveWindow()->GetRawHandleToWindow(), &swapChainDesc, nullptr, nullptr);
+        m_swapChain = m_factory->CreateSwapChain(m_graphicsCommandQueue, AppContext::GetHandleToMainWindow()->GetRawHandleToWindow(), &swapChainDesc, nullptr, nullptr);
 
         m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
     }
@@ -458,4 +459,4 @@ namespace anarchy
     }
 }
 
-#endif // AC_D3D12
+#endif // defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
