@@ -1,8 +1,3 @@
-#ifndef _PLATFORM_WINDOWS_H_
-#define _PLATFORM_WINDOWS_H_
-
-#ifdef PLATFORM_WINDOWS
-
 #include "Framework/App/AppContext.h"
 #include "Framework/Includes/FrameworkHeaders.h"
 
@@ -10,10 +5,8 @@
 
 namespace anarchy { extern void EngineMain(); } // Defined in MainEngine.cpp
 
-void InitAnarchyPlatform_Windows(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+void anarchymain()
 {
-    anarchy::AppContext::SetMainParams({ hInstance, hPrevInstance, lpCmdLine, nShowCmd });
-
     anarchy::AC_String sourceDirPath = []()
     {
         const auto hModule = GetModuleHandle(NULL); // Get handle to current module
@@ -21,7 +14,7 @@ void InitAnarchyPlatform_Windows(HINSTANCE hInstance, HINSTANCE hPrevInstance, L
 
         anarchy::AC_CharPtr outStr = static_cast<anarchy::AC_CharPtr>(calloc(pathLength, sizeof(char)));
 
-        if (::GetModuleFileNameA(hModule, outStr, pathLength))
+        if (GetModuleFileNameA(hModule, outStr, pathLength))
         {
             anarchy::AC_String outputString(outStr);
             free(outStr);
@@ -40,8 +33,15 @@ void InitAnarchyPlatform_Windows(HINSTANCE hInstance, HINSTANCE hPrevInstance, L
     }();
 
     anarchy::AppContext::SetSourceDirPath(sourceDirPath);
+
+    anarchy::EngineMain();
 }
 
-#endif // PLATFORM_WINDOWS
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+{
+    anarchy::AppContext::SetMainParams({ hInstance, hPrevInstance, lpCmdLine, nShowCmd });
 
-#endif // !_PLATFORM_WINDOWS_H_
+    anarchymain();
+
+    return 0;
+}
