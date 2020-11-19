@@ -1,6 +1,7 @@
 #include "WindowEventHandler.h"
 #include "Framework/AppContext.h"
 #include "Engine/Core/EngineContext.h"
+#include "Graphics/ImGui/Windows/imgui_impl_win32.h"
 
 namespace anarchy
 {
@@ -37,10 +38,16 @@ namespace anarchy
 	}
 
 #define WindowEventHandlerPtr AppContext::GetWindowEventHandler()
+	
+	// Don't know why this a'int needed
+	//extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// Namespace Scope. Not in Class. (Do something with this?)
 	LRESULT CALLBACK MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	{
+		if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+			return true;
+
 		switch (message)
 		{
 		case WM_CLOSE:

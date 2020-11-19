@@ -20,10 +20,10 @@ namespace anarchy
 		void InitializeImGuiLib();
 
 #if defined(PLATFORM_WINDOWS) && defined (AC_D3D12)
-		void InitializeImGuiWindowsD3D12(HWND mainWindowHandle, ID3D12Device* device, int numFramesInFlight, DXGI_FORMAT rtvFormat, ID3D12DescriptorHeap* CBVSRVHeap, D3D12_CPU_DESCRIPTOR_HANDLE fontSRV_CPUDescHandle, D3D12_GPU_DESCRIPTOR_HANDLE fontSRV_GPUDescHandle);
+		void InitializeImGuiWindowsD3D12(HWND mainWindowHandle, ComPtr<ID3D12Device> device, int numFramesInFlight, DXGI_FORMAT rtvFormat, ComPtr<ID3D12DescriptorHeap> srvHeap, D3D12_CPU_DESCRIPTOR_HANDLE fontSRV_CPUDescHandle, D3D12_GPU_DESCRIPTOR_HANDLE fontSRV_GPUDescHandle);
 		void NewFrame();
 		void SetupDebugUI(); // TODO: Move this to the game project later
-		void Render(ComPtr<ID3D12GraphicsCommandList> graphicsCommandlist);
+		void Render(ComPtr<ID3D12GraphicsCommandList>& graphicsCommandlist);
 		void Shutdown();
 #endif // PLATFORM_WINDOWS && AC_D3D12
 	};

@@ -44,6 +44,7 @@ namespace anarchy
         void CreateGraphicsCommandQueue();
         void CreateSwapChain();
         void CreateRenderTargetView();
+        void CreateCBVSRVHeap();
         void PopulateShaders();
         // End Initializing
 
@@ -74,7 +75,8 @@ namespace anarchy
 
         ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
         ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
-        ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
+		ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
+		ComPtr<ID3D12DescriptorHeap> m_srvUavHeap = nullptr;
         std::array<ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets = { };
         ComPtr<ID3D12CommandAllocator> m_commandAllocator = nullptr;
         std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputElementDescs = { };
@@ -100,7 +102,8 @@ namespace anarchy
         uint64_t m_fenceValue = 0;
 
         uint32_t m_currentBackBufferIndex = 0;
-        uint32_t m_rtvHeapIncrementSize = 0;
+		uint32_t m_rtvHeapIncrementSize = 0;
+		uint32_t m_cbvSrvHeapIncrementSize = 0;
 
         // Render Objects
         D3D12_VIEWPORT m_viewport = {};

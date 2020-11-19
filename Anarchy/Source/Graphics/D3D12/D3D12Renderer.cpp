@@ -24,10 +24,12 @@ namespace anarchy
         InitializeAPI();
         InitalizeResources();
         m_imGuiWrapper->InitializeImGuiLib();
+        m_imGuiWrapper->InitializeImGuiWindowsD3D12(AppContext::GetHandleToMainWindow()->GetRawHandleToWindow(), m_device->GetRawDevice(), g_numFrameBuffers, DXGI_FORMAT_R8G8B8A8_UNORM, m_srvUavHeap, m_srvUavHeap->GetCPUDescriptorHandleForHeapStart(), m_srvUavHeap->GetGPUDescriptorHandleForHeapStart());
     }
 
     void D3D12Renderer::PreRender()
     {
+        m_imGuiWrapper->NewFrame();
         RecordCommands();
     }
 
@@ -66,6 +68,7 @@ namespace anarchy
         CreateGraphicsCommandQueue();
         CreateSwapChain();
         CreateRenderTargetView();
+        CreateCBVSRVHeap();
         m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator);
         PopulateShaders();
 
@@ -172,6 +175,16 @@ namespace anarchy
             m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
             rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
         }
+    }
+
+    void D3D12Renderer::CreateCBVSRVHeap()
+    {
+		D3D12_DESCRIPTOR_HEAP_DESC srvUavHeapDesc = {};
+        srvUavHeapDesc.NumDescriptors = 1;
+        srvUavHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+        srvUavHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+        m_device->CreateDescriptorHeap(srvUavHeapDesc, m_srvUavHeap);
+        m_cbvSrvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(srvUavHeapDesc.Type);
     }
 
     void D3D12Renderer::PopulateShaders()
@@ -431,19 +444,24 @@ namespace anarchy
         renderTargetBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
         renderTargetBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 
+		ID3D12DescriptorHeap* ptrToHeaps[] = { m_srvUavHeap.Get() };
+		m_commandList->SetDescriptorHeaps(1, ptrToHeaps);
+
         m_commandList->ResourceBarrier(1, &renderTargetBarrier);
 
         D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
         rtvHandle.ptr += (m_currentBackBufferIndex * m_rtvHeapIncrementSize);
 
+        auto fetchedColor = EngineContext::GetClearColor();
         m_commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
-
-        const float color[] = { 0.0f, 0.5f, 0.7f, 1.0f };
-        m_commandList->ClearRenderTargetView(rtvHandle, color, 0, nullptr);
+        m_commandList->ClearRenderTargetView(rtvHandle, (float*)&fetchedColor, 0, nullptr);
+        
+        
         m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
         m_commandList->IASetIndexBuffer(&m_indexBufferView);
         m_commandList->DrawIndexedInstanced(m_indicesPerInstance, 1, 0, 0, 0);
+		m_imGuiWrapper->Render(m_commandList);
 
         // Back Buffer used to Present
         D3D12_RESOURCE_BARRIER presentBarrier = {};
