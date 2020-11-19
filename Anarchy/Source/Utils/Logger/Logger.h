@@ -4,8 +4,6 @@
 #include <array>
 #include <d3d12.h>
 
-#include "Framework/FrameworkAliases.h"
-#include "Framework/FrameworkHeaders.h"
 #include "Utils/MacroHelpers/EnumHelpers.h"
 
 namespace anarchy

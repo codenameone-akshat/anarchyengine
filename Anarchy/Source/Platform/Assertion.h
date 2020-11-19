@@ -13,7 +13,7 @@ namespace anarchy
 //#ifdef PLATFORM_WINDOWS
 //	// Define these here inline
 //	void ComCheck(HRESULT hr, string message);
-//	void ComCheck(HRESULT hr, string message, AC_ComPtr<ID3DBlob>& errorMessagePtr);
+//	void ComCheck(HRESULT hr, string message, ComPtr<ID3DBlob>& errorMessagePtr);
 //#endif // PLATFORM_WINDOWS
 
 	// Terminates the program

@@ -6,11 +6,10 @@
 #include "Engine/Core/EngineContext.h"
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "Framework/AppContext.h"
-#include "Framework/FrameworkAliases.h"
-#include "Framework/FrameworkGlobals.h"
-#include "Framework/FrameworkDefines.h"
+#include "Framework/FrameworkHelpers.h"
 #include "Framework/Math/Vector/Vec3.hpp"
 #include "Framework/Math/Vector/Vec4.hpp"
+#include "Platform/ResultHelper.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Time/ScopedTimer.h"
 
@@ -36,7 +35,7 @@ namespace anarchy
         ID3D12CommandList* ppCommandList[] = { m_commandList.Get() };
         m_graphicsCommandQueue->ExecuteCommandLists(1, ppCommandList);
 
-        ComCheck(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
+        CheckResult(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
 
         WaitForPreviousFrame();
     }
@@ -105,7 +104,7 @@ namespace anarchy
     // Should be the first step.
     void D3D12Renderer::EnableDebugLayer()
     {
-        AC_ComPtr<ID3D12Debug1> debugController;
+        ComPtr<ID3D12Debug1> debugController;
         if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
         {
             debugController->EnableDebugLayer();
@@ -118,9 +117,9 @@ namespace anarchy
 
     void D3D12Renderer::CreateDevice()
     {
-        ComCheck(CreateDXGIFactory2(m_factory->GetDXGIFactoryFlags(), IID_PPV_ARGS(&(m_factory->GetRawFactory()))), "Failed to Create DXGIFactory.");
+        CheckResult(CreateDXGIFactory2(m_factory->GetDXGIFactoryFlags(), IID_PPV_ARGS(&(m_factory->GetRawFactory()))), "Failed to Create DXGIFactory.");
         m_adapter->SetAdapter(m_factory->GetD3D12SupportedHardwareAdapter());
-        ComCheck(D3D12CreateDevice(m_adapter->GetAdapter().Get(), g_minFeatureLevel, IID_PPV_ARGS(&(m_device->GetRawDevice()))), "Failed to create D3D12Device.");
+        CheckResult(D3D12CreateDevice(m_adapter->GetAdapter().Get(), g_minFeatureLevel, IID_PPV_ARGS(&(m_device->GetRawDevice()))), "Failed to create D3D12Device.");
     }
 
     void D3D12Renderer::CreateGraphicsCommandQueue()
@@ -167,7 +166,7 @@ namespace anarchy
         CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
         for (uint_fast32_t itr = 0; itr < g_numFrameBuffers; ++itr)
         {
-            ComCheck(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
+            CheckResult(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
             m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
             rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
         }
@@ -185,10 +184,10 @@ namespace anarchy
         CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc;
         rootSigDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
-        AC_ComPtr<ID3DBlob> rootSignatureBlob;
-        AC_ComPtr<ID3DBlob> error;
+        ComPtr<ID3DBlob> rootSignatureBlob;
+        ComPtr<ID3DBlob> error;
 
-        ComCheck(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSignatureBlob, &error), "Failed to serialize root signature.");
+        CheckResult(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSignatureBlob, &error), "Failed to serialize root signature.");
         m_device->CreateRootSignature(0, rootSignatureBlob, m_rootSignature);
     }
 
@@ -317,7 +316,7 @@ namespace anarchy
         D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
         uint8_t* vertexDataGPUBuffer = nullptr;
 
-        ComCheck(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&vertexDataGPUBuffer)), "Failed to map resource");
+        CheckResult(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&vertexDataGPUBuffer)), "Failed to map resource");
         memcpy_s(vertexDataGPUBuffer, vertexBufferSize, vertexBufferData, vertexBufferSize);
         m_vertexBuffer->Unmap(NULL, nullptr);
 
@@ -330,23 +329,23 @@ namespace anarchy
     {
         uint32_t indexBufferData[] =
         {
-        0,2,1, // -x
-        1,2,3,
+            0,2,1, // -x
+            1,2,3,
 
-        4,5,6, // +x
-        5,7,6,
+            4,5,6, // +x
+            5,7,6,
 
-        0,1,5, // -y
-        0,5,4,
+            0,1,5, // -y
+            0,5,4,
 
-        2,6,7, // +y
-        2,7,3,
+            2,6,7, // +y
+            2,7,3,
 
-        0,4,6, // -z
-        0,6,2,
+            0,4,6, // -z
+            0,6,2,
 
-        1,3,7, // +z
-        1,7,5,
+            1,3,7, // +z
+            1,7,5,
         };
 
         uint32_t indexBufferSize = sizeof(indexBufferData);
@@ -377,7 +376,7 @@ namespace anarchy
         D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
         uint8_t* indexDataGPUBuffer = nullptr;
 
-        ComCheck(m_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&indexDataGPUBuffer)), "Failed to map resource");
+        CheckResult(m_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&indexDataGPUBuffer)), "Failed to map resource");
         memcpy_s(indexDataGPUBuffer, indexBufferSize, indexBufferData, indexBufferSize);
         m_indexBuffer->Unmap(NULL, nullptr);
 
@@ -391,8 +390,8 @@ namespace anarchy
         m_device->CreateFence(0, D3D12_FENCE_FLAG_NONE, m_fence);
         m_fenceValue = 1;
 
-        m_fenceEvent = CreateEvent(nullptr, false, false, AC_STR_LITERAL("FenceEvent"));
-        AC_Assert(m_fenceEvent, "Failed to Create Fence Event");
+        m_fenceEvent = CreateEvent(nullptr, false, false, "FenceEvent");
+        Assert(m_fenceEvent, "Failed to Create Fence Event");
 
         WaitForPreviousFrame();
     }
@@ -400,12 +399,12 @@ namespace anarchy
     void D3D12Renderer::WaitForPreviousFrame()
     {
         const uint64_t fenceVal = m_fenceValue;
-        ComCheck(m_graphicsCommandQueue->Signal(m_fence.Get(), fenceVal), AC_STR_LITERAL("Failed to Update Fence Value"));
+        CheckResult(m_graphicsCommandQueue->Signal(m_fence.Get(), fenceVal), "Failed to Update Fence Value");
         ++m_fenceValue;
 
         if (m_fence->GetCompletedValue() < fenceVal)
         {
-            ComCheck(m_fence->SetEventOnCompletion(fenceVal, m_fenceEvent), "Failed to Fire Event");
+            CheckResult(m_fence->SetEventOnCompletion(fenceVal, m_fenceEvent), "Failed to Fire Event");
             ::WaitForSingleObjectEx(m_fenceEvent, INFINITE, false);
         }
 
@@ -414,8 +413,8 @@ namespace anarchy
 
     void D3D12Renderer::RecordCommands()
     {
-        ComCheck(m_commandAllocator->Reset(), "Failed to reset the command allocator");
-        ComCheck(m_commandList->Reset(m_commandAllocator.Get(), m_graphicsPSO.Get()), "Failed to reset the command list");
+        CheckResult(m_commandAllocator->Reset(), "Failed to reset the command allocator");
+        CheckResult(m_commandList->Reset(m_commandAllocator.Get(), m_graphicsPSO.Get()), "Failed to reset the command list");
 
         m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
         m_commandList->RSSetViewports(1, &m_viewport);
@@ -455,7 +454,7 @@ namespace anarchy
 
         m_commandList->ResourceBarrier(1, &presentBarrier);
 
-        ComCheck(m_commandList->Close(), "Failed to close the command list");
+        CheckResult(m_commandList->Close(), "Failed to close the command list");
     }
 }
 

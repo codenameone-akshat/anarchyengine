@@ -1,6 +1,5 @@
 #include "InputHandler.h"
 #include "Framework/AppContext.h"
-#include "Framework/FrameworkHeaders.h"
 
 namespace anarchy
 {

@@ -2,7 +2,6 @@
 
 #include <cstring>
 
-#include "Framework/FrameworkGlobals.h"
 #include "Framework/Math/Vector/Vec2.hpp"
 #include "Framework/Math/Vector/Vec3.hpp"
 #include "Framework/Math/Vector/Vec4.hpp"
@@ -52,7 +51,7 @@ namespace anarchy::math
         [[nodiscard]]
         FORCEINLINE Vec4 GetRowVecAtIndex(uint32_t idx) const
         {
-            AC_Assert(idx < 4, "Vector4 Requested Index > 4");
+            Assert(idx < 4, "Vector4 Requested Index > 4");
 
             Vec4 row;
             memcpy(&row, &m[idx][0], sizeof(Vec4));

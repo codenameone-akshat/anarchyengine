@@ -6,8 +6,7 @@
 #include <d3d12.h>
 #include <vector>
 
-#include "Framework/FrameworkAliases.h"
-#include "Framework/FrameworkGlobals.h"
+#include "Platform/ResultHelper.h"
 #include "Utils/MacroHelpers/EnumHelpers.h"
 
 namespace anarchy
@@ -53,7 +52,7 @@ namespace anarchy
     private:
         string m_shaderFilePath = "";
         HLSLShaderDesc m_shaderDesc;
-        AC_ComPtr<ID3DBlob> m_shaderBlob;
+        ComPtr<ID3DBlob> m_shaderBlob;
 
         D3D12_SHADER_BYTECODE m_shaderByteCode = {};
 

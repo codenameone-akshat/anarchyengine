@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "Framework/FrameworkAliases.h"
 #include "Graphics/HLSL/HLSLShader.h"
 
 namespace anarchy::game
