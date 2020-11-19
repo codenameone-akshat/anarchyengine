@@ -5,6 +5,7 @@
 #include <assimp/postprocess.h>
 
 #include "Framework/ClassHelpers.h"
+#include "Framework/FrameworkAliases.h"
 #include "Platform/Types/Types.h"
 
 namespace anarchy
