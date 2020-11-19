@@ -1,13 +1,13 @@
-#include "GameSpecificCommands.h"
+#include "GameSpecificMain.h"
 
 namespace anarchy::game
 {
-    void GameSpecificCommands::InitializeSettings()
+    void GameSpecificMain::InitializeSettings()
     {
         AddAllShaders();
     }
 
-    void GameSpecificCommands::AddAllShaders()
+    void GameSpecificMain::AddAllShaders()
     {
         // Parse All Shaders from the .ini or whatever file maybe?
 

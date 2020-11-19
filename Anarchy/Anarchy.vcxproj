@@ -261,7 +261,7 @@
     <ClCompile Include="Source\Graphics\D3D11\D3D11Renderer.cpp" />
     <ClCompile Include="Source\Graphics\D3D11\HAL\D3D11Factory.cpp" />
     <ClCompile Include="Source\Graphics\GfxRenderer.cpp" />
-    <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
+    <ClCompile Include="Source\Game\GameSpecificMain.cpp" />
     <ClCompile Include="Source\MainApp\Win32\ApplicationMain_Win32.cpp" />
     <ClCompile Include="Source\System\Input\InputHandler.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
@@ -300,7 +300,7 @@
     <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp" />
     <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp" />
     <ClInclude Include="Source\Framework\Math\Vector\Vec4.hpp" />
-    <ClInclude Include="Source\Game\GameSpecificCommands.h" />
+    <ClInclude Include="Source\Game\GameSpecificMain.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />

@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "Framework/Window/WindowManager.h"
-#include "Game/GameSpecificCommands.h"
+#include "Game/GameSpecificMain.h"
 
 #ifdef AC_D3D12
 #include "Graphics/D3D12/D3D12Renderer.h"
@@ -37,7 +37,7 @@ namespace anarchy
         uint32_t m_mainWindowIndex = 0;
         std::unique_ptr<WindowManager> m_windowManger = std::make_unique<WindowManager>();
         std::unique_ptr<GfxRenderer> m_renderer = std::make_unique<AC_RendererClass>();
-        std::unique_ptr<game::GameSpecificCommands> m_gameSpecificCommands = std::make_unique<game::GameSpecificCommands>();
+        std::unique_ptr<game::GameSpecificMain> m_gameSpecificMain = std::make_unique<game::GameSpecificMain>();
     };
 }
 
