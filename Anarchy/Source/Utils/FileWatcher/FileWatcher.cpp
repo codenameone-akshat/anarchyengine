@@ -1,11 +1,10 @@
 #include "FileWatcher.h"
-#include "Framework/Includes/FrameworkGlobals.h"
 
 namespace anarchy
 {
-    size_t FileWatcher::AddFileForWatch(AC_String filePath)
+    size_t FileWatcher::AddFileForWatch(string filePath)
     {
-        AC_Assert(std::filesystem::exists(filePath), "Cannot Open File for FileWatcher.");
+        Assert(std::filesystem::exists(filePath), "Cannot Open File for FileWatcher.");
 
         auto lastModifiedTime = std::filesystem::last_write_time(filePath);
 
@@ -17,7 +16,7 @@ namespace anarchy
 
     bool FileWatcher::IsFileModified(size_t fileIndex)
     {
-        AC_Assert(fileIndex < m_filePathsToWatch.size(), "File index out of range requested from FileWatcher");
+        Assert(fileIndex < m_filePathsToWatch.size(), "File index out of range requested from FileWatcher");
 
         auto time = std::filesystem::last_write_time(m_filePathsToWatch[fileIndex]);
 

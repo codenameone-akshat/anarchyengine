@@ -3,20 +3,18 @@
 
 #include <memory>
 
-#include "Framework/Window/WindowManager.h"
-#include "Game/GameSpecificMain.h"
+#include "Game/GameSpecificCommands.h"
+#include "Engine/Input/InputHandler.h"
+#include "Platform/Window/Window.h"
+#include "Platform/Window/WindowEventHandler.h"
 
-#ifdef AC_D3D12
+#if defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
 #include "Graphics/D3D12/D3D12Renderer.h"
-using AC_RendererClass = anarchy::D3D12Renderer;
-
-#elif AC_D3D11
-#include "Graphics/D3D11/D3D11Renderer.h"
-using AC_RendererClass = anarchy::D3D11Renderer;
+using RenderAPI = anarchy::D3D12Renderer;
 
 #elif AC_VULKAN
 #include "Graphics/Vulkan/VulkanRenderer.h"
-using AC_RendererClass = anarchy::VulkanRenderer;
+using RenderAPI = anarchy::VulkanRenderer;
 
 #endif // AC_D3D12 | AC_D3D11 | AC_VULKAN
 
@@ -28,16 +26,17 @@ namespace anarchy
         EngineCore() = default;
         ~EngineCore() = default;
 
-        void StartEngine();
+        void InitializeEngine();
         void Update();
         void ShutDownEngine();
 
     private:
 
-        uint32_t m_mainWindowIndex = 0;
-        std::unique_ptr<WindowManager> m_windowManger = std::make_unique<WindowManager>();
-        std::unique_ptr<GfxRenderer> m_renderer = std::make_unique<AC_RendererClass>();
-        std::unique_ptr<game::GameSpecificMain> m_gameSpecificMain = std::make_unique<game::GameSpecificMain>();
+        std::shared_ptr<Window> m_mainWindow = std::make_shared<Window>();
+        std::shared_ptr<WindowEventHandler> m_windowEventHandler = std::make_shared<WindowEventHandler>();
+        std::unique_ptr<GfxRenderer> m_renderer = std::make_unique<RenderAPI>();
+        std::unique_ptr<game::GameSpecificCommands> m_gameSpecificCommands = std::make_unique<game::GameSpecificCommands>();
+		InputHandler& m_input = InputHandler::GetInstance();
     };
 }
 

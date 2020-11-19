@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "Framework/Includes/FrameworkAliases.h"
 #include "Graphics/HLSL/HLSLShader.h"
 
 namespace anarchy::game
@@ -18,7 +17,7 @@ namespace anarchy::game
 		inline std::vector<HLSLShader> GetAllShaders() const noexcept { return m_shaderList; }
 
 		// TODO: Later maybe have AddVertexShader, AddPixelShader. Fill desc automatically. :)
-		void AddShaderFileToList(AC_String fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation = true);
+		void AddShaderFileToList(string fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation = true);
 	
 	private:
 		std::vector<HLSLShader> m_shaderList = {};

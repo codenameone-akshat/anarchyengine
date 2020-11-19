@@ -7,7 +7,9 @@
 #include <cstdint>
 #include <vector>
 
-#include "Framework/Includes/FrameworkAliases.h"
+#include "Platform/Types/Types.h"
+
+using namespace anarchy;
 
 #define ENUM_VAL_TO_STRING(r, data, elem) BOOST_PP_STRINGIZE(elem),
 
@@ -26,14 +28,14 @@ enum class Color : uint16_t
     Blue,
 };
 
-std::vector<AC_String> Color_Strings =
+std::vector<string> Color_Strings =
 {
     "Red",
     "Green",
     "Blue",
 };
 
-AC_String Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint16_t>(enumVal)]; }
+string Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint16_t>(enumVal)]; }
 
 --------------------------------------------------------------------------------
 Note: Use the Static Macro for Static String Vector
@@ -43,37 +45,37 @@ Note: Use the Static Macro for Static String Vector
 */
 
 #define DECLARE_STRING_ENUM(EnumName, EnumValues)\
-    enum class EnumName : uint16_t\
+    enum class EnumName : uint16\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    std::vector<AC_String> EnumName##_Strings = \
+    std::vector<string> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
+    static string EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16>(enumVal)]; } \
 
 #define DECLARE_STATIC_STRING_ENUM(EnumName, EnumValues)\
-    enum class EnumName : uint16_t\
+    enum class EnumName : uint16\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    static std::vector<AC_String> EnumName##_Strings = \
+    static std::vector<string> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
+    static string EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16>(enumVal)]; } \
 
 #define DECLARE_STATIC_INLINE_STRING_ENUM(EnumName, EnumValues)\
-    enum class EnumName : uint16_t\
+    enum class EnumName : uint16\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    inline static std::vector<AC_String> EnumName##_Strings = \
+    inline static std::vector<string> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    inline static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16_t>(enumVal)]; } \
+    inline static string EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<uint16>(enumVal)]; } \
 
 /*
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -90,14 +92,14 @@ enum class Color : uint32_t
     Blue,
 };
 
-std::vector<AC_String> Color_Strings =
+std::vector<string> Color_Strings =
 {
     "Red",
     "Green",
     "Blue",
 };
 
-AC_String Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint32_t>(enumVal)]; }
+string Color_GetName(Color enumVal) { return Color_Strings[static_cast<uint32_t>(enumVal)]; }
 --------------------------------------------------------------------------------
 Note: Use the Static Macro for Static String Vector
 --------------------------------------------------------------------------------
@@ -110,33 +112,33 @@ Note: Use the Static Macro for Static String Vector
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    std::vector<AC_String> EnumName##_Strings = \
+    std::vector<string> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
+    static string EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
 
 #define DECLARE_EXPLICIT_TYPE_STATIC_STRING_ENUM(EnumType, EnumName, EnumValues)\
     enum class EnumName : EnumType\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    static std::vector<AC_String> EnumName##_Strings = \
+    static std::vector<string> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
+    static string EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
 
 #define DECLARE_EXPLICIT_TYPE_STATIC_INLINE_STRING_ENUM(EnumType, EnumName, EnumValues)\
     enum class EnumName : EnumType\
     {\
         BOOST_PP_SEQ_ENUM(EnumValues)\
     };\
-    inline static std::vector<AC_String> EnumName##_Strings = \
+    inline static std::vector<string> EnumName##_Strings = \
     {\
         BOOST_PP_SEQ_FOR_EACH(ENUM_VAL_TO_STRING, EnumName, EnumValues) \
     };\
-    inline static AC_String EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
+    inline static string EnumName##_GetName(EnumName enumVal) { return EnumName##_Strings[static_cast<EnumType>(enumVal)]; } \
 
 
 #endif // _ENUM_HELPERS_H_

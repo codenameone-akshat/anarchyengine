@@ -4,7 +4,7 @@
 
 namespace anarchy::game
 {
-	void GameSettings::AddShaderFileToList(AC_String fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation)
+	void GameSettings::AddShaderFileToList(string fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation)
 	{
 		HLSLShader shader(fileName, shaderDesc, isInDeaultLocation);
 		

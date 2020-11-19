@@ -3,8 +3,7 @@
 #include <cmath>
 #include <cstdint>
 
-#include "Framework/Includes/FrameworkGlobals.h"
-#include "Framework/Includes/SerializationHelpers.h"
+#include "Framework/SerializationHelpers.h"
 
 #define FORCEINLINE __forceinline
 
@@ -175,7 +174,7 @@ namespace anarchy::math
         FORCEINLINE Vec4<T> operator/(const Vec4<T>& operand) const
         {
             //divide by 0 error
-            AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
+            Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
             Vec4<T> result;
             result.x = this->x / operand.x;
@@ -190,7 +189,7 @@ namespace anarchy::math
         FORCEINLINE Vec4<T> operator/(const T operand) const
         {
             //divide by 0 error
-            AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
+            Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
             Vec4<T> result;
             result.x = this->x / operand;
@@ -270,7 +269,7 @@ namespace anarchy::math
         FORCEINLINE Vec4<T> operator/=(const Vec4<T>& operand)
         {
             //divide by 0 error
-            AC_Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
+            Assert(operand.x != 0.0f || operand.y != 0.0f || operand.z != 0.0f || operand.w != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
             this->x /= operand.x;
             this->y /= operand.y;
@@ -284,7 +283,7 @@ namespace anarchy::math
         FORCEINLINE Vec4<T> operator/=(const T operand)
         {
             //divide by 0 error
-            AC_Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
+            Assert(operand != 0.0f, "Attempting Divide by 0 | Vector4 Division");
 
             this->x /= operand;
             this->y /= operand;

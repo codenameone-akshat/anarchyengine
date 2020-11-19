@@ -1,54 +1,24 @@
 #include <memory>
 
-#include "MainEngine.h"
-#include "EngineContext.h"
-#include "Framework/App/AppContext.h"
-#include "System/System.h"
-#include "Utils/Logger/Logger.h"
+#include "Platform/Platform.h"
+#include "Engine/Core/EngineCore.h"
+#include "Engine/Core/EngineContext.h"
 
-namespace anarchy
+int32 anarchyMain(int32 argc, const string argv)
 {
-    void EngineMain()
-    {
-        std::unique_ptr<System> system = std::make_unique<System>();
+    std::unique_ptr<EngineCore> engineCore = std::make_unique<EngineCore>();
+    engineCore->InitializeEngine();
+    
+    EngineContext::SetIsEngneRunning(true);
 
-        AppContext::SetWndProcHAndle(MainEngineWindowProc);
+    do
+	{
+		// Engine Running state should be set in the enginecore
+        engineCore->Update();
 
-        system->Initialize();
+	} while (EngineContext::GetIsEngneRunning());
 
-        do
-        {
-            // Engine Running state should be set in the enginecore
-            PollMessage();
-            system->SystemTick();
+    engineCore->ShutDownEngine();
 
-        } while (EngineContext::GetIsEngneRunning());
-
-        // End Running.
-        system->Destruct();
-    }
-
-    void PollMessage()
-    {
-        MSG msg = {};
-        while (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) // 0,0 here represents to take any input possible
-        {
-            ::TranslateMessage(&msg);
-            ::DispatchMessage(&msg);
-        }
-
-        if (msg.message == WM_QUIT)
-            EngineContext::SetIsEngneRunning(false);
-    }
-
-    LRESULT CALLBACK MainEngineWindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-    {
-        switch (message)
-        {
-        case WM_CLOSE:
-            ::PostQuitMessage(0);
-            return 0;
-        }
-        return ::DefWindowProc(hWnd, message, wParam, lParam);
-    }
+    return 0;
 }

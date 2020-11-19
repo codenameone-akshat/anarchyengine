@@ -4,7 +4,7 @@
 #include<string>
 #include<chrono>
 
-#include"Framework/Includes/FrameworkAliases.h"
+#include"Platform/Types/Types.h"
 
 namespace anarchy
 {
@@ -12,13 +12,13 @@ namespace anarchy
 	{
 	public:
 		ScopedTimer() = delete;
-		ScopedTimer(AC_String timerTag);
+		ScopedTimer(string timerTag);
 		~ScopedTimer();
 	
 	private:
 		std::chrono::high_resolution_clock::time_point m_start = std::chrono::high_resolution_clock::now();
 		std::chrono::high_resolution_clock::time_point m_end = std::chrono::high_resolution_clock::now();
-		AC_String m_tag = "UnTagged";
+		string m_tag = "UnTagged";
 	};
 }
 
