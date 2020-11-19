@@ -16,7 +16,7 @@
 #include "Platform/Assertion.h"
 #include "Framework/AppContext.h"
 
-extern anarchy::int32 anarchyMain(anarchy::int32 argc, const anarchy::string argv); // cannot link even after the actual definition is right above in MainEngine.cpp
+extern anarchy::int32 anarchyMain(anarchy::int32 argc, const anarchy::string argv); // cannot link even after the actual definition is right above in GameSpeficMain.cpp
 
 // Entry Point For Windows
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, anarchy::int32 nShowCmd)
