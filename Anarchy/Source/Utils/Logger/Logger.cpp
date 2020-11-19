@@ -1,12 +1,12 @@
 #include <sstream>
 
 #include "Logger.h"
-#include "Framework/FrameworkGlobals.h"
-#include "Framework/FrameworkDefines.h"
+#include "Framework/Includes/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkDefines.h"
 
 namespace anarchy
 {
-    void Logger::LogInfo(LogCategory logCategory, string outputStr)
+    void Logger::LogInfo(LogCategory logCategory, AC_String outputStr)
     {
         ProcessAndLogString(logCategory, outputStr);
     }
@@ -16,7 +16,7 @@ namespace anarchy
         ProcessAndLogString(logCategory, outputBufferPtr);
     }
 
-    void Logger::LogWarning(LogCategory logCategory, bool condition, string outputStr)
+    void Logger::LogWarning(LogCategory logCategory, bool condition, AC_String outputStr)
     {
         if (!condition)
         {
@@ -34,7 +34,7 @@ namespace anarchy
         }
     }
 
-    void Logger::LogError(LogCategory logCategory, bool condition, string outputStr)
+    void Logger::LogError(LogCategory logCategory, bool condition, AC_String outputStr)
     {
         if (!condition)
         {
@@ -52,26 +52,26 @@ namespace anarchy
         }
     }
 
-    void Logger::ProcessAndLogString(LogCategory logCategory, string outputString)
+    void Logger::ProcessAndLogString(LogCategory logCategory, AC_String outputString)
     {
-        string logCategoryString = GetStringForCategory(logCategory);
-        ostringstream os_;
+        AC_String logCategoryString = GetStringForCategory(logCategory);
+        AC_OStringStream os_;
         os_ << logCategoryString << outputString << std::endl;
         OutputDebugString(os_.str().c_str());
     }
 
     void Logger::ProcessAndLogString(LogCategory logCategory, ID3DBlob* outputBufferPtr)
     {
-        string outputString = static_cast<const char*>(outputBufferPtr->GetBufferPointer());
-        string logCategoryString = GetStringForCategory(logCategory);
-        ostringstream os_;
+        AC_String outputString = static_cast<const char*>(outputBufferPtr->GetBufferPointer());
+        AC_String logCategoryString = GetStringForCategory(logCategory);
+        AC_OStringStream os_;
         os_ << logCategoryString << outputString << std::endl;
         OutputDebugString(os_.str().c_str());
     }
 
-    string Logger::GetStringForCategory(LogCategory logCategory)
+    AC_String Logger::GetStringForCategory(LogCategory logCategory)
     {
-        string outputCategory = "[" + LogCategory_Strings[static_cast<std::underlying_type_t<LogCategory>>(logCategory)] + "]: ";
+        AC_String outputCategory = "[" + LogCategory_Strings[static_cast<std::underlying_type_t<LogCategory>>(logCategory)] + "]: ";
         return outputCategory;
     }
 }

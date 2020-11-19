@@ -1,9 +1,9 @@
 #include "FileWatcher.h"
-#include "Framework/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 
 namespace anarchy
 {
-    size_t FileWatcher::AddFileForWatch(string filePath)
+    size_t FileWatcher::AddFileForWatch(AC_String filePath)
     {
         AC_Assert(std::filesystem::exists(filePath), "Cannot Open File for FileWatcher.");
 

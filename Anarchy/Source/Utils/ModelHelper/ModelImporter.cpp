@@ -8,13 +8,13 @@
 
 namespace anarchy
 {
-    void ModelImporter::ReadFile(string fileName)
+    void ModelImporter::ReadFile(AC_String fileName)
     {
         const aiScene* scene = m_importer.ReadFile(fileName, gcx_meshLoaderImportFlags);
         PopulateEntityAndSerialize(scene, scene->GetShortFilename(fileName.c_str()));
     }
 
-    void ModelImporter::PopulateEntityAndSerialize(const aiScene* scene, string shortFileName)
+    void ModelImporter::PopulateEntityAndSerialize(const aiScene* scene, AC_String shortFileName)
     {
 
         auto meshes = scene->mMeshes;
@@ -90,7 +90,7 @@ namespace anarchy
                 indices.push_back(vertexC);
             }
 
-            string name = mesh->mName.C_Str();
+            AC_String name = mesh->mName.C_Str();
 
             engineMesh.GetMeshGPUData().SetVertices(vertices);
             engineMesh.GetMeshGPUData().SetNormals(normals);
@@ -107,9 +107,9 @@ namespace anarchy
         SerializeEntity(entity, shortFileName);
     }
 
-    void ModelImporter::SerializeEntity(Entity entity, string filename)
+    void ModelImporter::SerializeEntity(Entity entity, AC_String filename)
     {
-        Serializer serializer(string(filename + ENTITY_FILE_EXT));
+        Serializer serializer(AC_String(filename + ENTITY_FILE_EXT));
         serializer.Serialize(entity);
     }
 }

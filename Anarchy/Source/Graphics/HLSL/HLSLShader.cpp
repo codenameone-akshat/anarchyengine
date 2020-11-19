@@ -3,13 +3,13 @@
 #include <d3dcompiler.h>
 
 #include "HLSLShader.h"
-#include "Framework/AppContext.h"
-#include "Framework/FrameworkDefines.h"
+#include "Framework/App/AppContext.h"
+#include "Framework/Includes/FrameworkDefines.h"
 #include "Utils/StringUtils/StringUtils.h"
 
 namespace anarchy
 {
-    HLSLShader::HLSLShader(string fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation)
+    HLSLShader::HLSLShader(AC_String fileName, HLSLShaderDesc shaderDesc, bool isInDeaultLocation)
         :m_shaderDesc({})
     {
         if (isInDeaultLocation)
@@ -28,13 +28,13 @@ namespace anarchy
 
         AC_ComPtr<ID3DBlob> error;
 
-        string errorMessage = AC_STR_LITERAL("Failed To Compile Shader ") + m_shaderFilePath + AC_STR_LITERAL(".");
+        AC_String errorMessage = AC_STR_LITERAL("Failed To Compile Shader ") + m_shaderFilePath + AC_STR_LITERAL(".");
 
         std::wstring shaderwstr = string_cast<std::wstring>(m_shaderFilePath);
-        string entryPoint = m_shaderDesc.shaderEntryPoint;
-        string target = HLSLShaderTarget_GetName(m_shaderDesc.shaderTarget);
+        AC_String entryPoint = m_shaderDesc.shaderEntryPoint;
+        AC_String target = HLSLShaderTarget_GetName(m_shaderDesc.shaderTarget);
 
-        ComCheck((D3DCompileFromFile(L"Graphics\\Shaders\\EmptyShader.hlsl", NULL, NULL, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &m_shaderBlob, &error)), errorMessage, error);
+        ComCheck((D3DCompileFromFile(shaderwstr.c_str(), NULL, NULL, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &m_shaderBlob, &error)), errorMessage, error);
 
         m_shaderByteCode.pShaderBytecode = m_shaderBlob->GetBufferPointer();
         m_shaderByteCode.BytecodeLength = m_shaderBlob->GetBufferSize();

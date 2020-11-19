@@ -7,8 +7,8 @@
 #include <dxgi1_6.h>
 
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
-#include "Framework/FrameworkAliases.h"
-#include "Framework/FrameworkGlobals.h"
+#include "Framework/Includes/FrameworkAliases.h"
+#include "Framework/Includes/FrameworkGlobals.h"
 #include "Utils/StringUtils/StringUtils.h"
 
 namespace anarchy
@@ -76,7 +76,7 @@ namespace anarchy
         }
 
         inline void CreateCommittedResource(const D3D12_HEAP_PROPERTIES& heapProperties, D3D12_HEAP_FLAGS heapFlags, const D3D12_RESOURCE_DESC& resourceDesc, D3D12_RESOURCE_STATES initialResourceState,
-            const D3D12_CLEAR_VALUE* optimizedClearValue, AC_ComPtr<ID3D12Resource>& resource, string resourceTag)
+            const D3D12_CLEAR_VALUE* optimizedClearValue, AC_ComPtr<ID3D12Resource>& resource, AC_String resourceTag)
         {
             ComCheck(m_device->CreateCommittedResource(&heapProperties, heapFlags, &resourceDesc, initialResourceState, optimizedClearValue, IID_PPV_ARGS(&resource)), "Failed to create D3DResource: " + resourceTag);
             resource->SetName(string_cast<std::wstring>(resourceTag).c_str());

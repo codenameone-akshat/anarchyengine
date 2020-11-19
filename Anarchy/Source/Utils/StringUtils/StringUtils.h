@@ -1,17 +1,9 @@
 #ifndef _STRING_UTILS_H_
 #define _STRING_UTILS_H_
 
-#ifdef PLATFORM_WINDOWS
-#include <windows.h>
-#endif // PLATFORM_WINDOWS
-
 namespace anarchy
 {
-	template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>
-	auto constexpr to_string(T x) { return std::to_string(x); }
-
-#ifdef PLATFORM_WINDOWS
-	template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::wstring>>>
+    template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::wstring>>>
     T string_cast(const std::string input)
     {
         // Get the size to allocate.
@@ -49,6 +41,5 @@ namespace anarchy
         return std::string(); // Return an empty string.
     }
 }
-#endif // PLATFORM_WINDOWS
 
 #endif // _STRING_UTILS_H_
