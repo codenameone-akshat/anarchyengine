@@ -36,7 +36,7 @@ namespace anarchy
         m_renderer->PostRender();
     }
 
-    void EngineCore::ShutDownEngine()
+    void EngineCore::ShutdownEngine()
     {
         // Cleanup. Maybe call from Dtor for RAII?
         m_renderer->Shutdown();

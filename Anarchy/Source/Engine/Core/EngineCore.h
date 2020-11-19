@@ -28,7 +28,7 @@ namespace anarchy
 
         void InitializeEngine();
         void Update();
-        void ShutDownEngine();
+        void ShutdownEngine();
 
     private:
 

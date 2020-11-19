@@ -18,7 +18,7 @@ int32 anarchyMain(int32 argc, const string argv)
 
 	} while (EngineContext::GetIsEngneRunning());
 
-    engineCore->ShutDownEngine();
+    engineCore->ShutdownEngine();
 
     return 0;
 }
