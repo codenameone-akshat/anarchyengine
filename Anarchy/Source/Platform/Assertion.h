@@ -1,4 +1,5 @@
 #ifndef _ASSERTION_H_
+#define _ASSERTION_H_
 
 #include <fmt/core.h>
 
@@ -34,7 +35,7 @@ namespace anarchy
 #ifdef AC_DEBUG
 #define Assert(x, message) TriggerAssertion(x, message, __FILE__, __LINE__)
 #define SoftAssert(x, message) TriggerSoftAssertion(x, message, __FILE__, __LINE__)
-#define NoImplAssert TriggerAssertion(false, "No implementation error", __FILE__, __LINE__)
+#define NoImplAssert TriggerAssertion(false, string("No implementation error"), __FILE__, __LINE__)
 #else
 #define Assert(x, message)
 #define SoftAssert(x, message)
