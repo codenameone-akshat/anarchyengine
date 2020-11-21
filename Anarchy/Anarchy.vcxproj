@@ -225,6 +225,7 @@
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Extern\Engine\entt.hpp" />
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Framework\AppContext.h" />

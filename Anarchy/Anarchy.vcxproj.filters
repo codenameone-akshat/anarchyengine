@@ -91,6 +91,7 @@
     <ClInclude Include="Source\Graphics\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Source\Graphics\ImGui\imstb_textedit.h" />
     <ClInclude Include="Source\Graphics\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Extern\Engine\entt.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
