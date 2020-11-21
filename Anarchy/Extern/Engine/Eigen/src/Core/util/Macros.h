@@ -661,6 +661,7 @@
 // so let's be conservative.
 #ifndef EIGEN_HAS_STD_RESULT_OF
 #if EIGEN_MAX_CPP_VER>=11 && \
+    EIGEN_MAX_CPP_VER<17 && \
     (__has_feature(cxx_lambdas) || (defined(__cplusplus) && __cplusplus >= 201103L) || EIGEN_COMP_MSVC >= 1900)
 #define EIGEN_HAS_STD_RESULT_OF 1
 #else
