@@ -1,7 +1,5 @@
 #if defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
 
-#include <limits>
-
 #include "D3D12Renderer.h"
 #include "Engine/Core/EngineContext.h"
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
@@ -9,10 +7,10 @@
 #include "Framework/FrameworkHelpers.h"
 #include "Framework/Math/Vector/Vec3.hpp"
 #include "Framework/Math/Vector/Vec4.hpp"
+#include "Platform/Types/NumericTypeLimits.h"
 #include "Platform/ResultHelper.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Time/ScopedTimer.h"
-
 namespace anarchy
 {
     //////////////////////////////////////////////////////////////////////////////////////
@@ -39,17 +37,16 @@ namespace anarchy
         m_graphicsCommandQueue->ExecuteCommandLists(1, ppCommandList);
 
         CheckResult(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
-
-        WaitForPreviousFrame();
     }
 
     void D3D12Renderer::PostRender()
     {
+		WaitForBackBufferAvailability();
     }
 
     void D3D12Renderer::Shutdown()
     {
-        WaitForPreviousFrame();
+        WaitForGPUToFinish();
         m_imGuiWrapper->Shutdown();
         CloseHandle(m_fenceEvent);
     }
@@ -69,7 +66,7 @@ namespace anarchy
         CreateSwapChain();
         CreateRenderTargetView();
         CreateCBVSRVHeap();
-        m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator);
+        CreateCommandAllocators();
         PopulateShaders();
 
         m_viewport =
@@ -103,6 +100,7 @@ namespace anarchy
         CreateVertexBuffer();
         CreateIndexBuffer();
         CreateSyncObjects();
+		WaitForGPUToFinish(); // wait for command list to execute
     }
 
 #ifdef AC_DEBUG
@@ -187,6 +185,12 @@ namespace anarchy
         m_cbvSrvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(srvUavHeapDesc.Type);
     }
 
+    void D3D12Renderer::CreateCommandAllocators()
+    {
+        for(int32 itr = 0; itr < g_numFrameBuffers; ++itr)
+            m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocators[itr]);
+    }
+
     void D3D12Renderer::PopulateShaders()
     {
         m_shaders = EngineContext::GetGameSpecificSettings()->GetAllShaders();
@@ -257,7 +261,7 @@ namespace anarchy
         psoDesc.VS = m_shaders[0].GetShaderByteCode();
         psoDesc.PS = m_shaders[1].GetShaderByteCode();
         psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-        psoDesc.SampleMask = std::numeric_limits<uint32_t>::max(); // Default 0xffff
+        psoDesc.SampleMask = uint32_max; // Default 0xffff
         psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 
         psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
@@ -274,7 +278,8 @@ namespace anarchy
 
     void D3D12Renderer::CreateGraphicsCommandList()
     {
-        m_device->CreateCommandList(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocator.Get(), m_graphicsPSO.Get(), m_commandList);
+        // Create from the current frame's command allocator. On Reset, the other command allocators are used.
+        m_device->CreateCommandList(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicsPSO.Get(), m_commandList);
     }
 
     void D3D12Renderer::CloseGraphicsCommandList()
@@ -402,34 +407,52 @@ namespace anarchy
 
     void D3D12Renderer::CreateSyncObjects()
     {
+        // Create the current processing frame's fence
         m_device->CreateFence(0, D3D12_FENCE_FLAG_NONE, m_fence);
-        m_fenceValue = 1;
+        m_fenceValues[m_currentBackBufferIndex]++;
 
         m_fenceEvent = CreateEvent(nullptr, false, false, "FenceEvent");
         Assert(m_fenceEvent, "Failed to Create Fence Event");
-
-        WaitForPreviousFrame();
     }
 
-    void D3D12Renderer::WaitForPreviousFrame()
+    void D3D12Renderer::WaitForGPUToFinish()
     {
-        const uint64_t fenceVal = m_fenceValue;
-        CheckResult(m_graphicsCommandQueue->Signal(m_fence.Get(), fenceVal), "Failed to Update Fence Value");
-        ++m_fenceValue;
+        const uint64 fenceVal = m_fenceValues[m_currentBackBufferIndex];
 
-        if (m_fence->GetCompletedValue() < fenceVal)
+		// Schedule a Signal command in the queue.
+		CheckResult(m_graphicsCommandQueue->Signal(m_fence.Get(), fenceVal), "Failed to Update Fence Value");
+
+		// Wait until the fence has been processed.
+        CheckResult(m_fence->SetEventOnCompletion(fenceVal, m_fenceEvent), "Failed to Fire Event");
+        ::WaitForSingleObjectEx(m_fenceEvent, INFINITE, false);
+
+		// Increment the fence value for the current frame.
+		m_fenceValues[m_currentBackBufferIndex]++;
+    }
+
+    void D3D12Renderer::WaitForBackBufferAvailability()
+    {
+        // Schedule a Signal command in the queue.
+        const uint64 fenceVal = m_fenceValues[m_currentBackBufferIndex];
+        CheckResult(m_graphicsCommandQueue->Signal(m_fence.Get(), m_fenceValues[m_currentBackBufferIndex]), "Failed to Update Fence Value");
+
+        // calling after present, the back buffer has changed.
+        m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+
+        // Wait until the fence signal issued above set the fence to the value. (if value is set, the queue has finished execution the command list. Else, wait).
+        if (m_fence->GetCompletedValue() < m_fenceValues[m_currentBackBufferIndex])
         {
-            CheckResult(m_fence->SetEventOnCompletion(fenceVal, m_fenceEvent), "Failed to Fire Event");
+            CheckResult(m_fence->SetEventOnCompletion(m_fenceValues[m_currentBackBufferIndex], m_fenceEvent), "Failed to Fire Event");
             ::WaitForSingleObjectEx(m_fenceEvent, INFINITE, false);
         }
 
-        m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+        m_fenceValues[m_currentBackBufferIndex] = fenceVal + 1;
     }
 
     void D3D12Renderer::RecordCommands()
     {
-        CheckResult(m_commandAllocator->Reset(), "Failed to reset the command allocator");
-        CheckResult(m_commandList->Reset(m_commandAllocator.Get(), m_graphicsPSO.Get()), "Failed to reset the command list");
+        CheckResult(m_commandAllocators[m_currentBackBufferIndex]->Reset(), "Failed to reset the command allocator");
+        CheckResult(m_commandList->Reset(m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicsPSO.Get()), "Failed to reset the command list");
 
         m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
         m_commandList->RSSetViewports(1, &m_viewport);
