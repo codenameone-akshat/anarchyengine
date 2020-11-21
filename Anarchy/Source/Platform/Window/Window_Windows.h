@@ -35,10 +35,11 @@ namespace anarchy
 		void ShowWindow();
 		void DestroyWindow();
 
-		inline HWND GetRawHandleToWindow() { return m_rawWindowHandle; }
+		inline HWND GetRawHandleToWindow() const { return m_rawWindowHandle; }
 		inline void SetRawHandleToWindow(HWND windowHandle) { m_rawWindowHandle = m_rawWindowHandle; }
 
-		inline WindowDesc GetWindowDesc() { return m_windowDesc; }
+		inline WindowDesc GetWindowDesc() const { return m_windowDesc; }
+		inline void SetWindowDesc(const WindowDesc& windowDesc) { m_windowDesc = windowDesc; }
 
 		inline void SetMessageProcedureFunctor(MessageHandlerFunctor messageHandler) { m_messageHandlerFunctor = messageHandler; }
 	

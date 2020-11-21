@@ -54,6 +54,19 @@ namespace anarchy
 			WindowEventHandlerPtr->HandleMessage(WindowEvent::Close);
 			::PostQuitMessage(0);
 			return 0;
+			break;
+		case WM_SIZE:
+			if (!AppContext::GetHandleToMainWindow())
+				break;
+
+			auto windowDesc = AppContext::GetMainWindowDesc();
+			uint32 width = (UINT)LOWORD(lParam);
+			uint32 height = (UINT)HIWORD(wParam);
+			windowDesc.width = width;
+			windowDesc.height = height;
+			AppContext::SetMainWindowDesc(windowDesc);
+			AppContext::SetIsResizeTriggered(true);
+			break;
 		}
 		return ::DefWindowProc(hWnd, message, wParam, lParam);
 	}

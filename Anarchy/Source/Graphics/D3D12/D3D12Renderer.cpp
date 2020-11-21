@@ -11,6 +11,7 @@
 #include "Platform/ResultHelper.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Time/ScopedTimer.h"
+
 namespace anarchy
 {
     //////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +28,9 @@ namespace anarchy
 
     void D3D12Renderer::PreRender()
     {
+		if (AppContext::GetIsResizeTriggered())
+			ResizeSwapChain();
+
         m_imGuiWrapper->NewFrame();
         RecordCommands();
     }
@@ -36,7 +40,8 @@ namespace anarchy
         ID3D12CommandList* ppCommandList[] = { m_commandList.Get() };
         m_graphicsCommandQueue->ExecuteCommandLists(1, ppCommandList);
 
-        CheckResult(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
+		WaitForBackBufferAvailability();
+		CheckResult(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
     }
 
     void D3D12Renderer::PostRender()
@@ -49,6 +54,7 @@ namespace anarchy
         WaitForGPUToFinish();
         m_imGuiWrapper->Shutdown();
         CloseHandle(m_fenceEvent);
+        CloseHandle(m_frameLatencyWaitableObject);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +70,8 @@ namespace anarchy
         CreateDevice();
         CreateGraphicsCommandQueue();
         CreateSwapChain();
-        CreateRenderTargetView();
+        SetupRenderTargetViewResources();
+        CreateRenderTargetViews();
         CreateCBVSRVHeap();
         CreateCommandAllocators();
         PopulateShaders();
@@ -84,23 +91,6 @@ namespace anarchy
             AppContext::GetMainWindowDesc().width,
             AppContext::GetMainWindowDesc().height
         };
-    }
-
-    void D3D12Renderer::InitalizeResources()
-    {
-        CreateRootSignature();
-        CompileAllShaders();
-        CreateVertexInputLayout(); // Modify this as per the shader??
-        CreateGraphicsPipelineStateObject();
-
-        CreateGraphicsCommandList();
-        // Populate code if something is there to record. Leaving it for now since there is nothing to records. Maybe put this in a Command List Manager?
-        CloseGraphicsCommandList();
-
-        CreateVertexBuffer();
-        CreateIndexBuffer();
-        CreateSyncObjects();
-		WaitForGPUToFinish(); // wait for command list to execute
     }
 
 #ifdef AC_DEBUG
@@ -150,13 +140,16 @@ namespace anarchy
         swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
         swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
         swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
+        swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
 
         m_swapChain = m_factory->CreateSwapChain(m_graphicsCommandQueue, AppContext::GetHandleToMainWindow()->GetRawHandleToWindow(), &swapChainDesc, nullptr, nullptr);
 
         m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+        m_swapChain->SetMaximumFrameLatency(g_numFrameBuffers);
+        m_frameLatencyWaitableObject = m_swapChain->GetFrameLatencyWaitableObject();
     }
 
-    void D3D12Renderer::CreateRenderTargetView()
+    void D3D12Renderer::SetupRenderTargetViewResources()
     {
         D3D12_DESCRIPTOR_HEAP_DESC rtvDesc = {};
         rtvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
@@ -165,14 +158,18 @@ namespace anarchy
 
         m_device->CreateDescriptorHeap(rtvDesc, m_rtvHeap);
         m_rtvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(rtvDesc.Type);
+    }
 
-        CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
-        for (uint_fast32_t itr = 0; itr < g_numFrameBuffers; ++itr)
-        {
-            CheckResult(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
-            m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
-            rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
-        }
+    void D3D12Renderer::CreateRenderTargetViews()
+    {
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
+		for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
+		{
+			CheckResult(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
+			m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
+			rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
+            m_renderTargets.at(itr)->SetName(string_cast<wstring>((string("Render Target " + to_string(itr)))).c_str());
+		}
     }
 
     void D3D12Renderer::CreateCBVSRVHeap()
@@ -187,14 +184,65 @@ namespace anarchy
 
     void D3D12Renderer::CreateCommandAllocators()
     {
-        for(int32 itr = 0; itr < g_numFrameBuffers; ++itr)
+        for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
+        {
             m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocators[itr]);
+            m_commandAllocators[itr]->SetName(string_cast<wstring>((string("Command Allocator for Frame: " + to_string(itr)))).c_str());
+        }
     }
 
     void D3D12Renderer::PopulateShaders()
     {
         m_shaders = EngineContext::GetGameSpecificSettings()->GetAllShaders();
     }
+
+	void D3D12Renderer::ResizeSwapChain()
+	{
+        CleanupRenderTargetViews();
+        m_imGuiWrapper->InvalidateResources();
+
+        auto windowDesc = AppContext::GetMainWindowDesc();
+        DXGI_SWAP_CHAIN_DESC1 swapChainDesc;
+
+        CheckResult(m_swapChain->GetDesc1(&swapChainDesc), "Failed to retrieve swapchain desc.");
+        m_swapChain->ResizeBuffers(g_numFrameBuffers, windowDesc.width, windowDesc.height, swapChainDesc.Format, swapChainDesc.Flags | DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+
+        CreateRenderTargetViews();
+        m_imGuiWrapper->RecreateResources();
+
+        m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+        m_fenceValues.fill(0);
+
+		AppContext::SetIsResizeTriggered(false);
+	}
+
+	void D3D12Renderer::CleanupRenderTargetViews()
+	{
+        WaitForBackBufferAvailability();
+
+        for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
+        {
+            if (m_renderTargets[itr].Get())
+                m_renderTargets[itr].Reset();
+        }
+	}
+
+	void D3D12Renderer::InitalizeResources()
+	{
+		CreateRootSignature();
+		CompileAllShaders();
+		CreateVertexInputLayout(); // Modify this as per the shader??
+		CreateGraphicsPipelineStateObject();
+
+		CreateGraphicsCommandList();
+		// Populate code if something is there to record. Leaving it for now since there is nothing to records. Maybe put this in a Command List Manager?
+		CloseGraphicsCommandList();
+
+		CreateVertexBuffer();
+		CreateIndexBuffer();
+		CreateSyncObjects();
+		WaitForGPUToFinish(); // wait for command list to execute
+	}
 
     void D3D12Renderer::CreateRootSignature()
     {
@@ -438,13 +486,16 @@ namespace anarchy
 
         // calling after present, the back buffer has changed.
         m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
+		
+        ::WaitForSingleObject(m_frameLatencyWaitableObject, 0); // idk... nvidia do's and don'ts say to wait for this object :/
 
         // Wait until the fence signal issued above set the fence to the value. (if value is set, the queue has finished execution the command list. Else, wait).
         if (m_fence->GetCompletedValue() < m_fenceValues[m_currentBackBufferIndex])
         {
             CheckResult(m_fence->SetEventOnCompletion(m_fenceValues[m_currentBackBufferIndex], m_fenceEvent), "Failed to Fire Event");
-            ::WaitForSingleObjectEx(m_fenceEvent, INFINITE, false);
+            ::WaitForSingleObject(m_fenceEvent, INFINITE);
         }
+		
 
         m_fenceValues[m_currentBackBufferIndex] = fenceVal + 1;
     }

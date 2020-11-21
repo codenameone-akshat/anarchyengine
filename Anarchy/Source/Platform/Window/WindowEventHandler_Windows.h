@@ -10,11 +10,9 @@ namespace anarchy
 		DECLARE_DEFAULT_CLASSMEMBERS(WindowEventHandler_Windows);
 
 	public:
-
 		void Initialize();
 		void PollMessage();
 		void HandleMessage(WindowEvent event);
-
 	};
 }
 #endif // !_WINDOW_EVENT_HANDLER_WINDOWS_H_

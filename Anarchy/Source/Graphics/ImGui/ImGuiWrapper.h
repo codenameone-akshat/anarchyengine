@@ -24,6 +24,8 @@ namespace anarchy
 		void NewFrame();
 		void SetupDebugUI(); // TODO: Move this to the game project later
 		void Render(ComPtr<ID3D12GraphicsCommandList>& graphicsCommandlist);
+		void InvalidateResources();
+		void RecreateResources();
 		void Shutdown();
 #endif // PLATFORM_WINDOWS && AC_D3D12
 	};

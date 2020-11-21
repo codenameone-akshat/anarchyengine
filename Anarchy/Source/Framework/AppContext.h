@@ -6,6 +6,7 @@
 #include "Platform/PlatformConfig.h"
 #include "Platform/Window/WindowEventHandler.h"
 #include "Platform/Window/Window.h"
+#include "Framework/ClassHelpers.h"
 
 namespace anarchy
 {
@@ -41,11 +42,13 @@ namespace anarchy
         static std::shared_ptr<Window> GetHandleToMainWindow() noexcept { return ms_mainWindow; }
         static void SetHandleToMainWindow(std::shared_ptr<Window> window) { ms_mainWindow = window; }
 
-        static WindowDesc GetMainWindowDesc() { return ms_mainWindowDesc; }
-        static void SetMainWindowDesc(WindowDesc windowDesc) { ms_mainWindowDesc = windowDesc; }
+        static WindowDesc GetMainWindowDesc() { return ms_mainWindow->GetWindowDesc(); }
+        static void SetMainWindowDesc(WindowDesc windowDesc) { ms_mainWindow->SetWindowDesc(windowDesc); }
 
         static string GetSourceDirPath() { return ms_sourceDirPath; }
         static void SetSourceDirPath(string path) { ms_sourceDirPath = path; }
+
+        DECLARE_PROPERTY_STATIC(bool, isResizeTriggered, IsResizeTriggered, false);
 
     private:
         WINDOWS_ONLY(inline static MainParams ms_mainParams = {};)

@@ -108,8 +108,8 @@ inline type Get##propertyName() const; \
 inline void Set##propertyName(const type& arg);
 
 #define DECLARE_DEFAULT_ACCESSORS_STATIC(type, varName, propertyName) \
-static inline type Get##propertyName() const { return ms_##varName; } \
-static inline void Set##propertyName(const type& arg) { ms_##varName = arg; }
+static type Get##propertyName() { return ms_##varName; } \
+static void Set##propertyName(const type& arg) { ms_##varName = arg; }
 // !Class Member Getter Setter Helpers
 
 
@@ -142,7 +142,7 @@ type m_##varName = defaultVal;
 public: \
 DECLARE_DEFAULT_ACCESSORS_STATIC(type, varName, propertyName) \
 private: \
-static type ms_##varName = defaultVal; 
+inline static type ms_##varName = defaultVal; 
 // !Class Member Declaration Helpers
 
 

@@ -18,7 +18,7 @@
 namespace anarchy
 {
     constexpr D3D_FEATURE_LEVEL g_minFeatureLevel = D3D_FEATURE_LEVEL_12_1;
-    constexpr uint32 g_numFrameBuffers = 2; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
+    constexpr uint32 g_numFrameBuffers = 3; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
 
     class D3D12Renderer : public GfxRenderer
     {
@@ -44,11 +44,16 @@ namespace anarchy
         void CreateDevice();
         void CreateGraphicsCommandQueue();
         void CreateSwapChain();
-        void CreateRenderTargetView();
+        void SetupRenderTargetViewResources();
+        void CreateRenderTargetViews();
         void CreateCBVSRVHeap();
         void CreateCommandAllocators();
         void PopulateShaders();
         // End Initializing
+
+        // Resize 
+		void ResizeSwapChain();
+        void CleanupRenderTargetViews();
 
         // Load Pipe
         void InitalizeResources();
@@ -105,7 +110,8 @@ namespace anarchy
         uint32 m_indicesPerInstance = 0;
 
         // Sync Objects
-        ComPtr<ID3D12Fence1> m_fence = nullptr;
+		ComPtr<ID3D12Fence1> m_fence = nullptr;
+		handle m_frameLatencyWaitableObject = nullptr;
         handle m_fenceEvent = nullptr;
 		uint32 m_currentBackBufferIndex = 0; // frameIndex
         std::array<uint64, g_numFrameBuffers> m_fenceValues = { };
