@@ -5,7 +5,6 @@
 #include "ImGuiWrapper.h"
 #include "Graphics/ImGui/imgui.h"
 #include "Engine/Core/EngineContext.h"
-#include "Framework/Math/Vector/Vec4.hpp"
 #include "Graphics/ImGui/Windows/imgui_impl_win32.h"
 #include "Graphics/ImGui/D3D12/imgui_impl_dx12.h"
 
@@ -46,7 +45,7 @@ namespace anarchy
 		ImGui::Begin("Debug Menu");
 
 		ImGui::ColorEdit3("Clear Color", (float*)&clear_color); // Edit 3 floats representing a color
-		EngineContext::SetClearColor(math::Vec4<float>(clear_color.x, clear_color.y, clear_color.z, clear_color.w));
+		EngineContext::SetClearColor(Vector4f(clear_color.x, clear_color.y, clear_color.z, clear_color.w));
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		ImGui::End();
 	}

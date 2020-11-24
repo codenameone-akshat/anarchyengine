@@ -28,7 +28,7 @@ namespace anarchy
     public:
         string shaderEntryPoint = "";
         HLSLShaderTarget shaderTarget;
-        uint32_t shaderCompileFlags = NULL;
+        uint32 shaderCompileFlags = NULL;
     };
 
     class HLSLShader

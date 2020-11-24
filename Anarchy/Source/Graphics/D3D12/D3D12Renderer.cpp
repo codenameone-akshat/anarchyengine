@@ -5,8 +5,6 @@
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "Framework/AppContext.h"
 #include "Framework/FrameworkHelpers.h"
-#include "Framework/Math/Vector/Vec3.hpp"
-#include "Framework/Math/Vector/Vec4.hpp"
 #include "Platform/Types/NumericTypeLimits.h"
 #include "Platform/ResultHelper.h"
 #include "Utils/Logger/Logger.h"
@@ -279,7 +277,7 @@ namespace anarchy
         {
             "POSITION",
             0,
-            DXGI_FORMAT_R32G32B32_FLOAT, // Vec3
+            DXGI_FORMAT_R32G32B32_FLOAT, // Vector3f
             0,
             0,
             D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
@@ -340,8 +338,8 @@ namespace anarchy
         // Creating Vertex Layout here for now
         struct Vertex
         {
-            math::Vec3<float> position;
-            math::Vec4<float> color;
+            Vector3f position;
+            Vector4f color;
         };
 
         Vertex vertexBufferData[] =
@@ -357,7 +355,7 @@ namespace anarchy
             { {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} }
         };
 
-        uint32_t vertexBufferSize = sizeof(vertexBufferData);
+        uint32 vertexBufferSize = sizeof(vertexBufferData);
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
         heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -382,7 +380,7 @@ namespace anarchy
         m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_vertexBuffer, "Vertex Buffer");
 
         D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
-        uint8_t* vertexDataGPUBuffer = nullptr;
+        byte* vertexDataGPUBuffer = nullptr;
 
         CheckResult(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&vertexDataGPUBuffer)), "Failed to map resource");
         memcpy_s(vertexDataGPUBuffer, vertexBufferSize, vertexBufferData, vertexBufferSize);
@@ -395,7 +393,7 @@ namespace anarchy
 
     void D3D12Renderer::CreateIndexBuffer()
     {
-        uint32_t indexBufferData[] =
+        uint32 indexBufferData[] =
         {
             0,2,1, // -x
             1,2,3,
@@ -416,8 +414,8 @@ namespace anarchy
             1,7,5,
         };
 
-        uint32_t indexBufferSize = sizeof(indexBufferData);
-        m_indicesPerInstance = indexBufferSize / sizeof(uint32_t);
+        uint32 indexBufferSize = sizeof(indexBufferData);
+        m_indicesPerInstance = indexBufferSize / sizeof(uint32);
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
         heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -442,7 +440,7 @@ namespace anarchy
         m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_indexBuffer, "Index Buffer");
 
         D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
-        uint8_t* indexDataGPUBuffer = nullptr;
+        byte* indexDataGPUBuffer = nullptr;
 
         CheckResult(m_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&indexDataGPUBuffer)), "Failed to map resource");
         memcpy_s(indexDataGPUBuffer, indexBufferSize, indexBufferData, indexBufferSize);

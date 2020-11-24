@@ -2,6 +2,7 @@
 #define _MESH_H_
 
 #include <vector>
+#include <Eigen/Dense>
 
 #ifdef AC_DEBUG
 #include <string>
@@ -10,8 +11,7 @@
 #include "Framework/ClassHelpers.h"
 #include "Framework/FrameworkHelpers.h"
 #include "Framework/SerializationHelpers.h"
-#include "Framework/Math/Vector/Vec2.hpp"
-#include "Framework/Math/Vector/Vec3.hpp"
+#include "Platform/Types/Types.h"
 #include SERIALIZE_STD_VECTOR_INCLUDE
 #include SERIALIZE_STD_STRING_INCLUDE
 
@@ -21,13 +21,12 @@ namespace anarchy
     {
         DECLARE_DEFAULT_CLASSMEMBERS(MeshGPUData);
 
-        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3<float>>, vertices, Vertices);
-        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3<float>>, normals, Normals);
-        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec2<float>>, texCoords, TexCoords);
-        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3<float>>, tangents, Tangents);
-        DECLARE_DEFAULT_PROPERTY(std::vector<math::Vec3<float>>, biTangents, BiTangents);
-        // TODO: make this Vec3<uint32_t> when Vec3 is templatized
-        DECLARE_DEFAULT_PROPERTY(std::vector<uint32_t>, indices, Indices);
+        DECLARE_DEFAULT_PROPERTY(std::vector<Vector3f>, vertices, Vertices);
+        DECLARE_DEFAULT_PROPERTY(std::vector<Vector3f>, normals, Normals);
+        DECLARE_DEFAULT_PROPERTY(std::vector<Vector2f>, texCoords, TexCoords);
+        DECLARE_DEFAULT_PROPERTY(std::vector<Vector3f>, tangents, Tangents);
+        DECLARE_DEFAULT_PROPERTY(std::vector<Vector3f>, biTangents, BiTangents);
+        DECLARE_DEFAULT_PROPERTY(std::vector<uint32>, indices, Indices);
 
     private:
         SERIALIZATION_PRIVATE_IMPL_ENABLE;
@@ -48,7 +47,7 @@ namespace anarchy
         DECLARE_DEFAULT_CLASSMEMBERS(Mesh);
 
         DECLARE_DEFAULT_PROPERTY(MeshGPUData, meshGPUData, MeshGPUData);
-        DECLARE_DEFAULT_PROPERTY(uint32_t, materialIndex, MaterialIndex);
+        DECLARE_DEFAULT_PROPERTY(uint32, materialIndex, MaterialIndex);
         AC_DEBUGONLY(DECLARE_PROPERTY(std::string, name, Name, "UnNamed");)
     
     private:

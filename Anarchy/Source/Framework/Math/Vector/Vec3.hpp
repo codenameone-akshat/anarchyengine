@@ -1,4 +1,7 @@
-#pragma once
+#ifndef _VEC3_HPP_
+#define _VEC3_HPP_
+
+#ifdef USE_CUSTOM_MATH
 
 #include <cstdint>
 #include <cmath>
@@ -277,3 +280,5 @@ namespace anarchy::math
         float z;
     };
 }
+#endif // USE_CUSTOM_MATH
+#endif // !_VEC3_HPP_

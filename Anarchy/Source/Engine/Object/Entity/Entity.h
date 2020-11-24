@@ -18,7 +18,7 @@ namespace anarchy
         DECLARE_DEFAULT_PROPERTY(std::vector<Mesh>, meshes, Meshes);
     
     public:
-        inline void ReserveMeshMemory(uint32_t elementCount) { m_meshes.reserve(elementCount); }
+        inline void ReserveMeshMemory(uint32 elementCount) { m_meshes.reserve(elementCount); }
         inline void AddMesh(Mesh mesh) { m_meshes.emplace_back(mesh); }
 
     private:

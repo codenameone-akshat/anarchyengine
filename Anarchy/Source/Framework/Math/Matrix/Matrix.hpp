@@ -1,4 +1,7 @@
-#pragma once
+#ifndef _MATRIX_HPP_
+#define _MATRIX_HPP_
+
+#ifdef USE_CUSTOM_MATH
 
 #include <cstring>
 
@@ -438,3 +441,5 @@ namespace anarchy::math
         float m[4][4];
     };
 }
+#endif // USE_CUSTOM_MATH
+#endif // !_MATRIX_HPP_

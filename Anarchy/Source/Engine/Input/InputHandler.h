@@ -4,14 +4,14 @@
 #include <array>
 
 #include "Framework/ClassHelpers.h"
-#include "Framework/Math/Vector/Vec2.hpp"
+#include "Platform/Types/Types.h"
 
 namespace anarchy
 {
 #define KEY_SET_COMPARE_VAL 0x80
 
     // Shamelessly Copied from MS VK_XX ;)
-    enum Key : uint32_t
+    enum Key : uint32
     {
         // Keyboard keys (not exhaustive ;-))
         KEY_BACKSPACE       = 0x08, // Same as Unicode & Win32
@@ -121,7 +121,7 @@ namespace anarchy
 
     class InputHandler
     {
-        using MousePosition = math::Vec2<uint32_t>;
+        using MousePosition = Vector2i;
         struct MouseState
         {
             MousePosition mousePosition = {};

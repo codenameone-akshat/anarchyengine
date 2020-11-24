@@ -12,12 +12,12 @@ namespace anarchy
         ComPtr<IDXGIAdapter4> hardwareAdapter;
         ComPtr<IDXGIAdapter1> hardwareAdapter1;
 
-        auto enumAdapter = [&hardwareAdapter1](uint32_t adapterIdx, ComPtr<IDXGIFactory7> factory)
+        auto enumAdapter = [&hardwareAdapter1](uint32 adapterIdx, ComPtr<IDXGIFactory7> factory)
         {
             return (factory->EnumAdapters1(adapterIdx, &hardwareAdapter1) != DXGI_ERROR_NOT_FOUND);
         };
 
-        uint32_t adapterIdx = 0;
+        uint32 adapterIdx = 0;
         while (enumAdapter(adapterIdx++, m_factory))
         {
             DXGI_ADAPTER_DESC3 adapterDesc;

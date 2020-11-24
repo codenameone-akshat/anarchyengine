@@ -46,7 +46,7 @@ namespace anarchy
             CheckResult(m_device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&heap)), "Failed to Create Descriptor Heap.");
         }
 
-        inline uint32_t GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType) { return m_device->GetDescriptorHandleIncrementSize(heapType); }
+        inline uint32 GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE heapType) { return m_device->GetDescriptorHandleIncrementSize(heapType); }
 
         inline void CreateRenderTargetView(ComPtr<ID3D12Resource>& d3d12Resource, const D3D12_RENDER_TARGET_VIEW_DESC* rtvDesc, CD3DX12_CPU_DESCRIPTOR_HANDLE descriptorHandle)
         {
@@ -58,7 +58,7 @@ namespace anarchy
             CheckResult(m_device->CreateCommandAllocator(type, IID_PPV_ARGS(&commandAllocator)), "Failed to create Command Allocator.");
         }
 
-        inline void CreateRootSignature(std::uint32_t nodeMask, const ComPtr<ID3DBlob> blobWithRootSignature, ComPtr<ID3D12RootSignature>& rootSignature)
+        inline void CreateRootSignature(uint32 nodeMask, const ComPtr<ID3DBlob> blobWithRootSignature, ComPtr<ID3D12RootSignature>& rootSignature)
         {
             CheckResult(m_device->CreateRootSignature(nodeMask, blobWithRootSignature->GetBufferPointer(), blobWithRootSignature->GetBufferSize(), IID_PPV_ARGS(&rootSignature)), "Failed to Create Root Signature.");
         }
@@ -81,7 +81,7 @@ namespace anarchy
             resource->SetName(string_cast<std::wstring>(resourceTag).c_str());
         }
 
-        inline void CreateFence(uint16_t initialVal, D3D12_FENCE_FLAGS fenceFlags, ComPtr<ID3D12Fence1>& fence)
+        inline void CreateFence(uint16 initialVal, D3D12_FENCE_FLAGS fenceFlags, ComPtr<ID3D12Fence1>& fence)
         {
             CheckResult(m_device->CreateFence(initialVal, fenceFlags, IID_PPV_ARGS(&fence)), "Failed to Create Fence");
         }

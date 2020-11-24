@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "Game/GameSettings/GameSettings.h"
-#include "Framework/Math/Vector/Vec4.hpp"
 #include "Framework/ClassHelpers.h"
+#include "Platform/Types/TYpes.h"
 
 namespace anarchy
 {
@@ -22,13 +22,13 @@ namespace anarchy
         static std::shared_ptr<game::GameSettings> GetGameSpecificSettings() { return m_gameSpecificSettings; }
         static void SetGameSpecificSettings(std::shared_ptr<game::GameSettings> settings) { m_gameSpecificSettings = settings; }
 
-		static math::Vec4<float> GetClearColor() noexcept { return ms_clearColor; }
-		static void SetClearColor(math::Vec4<float> clearColor) { ms_clearColor = clearColor; }
+		static Vector4f GetClearColor() noexcept { return ms_clearColor; }
+		static void SetClearColor(Vector4f clearColor) { ms_clearColor = clearColor; }
 
     private:
         inline static bool ms_isEngineRunning = false;
         inline static std::shared_ptr<game::GameSettings> m_gameSpecificSettings = nullptr;
-        inline static math::Vec4<float> ms_clearColor = { 0.0f, 0.5f, 0.7f, 1.0f };
+        inline static Vector4f ms_clearColor = { 0.0f, 0.5f, 0.7f, 1.0f };
     };
 }
 

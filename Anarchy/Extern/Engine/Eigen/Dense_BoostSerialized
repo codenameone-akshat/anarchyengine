@@ -1,0 +1,7 @@
+#ifndef _BOOST_SERIALIZED_EIGEN_DENSE_H_
+#define _BOOST_SERIALIZED_EIGEN_DENSE_H_
+
+// Enable Boost Serialization
+#include "plugin/eigen_boost_serialization.hpp"
+
+#endif // !_BOOST_SERIALIZED_EIGEN_DENSE_H_

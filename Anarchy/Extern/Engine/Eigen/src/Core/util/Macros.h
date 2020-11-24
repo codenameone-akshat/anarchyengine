@@ -659,10 +659,10 @@
 // Does the compiler support result_of?
 // It's likely that MSVC 2013 supports result_of but I couldn't not find a good source for that,
 // so let's be conservative.
+// std::result_of depricated in c++17 and removed in c++20 | use std::invoke_result instead
 #ifndef EIGEN_HAS_STD_RESULT_OF
 #if EIGEN_MAX_CPP_VER>=11 && \
-    EIGEN_MAX_CPP_VER<17 && \
-    (__has_feature(cxx_lambdas) || (defined(__cplusplus) && __cplusplus >= 201103L) || EIGEN_COMP_MSVC >= 1900)
+    (__has_feature(cxx_lambdas) || (defined(__cplusplus) && __cplusplus >= 201103L && __cplusplus < 201703L) || EIGEN_COMP_MSVC >= 1900 && EIGEN_COMP_MSVC < 1910)
 #define EIGEN_HAS_STD_RESULT_OF 1
 #else
 #define EIGEN_HAS_STD_RESULT_OF 0

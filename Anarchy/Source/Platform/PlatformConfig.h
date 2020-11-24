@@ -23,6 +23,7 @@
 #define LINUX_ONLY(x) 
 #endif //PLATFORM_LINUX
 
+#define USE_EIGEN_LIB
 
 #define ANARCHY_NAMESPACE_BEGIN namespace anarchy {
 #define ANARCHY_NAMESPACE_END }

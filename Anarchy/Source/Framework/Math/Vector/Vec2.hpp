@@ -1,4 +1,7 @@
-#pragma once
+#ifndef _VEC2_HPP_
+#define _VEC2_HPP_
+
+#ifdef USE_CUSTOM_MATH
 
 #include <cstdint>
 #include <cmath>
@@ -268,3 +271,6 @@ namespace anarchy::math
         T y;
     };
 }
+
+#endif // USE_CUSTOM_MATH
+#endif // !_VEC2_HPP_

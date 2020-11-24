@@ -24,29 +24,29 @@ namespace anarchy
 
         auto aiVector3ToVec3 = [](aiVector3D vec)
         {
-            return math::Vec3<float>(vec.x, vec.y, vec.z);
+            return Vector3f(vec.x, vec.y, vec.z);
         };
 
         auto aiVector3ToVec2 = [](aiVector3D vec)
         {
-            return math::Vec2(vec.x, vec.y);
+            return Vector2f(vec.x, vec.y);
         };
 
-        for (uint32_t itr = 0; itr < scene->mNumMeshes; ++itr)
+        for (uint32 itr = 0; itr < scene->mNumMeshes; ++itr)
         {
             auto mesh = meshes[itr];
             Mesh engineMesh = {};
 
-            std::vector<math::Vec3<float>> vertices(mesh->mNumVertices);
-            std::vector<math::Vec3<float>> normals(mesh->mNumVertices);
-            std::vector<math::Vec2<float>> texCoords(mesh->mNumVertices);
-            std::vector<math::Vec3<float>> tangents(mesh->mNumVertices);
-            std::vector<math::Vec3<float>> biTangents(mesh->mNumVertices);
+            std::vector<Vector3f> vertices(mesh->mNumVertices);
+            std::vector<Vector3f> normals(mesh->mNumVertices);
+            std::vector<Vector2f> texCoords(mesh->mNumVertices);
+            std::vector<Vector3f> tangents(mesh->mNumVertices);
+            std::vector<Vector3f> biTangents(mesh->mNumVertices);
 
-            for (uint32_t itr = 0; itr < mesh->mNumVertices; ++itr)
+            for (uint32 itr = 0; itr < mesh->mNumVertices; ++itr)
             {
-                math::Vec3<float> vec3 = {};
-                math::Vec2<float> vec2 = {};
+                Vector3f vec3 = {};
+                Vector2f vec2 = {};
 
                 vertices.emplace_back(aiVector3ToVec3(mesh->mVertices[itr]));
 
@@ -59,7 +59,7 @@ namespace anarchy
                 }
                 else
                 {
-                    texCoords.emplace_back(math::Vec2(0.0f, 0.0f));
+                    texCoords.emplace_back(Vector2f(0.0f, 0.0f));
                 }
 
 
@@ -71,19 +71,19 @@ namespace anarchy
                 }
                 else
                 {
-                    vec3.x = vec3.y = vec3.z = 0.0f;
-                    tangents.emplace_back(math::Vec3<float>(0.0f, 0.0f, 0.0f));
-                    biTangents.emplace_back(math::Vec3<float>(0.0f, 0.0f, 0.0f));
+                    vec3.x() = vec3.y() = vec3.z() = 0.0f;
+                    tangents.emplace_back(Vector3f(0.0f, 0.0f, 0.0f));
+                    biTangents.emplace_back(Vector3f(0.0f, 0.0f, 0.0f));
                 }
             }
 
-            std::vector<uint32_t> indices(mesh->mNumFaces * 3);
-            for (uint32_t itr = 0; itr < mesh->mNumFaces; ++itr)
+            std::vector<uint32> indices(mesh->mNumFaces * 3);
+            for (uint32 itr = 0; itr < mesh->mNumFaces; ++itr)
             {
                 // TODO: make this Vec3<uint32_t> when Vec3 is templatized
-                const uint32_t vertexA = mesh->mFaces[itr].mIndices[0];
-                const uint32_t vertexB = mesh->mFaces[itr].mIndices[1];
-                const uint32_t vertexC = mesh->mFaces[itr].mIndices[2];
+				const uint32 vertexA = mesh->mFaces[itr].mIndices[0];
+				const uint32 vertexB = mesh->mFaces[itr].mIndices[1];
+				const uint32 vertexC = mesh->mFaces[itr].mIndices[2];
 
                 indices.push_back(vertexA);
                 indices.push_back(vertexB);

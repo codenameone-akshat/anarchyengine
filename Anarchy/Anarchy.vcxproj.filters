@@ -401,7 +401,6 @@
     <None Include="Extern\Engine\Eigen\Cholesky" />
     <None Include="Extern\Engine\Eigen\CholmodSupport" />
     <None Include="Extern\Engine\Eigen\Core" />
-    <None Include="Extern\Engine\Eigen\Dense" />
     <None Include="Extern\Engine\Eigen\Eigen" />
     <None Include="Extern\Engine\Eigen\Eigenvalues" />
     <None Include="Extern\Engine\Eigen\Geometry" />
@@ -428,6 +427,7 @@
     <None Include="Extern\Engine\Eigen\SuperLUSupport" />
     <None Include="Extern\Engine\Eigen\SVD" />
     <None Include="Extern\Engine\Eigen\UmfPackSupport" />
+    <None Include="Extern\Engine\Eigen\Dense" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />

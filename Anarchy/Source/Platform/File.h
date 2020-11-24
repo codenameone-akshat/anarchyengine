@@ -15,14 +15,14 @@ namespace anarchy
     template <typename T>
     concept Non_Pointer = !std::is_pointer<T>::value;
 
-    enum class SeekPosition : uint16_t
+    enum class SeekPosition : uint16
     {
         Begin,
         Current,
         End
     };
 
-    enum class FileIOMode : uint16_t
+    enum class FileIOMode : uint16
     {
         Read,
         Write,
@@ -40,7 +40,7 @@ namespace anarchy
 
         File(std::string filename, FileIOMode fileIOMode = FileIOMode::Write)
         {
-            uint32_t access = 0x00000000L;
+            uint32 access = 0x00000000L;
 
             switch (fileIOMode)
             {
@@ -93,23 +93,23 @@ namespace anarchy
         template <Non_Pointer T>
         void Write(const T& data, size_t size = sizeof(T))
         {
-            uint32_t bytesWritten(0);
-            ::WriteFile(hFile, &data, static_cast<uint32_t>(size), &bytesWritten, nullptr);
+            uint32 bytesWritten(0);
+            ::WriteFile(hFile, &data, static_cast<uint32>(size), &bytesWritten, nullptr);
         }
 
         template <Pointer T>
-        void Write(const T& data, size_t size = sizeof(T))
+        void Write(const T& data, size size = sizeof(T))
         {
-            uint32_t bytesWritten(0); LPDWORD
-                ::WriteFile(hFile, data, static_cast<uint32_t>(size), &bytesWritten, nullptr);
+            uint32 bytesWritten(0); LPDWORD
+                ::WriteFile(hFile, data, static_cast<uint32>(size), &bytesWritten, nullptr);
         }
 
-        void Seek(int64_t bytesToMove, SeekPosition seekPosition)
+        void Seek(int64 bytesToMove, SeekPosition seekPosition)
         {
             LARGE_INTEGER largeInt;
             largeInt.QuadPart = bytesToMove;
 
-            uint64_t moveMethod = -1; // max uint
+            uint64 moveMethod = -1; // max uint
             switch (seekPosition)
             {
             case SeekPosition::Begin: moveMethod = FILE_BEGIN;
@@ -120,18 +120,18 @@ namespace anarchy
                 break;
             }
 
-            uint64_t filePosition = ::SetFilePointer(hFile, largeInt.LowPart, &largeInt.HighPart, moveMethod);
+            uint64 filePosition = ::SetFilePointer(hFile, largeInt.LowPart, &largeInt.HighPart, moveMethod);
 
             if (filePosition == INVALID_SET_FILE_POINTER)
                 __debugbreak();
         }
 
-        uint64_t Tell()
+        uint64 Tell()
         {
             LARGE_INTEGER largeInt;
             largeInt.QuadPart = 0; // set offset to null since we dont want to move the pointer
 
-            uint64_t filePosition = ::SetFilePointer(hFile, largeInt.LowPart, &largeInt.HighPart, FILE_CURRENT);
+            uint64 filePosition = ::SetFilePointer(hFile, largeInt.LowPart, &largeInt.HighPart, FILE_CURRENT);
             if (filePosition == INVALID_SET_FILE_POINTER)
                 __debugbreak();
 

@@ -15,10 +15,10 @@ namespace anarchy
         D3D12Factory() = default;
         ~D3D12Factory() = default;
 
-        inline void SetDXGIFactoryFlags(const uint32_t flags) { m_dxgiFactoryFlags = flags; }
-        inline void ClearDXGIFactoryFlags(const uint32_t flags) { m_dxgiFactoryFlags = NULL; }
-        inline void AppendDXGIFactoryFlags(const uint32_t flags) { m_dxgiFactoryFlags |= flags; }
-        inline uint32_t GetDXGIFactoryFlags() const { return m_dxgiFactoryFlags; }
+        inline void SetDXGIFactoryFlags(const uint32 flags) { m_dxgiFactoryFlags = flags; }
+        inline void ClearDXGIFactoryFlags(const uint32 flags) { m_dxgiFactoryFlags = NULL; }
+        inline void AppendDXGIFactoryFlags(const uint32 flags) { m_dxgiFactoryFlags |= flags; }
+        inline uint32 GetDXGIFactoryFlags() const { return m_dxgiFactoryFlags; }
 
         inline ComPtr<IDXGIFactory7>& GetRawFactory() { return m_factory; }
 
