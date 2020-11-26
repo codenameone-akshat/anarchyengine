@@ -401,6 +401,7 @@
     <ClInclude Include="Source\Engine\Object\Component\CameraComponent.h" />
     <ClInclude Include="Source\acpch.h" />
     <ClInclude Include="Source\Framework\ProjectConfig.h" />
+    <ClInclude Include="Source\Framework\Math\MathHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
