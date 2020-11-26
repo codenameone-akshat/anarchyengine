@@ -4,9 +4,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
-#include "Framework/ClassHelpers.h"
-#include "Platform/Types/Types.h"
-
 namespace anarchy
 {
     using Buffer = byte*;

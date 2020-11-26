@@ -197,6 +197,8 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <PreprocessorDefinitions>_MBCS;AC_DEBUG;AC_D3D11;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>acpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -214,6 +216,8 @@
       <PreprocessorDefinitions>_MBCS;AC_DEBUG;AC_D3D12;NOMINMAX;WIN32_LEAN_AND_MEAN;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>acpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -234,6 +238,8 @@
       <PreprocessorDefinitions>_MBCS;AC_DEBUG;AC_D3D12;NOMINMAX;WIN32_LEAN_AND_MEAN;PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>acpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -266,6 +272,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>acpch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -274,7 +282,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\acpch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug_UnityBuild|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
+    <ClCompile Include="Source\Graphics\Camera.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\imgui.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\ImGuiWrapper.cpp" />
@@ -601,11 +616,14 @@
     <ClInclude Include="Extern\Engine\Eigen\src\UmfPackSupport\UmfPackSupport.h" />
     <ClInclude Include="Extern\Engine\Entt\entt.hpp" />
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
+    <ClInclude Include="Source\Engine\Object\Component\CameraComponent.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Framework\AppContext.h" />
     <ClInclude Include="Source\Framework\ClassHelpers.h" />
     <ClInclude Include="Source\Framework\FrameworkHelpers.h" />
+    <ClInclude Include="Source\Framework\ProjectConfig.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
+    <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.h" />
     <ClInclude Include="Source\Graphics\ImGui\imconfig.h" />
     <ClInclude Include="Source\Graphics\ImGui\imgui.h" />
@@ -615,6 +633,12 @@
     <ClInclude Include="Source\Graphics\ImGui\imstb_textedit.h" />
     <ClInclude Include="Source\Graphics\ImGui\imstb_truetype.h" />
     <ClInclude Include="Source\Graphics\ImGui\Windows\imgui_impl_win32.h" />
+    <ClInclude Include="Source\acpch.h">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">false</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug_UnityBuild|x64'">false</DeploymentContent>
+    </ClInclude>
     <ClInclude Include="Source\Platform\Assertion.h" />
     <ClInclude Include="Source\Platform\ResultHelper.h" />
     <ClInclude Include="Source\Platform\Platform.h" />
@@ -674,6 +698,7 @@
     <None Include="Extern\Engine\Eigen\CholmodSupport" />
     <None Include="Extern\Engine\Eigen\Core" />
     <None Include="Extern\Engine\Eigen\Dense" />
+    <None Include="Extern\Engine\Eigen\Dense_BoostSerialized" />
     <None Include="Extern\Engine\Eigen\Eigen" />
     <None Include="Extern\Engine\Eigen\Eigenvalues" />
     <None Include="Extern\Engine\Eigen\Geometry" />

@@ -11,6 +11,8 @@
 // If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
+#include "acpch.h"
+
 #include "Graphics/Imgui/imgui.h"
 #include "Graphics/Imgui/Windows/imgui_impl_win32.h"
 

@@ -1,16 +1,6 @@
 #ifndef _FRAMEWORK_DEFINES_H_
 #define _FRAMEWORK_DEFINES_H_
 
-#ifdef UNICODE
-
-#define AC_STR_LITERAL(x) L##x
-
-#else
-
-#define AC_STR_LITERAL(x) x
-
-#endif // UNICODE
-
 #define AC_NODISCARD [[nodiscard]]
 #define AC_FORCEINLINE __forceinline
 
@@ -22,7 +12,6 @@
 
 #define ACForceCrash *((uint64_t*)0) = 0xDEAD;
 
-
 #ifdef AC_DEBUG
 
 #ifdef PLATFORM_WINDOWS
@@ -33,12 +22,6 @@
 
 #else
 #define ACBreak 
-#endif // AC_DEBUG
-
-#ifdef AC_DEBUG
-#define AC_DEBUGONLY(x) x
-#else
-#define AC_DEBUGONLY(x)
 #endif // AC_DEBUG
 
 #endif // _FRAMEWORK_DEFINES_H_

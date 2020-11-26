@@ -1,3 +1,5 @@
+#include "acpch.h"
+
 #ifdef AC_D3D12
 #include <d3d12.h>
 #endif // AC_D3D12

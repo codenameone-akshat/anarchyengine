@@ -7,9 +7,6 @@
 #include <windows.h>
 #endif // PLATFORM_WINDOWS
 
-#include "Framework/ClassHelpers.h"
-#include "Platform/Types/Types.h"
-
 namespace anarchy
 {
 	class ImGuiWrapper final

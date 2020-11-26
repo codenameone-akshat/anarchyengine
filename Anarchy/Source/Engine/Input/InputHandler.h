@@ -3,9 +3,6 @@
 
 #include <array>
 
-#include "Framework/ClassHelpers.h"
-#include "Platform/Types/Types.h"
-
 namespace anarchy
 {
 #define KEY_SET_COMPARE_VAL 0x80
@@ -13,6 +10,11 @@ namespace anarchy
     // Shamelessly Copied from MS VK_XX ;)
     enum Key : uint32
     {
+        // Mouse Input
+		MOUSE_LBUTTON       = 0x01,
+		MOUSE_RBUTTON       = 0x02,
+		MOUSE_MBUTTON       = 0x04,
+
         // Keyboard keys (not exhaustive ;-))
         KEY_BACKSPACE       = 0x08, // Same as Unicode & Win32
         KEY_TAB             = 0x09, // Same as Unicode & Win32

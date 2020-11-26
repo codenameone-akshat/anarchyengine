@@ -1,11 +1,11 @@
+#include "acpch.h"
+
 #if defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
 
 #include "D3D12Renderer.h"
 #include "Engine/Core/EngineContext.h"
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "Framework/AppContext.h"
-#include "Framework/FrameworkHelpers.h"
-#include "Platform/Types/NumericTypeLimits.h"
 #include "Platform/ResultHelper.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Time/ScopedTimer.h"

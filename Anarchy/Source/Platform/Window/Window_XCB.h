@@ -1,7 +1,6 @@
 #ifndef _WINDOW_XBC_H_
 #define _WINDOW_XBC_H_
 
-#include "Framework/ClassHelpers.h"
 #include "Platform/Window/WindowDesc_Common.h"
 
 namespace anarchy

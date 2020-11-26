@@ -60,7 +60,7 @@ namespace anarchy
 
 	// Math
 #ifdef USE_EIGEN_LIB
-	// Vectors
+	// Vectors 
 	using Vector2i			= Eigen::Vector2i;
 	using Vector2f			= Eigen::Vector2f;
 	using Vector2d			= Eigen::Vector2d;
@@ -73,44 +73,59 @@ namespace anarchy
 	using Vector4f			= Eigen::Vector4f;
 	using Vector4d			= Eigen::Vector4d;
 
+	// Column Major Matrices
 	// Matrix 2x2 | Matrix 2xN | Matrix Nx2
-	using Matrix2i			= Eigen::Matrix2i;
-	using Matrix2f			= Eigen::Matrix2f;
-	using Matrix2d			= Eigen::Matrix2d;
+	using Matrix2i			= Eigen::Matrix<int32, 2, 2, Eigen::ColMajor>;
+	using Matrix2f			= Eigen::Matrix<float32, 2, 2, Eigen::ColMajor>;
+	using Matrix2d			= Eigen::Matrix<float64, 2, 2, Eigen::ColMajor>;
 	
-	using Matrix2Xi			= Eigen::Matrix2Xi;
-	using Matrix2Xf			= Eigen::Matrix2Xf;
-	using Matrix2Xd			= Eigen::Matrix2Xd;
+	using Matrix2Xi			= Eigen::Matrix<int32, 2, -1, Eigen::ColMajor>;
+	using Matrix2Xf			= Eigen::Matrix<float32, 2, -1, Eigen::ColMajor>;
+	using Matrix2Xd			= Eigen::Matrix<float64, 2, -1, Eigen::ColMajor>;
 	
-	using MatrixX2i			= Eigen::MatrixX2i;
-	using MatrixX2f			= Eigen::MatrixX2f;
-	using MatrixX2d			= Eigen::MatrixX2d;
+	using MatrixX2i			= Eigen::Matrix<int32, -1, 2, Eigen::ColMajor>;
+	using MatrixX2f			= Eigen::Matrix<float32, -1, 2, Eigen::ColMajor>;
+	using MatrixX2d			= Eigen::Matrix<float64, -1, 2, Eigen::ColMajor>;
 
 	// Matrix 3x3 | Matrix 3xN | Matrix Nx3
-	using Matrix3i			= Eigen::Matrix3i;
-	using Matrix3f			= Eigen::Matrix3f;
-	using Matrix3d			= Eigen::Matrix3d;
+	using Matrix3i			= Eigen::Matrix<int32, 3, 3, Eigen::ColMajor>;
+	using Matrix3f			= Eigen::Matrix<float32, 3, 3, Eigen::ColMajor>;
+	using Matrix3d			= Eigen::Matrix<float64, 3, 3, Eigen::ColMajor>;
 
-	using Matrix3Xi			= Eigen::Matrix3Xi;
-	using Matrix3Xf			= Eigen::Matrix3Xf;
-	using Matrix3Xd			= Eigen::Matrix3Xd;
+	using Matrix3Xi			= Eigen::Matrix<int32, 3, -1, Eigen::ColMajor>;
+	using Matrix3Xf			= Eigen::Matrix<float32, 3, -1, Eigen::ColMajor>;
+	using Matrix3Xd			= Eigen::Matrix<float64, 3, -1, Eigen::ColMajor>;
 	
-	using MatrixX3i			= Eigen::MatrixX3i;
-	using MatrixX3f			= Eigen::MatrixX3f;
-	using MatrixX3d			= Eigen::MatrixX3d;
+	using MatrixX3i			= Eigen::Matrix<int32, -1, 3, Eigen::ColMajor>;
+	using MatrixX3f			= Eigen::Matrix<float32, -1, 3, Eigen::ColMajor>;
+	using MatrixX3d			= Eigen::Matrix<float64, -1, 3, Eigen::ColMajor>;
 
 	// Matrix 4x4 | Matrix 4xN | Matrix Nx4
-	using Matrix4i			= Eigen::Matrix4i;
-	using Matrix4f			= Eigen::Matrix4f;
-	using Matrix4d			= Eigen::Matrix4d;
+	using Matrix4i			= Eigen::Matrix<int32, 4, 4, Eigen::ColMajor>;
+	using Matrix4f			= Eigen::Matrix<float32, 4, 4, Eigen::ColMajor>;
+	using Matrix4d			= Eigen::Matrix<float64, 4, 4, Eigen::ColMajor>;
 	
-	using Matrix4Xi			= Eigen::Matrix4Xi;
-	using Matrix4Xf			= Eigen::Matrix4Xf;
-	using Matrix4Xd			= Eigen::Matrix4Xd;
+	using Matrix4Xi			= Eigen::Matrix<int32, 4, -1, Eigen::ColMajor>;
+	using Matrix4Xf			= Eigen::Matrix<float32, 4, -1, Eigen::ColMajor>;
+	using Matrix4Xd			= Eigen::Matrix<float64, 4, -1, Eigen::ColMajor>;
 	
-	using MatrixX4i			= Eigen::MatrixX4i;
-	using MatrixX4f			= Eigen::MatrixX4f;
-	using MatrixX4d			= Eigen::MatrixX4d;
+	using MatrixX4i			= Eigen::Matrix<int32, -1, 4, Eigen::ColMajor>;
+	using MatrixX4f			= Eigen::Matrix<float32, -1, 4, Eigen::ColMajor>;
+	using MatrixX4d			= Eigen::Matrix<float64, -1, 4, Eigen::ColMajor>;
+
+	// Quaternions
+	using Quaternionf		= Eigen::Quaternionf;
+	using Quaterniond		= Eigen::Quaterniond;
+
+	// Angle Axis
+	using AngleAxisf		= Eigen::AngleAxisf;
+	using AngleAxisd		= Eigen::AngleAxisd;
+
+	// Affine Transforms
+	using Affine2f			= Eigen::Affine2f;
+	using Affine2d			= Eigen::Affine2d;
+	using Affine3f			= Eigen::Affine3f;
+	using Affine3d			= Eigen::Affine3d;
 #endif // USE_EIGEN_LIB
 
 }

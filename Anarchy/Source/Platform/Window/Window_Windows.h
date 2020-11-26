@@ -3,7 +3,6 @@
 
 #include <windows.h>
 
-#include "Framework/ClassHelpers.h"
 #include "Platform/Window/WindowDesc_Common.h"
 
 namespace anarchy

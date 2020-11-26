@@ -1,10 +1,11 @@
+#include "acpch.h"
+
 #ifdef AC_D3D12
 
 #include <d3dcompiler.h>
 
 #include "HLSLShader.h"
 #include "Framework/AppContext.h"
-#include "Framework/FrameworkHelpers.h"
 #include "Platform/ResultHelper.h"
 #include "Utils/StringUtils/StringUtils.h"
 

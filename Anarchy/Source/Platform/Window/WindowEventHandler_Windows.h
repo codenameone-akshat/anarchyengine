@@ -1,8 +1,6 @@
 #ifndef _WINDOW_EVENT_HANDLER_WINDOWS_H_
 #define _WINDOW_EVENT_HANDLER_WINDOWS_H_
 
-#include "Framework/ClassHelpers.h"
-
 namespace anarchy
 {
 	class WindowEventHandler_Windows

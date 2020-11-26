@@ -7,8 +7,6 @@
 #include <memory>
 #include <d3d12.h>
 
-#include "Framework/ClassHelpers.h"
-#include "Platform/Types/Types.h"
 #include "Graphics/GfxRenderer.h"
 #include "Graphics/HLSL/HLSLShader.h"
 #include "Graphics/D3D12/HAL/D3D12Factory.h"

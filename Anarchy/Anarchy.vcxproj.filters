@@ -24,6 +24,8 @@
     <ClCompile Include="Source\Graphics\ImGui\imgui_draw.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\ImGuiWrapper.cpp" />
+    <ClCompile Include="Source\Graphics\Camera.cpp" />
+    <ClCompile Include="Source\acpch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
@@ -395,6 +397,10 @@
     <ClInclude Include="Extern\Engine\Eigen\src\SVD\SVDBase.h" />
     <ClInclude Include="Extern\Engine\Eigen\src\SVD\UpperBidiagonalization.h" />
     <ClInclude Include="Extern\Engine\Eigen\src\UmfPackSupport\UmfPackSupport.h" />
+    <ClInclude Include="Source\Graphics\Camera.h" />
+    <ClInclude Include="Source\Engine\Object\Component\CameraComponent.h" />
+    <ClInclude Include="Source\acpch.h" />
+    <ClInclude Include="Source\Framework\ProjectConfig.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -428,6 +434,7 @@
     <None Include="Extern\Engine\Eigen\SVD" />
     <None Include="Extern\Engine\Eigen\UmfPackSupport" />
     <None Include="Extern\Engine\Eigen\Dense" />
+    <None Include="Extern\Engine\Eigen\Dense_BoostSerialized" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Docs\CodeGuildelinesAndRules.txt" />

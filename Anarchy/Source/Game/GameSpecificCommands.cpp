@@ -1,3 +1,5 @@
+#include "acpch.h"
+
 #include "GameSpecificCommands.h"
 
 namespace anarchy::game

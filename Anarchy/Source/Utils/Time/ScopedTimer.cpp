@@ -1,3 +1,5 @@
+#include "acpch.h"
+
 #include "ScopedTimer.h"
 #include "Utils/StringUtils/StringUtils.h"
 #include "Utils/Logger/Logger.h"

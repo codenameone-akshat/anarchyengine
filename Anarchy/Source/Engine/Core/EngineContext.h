@@ -4,8 +4,6 @@
 #include <memory>
 
 #include "Game/GameSettings/GameSettings.h"
-#include "Framework/ClassHelpers.h"
-#include "Platform/Types/TYpes.h"
 
 namespace anarchy
 {

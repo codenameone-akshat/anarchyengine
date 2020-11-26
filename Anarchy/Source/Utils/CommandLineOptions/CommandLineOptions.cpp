@@ -1,3 +1,5 @@
+#include "acpch.h"
+
 #include "CommandLineOptions.hpp"
 
 #include "Framework/AppContext.h"

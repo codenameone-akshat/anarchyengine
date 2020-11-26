@@ -6,7 +6,6 @@
 #include "Platform/PlatformConfig.h"
 #include "Platform/Window/WindowEventHandler.h"
 #include "Platform/Window/Window.h"
-#include "Framework/ClassHelpers.h"
 
 namespace anarchy
 {
