@@ -7,4 +7,6 @@
 #define AC_DEBUGONLY(x)
 #endif // AC_DEBUG
 
+#define USE_EIGEN_LIB
+
 #endif // !_PROJECT_CONFIG_H_

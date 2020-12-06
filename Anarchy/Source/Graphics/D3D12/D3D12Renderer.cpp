@@ -21,13 +21,17 @@ namespace anarchy
         InitializeAPI();
         InitalizeResources();
         m_imGuiWrapper->InitializeImGuiLib();
-        m_imGuiWrapper->InitializeImGuiWindowsD3D12(AppContext::GetHandleToMainWindow()->GetRawHandleToWindow(), m_device->GetRawDevice(), g_numFrameBuffers, DXGI_FORMAT_R8G8B8A8_UNORM, m_srvUavHeap, m_srvUavHeap->GetCPUDescriptorHandleForHeapStart(), m_srvUavHeap->GetGPUDescriptorHandleForHeapStart());
+        m_imGuiWrapper->InitializeImGuiWindowsD3D12(AppContext::GetHandleToMainWindow()->GetRawHandleToWindow(), m_device->GetRawDevice(), g_numFrameBuffers, DXGI_FORMAT_R8G8B8A8_UNORM, m_cbvSrvUavDescHeap, m_cbvSrvUavDescHeap->GetCPUDescriptorHandleForHeapStart(), m_cbvSrvUavDescHeap->GetGPUDescriptorHandleForHeapStart());
     }
 
     void D3D12Renderer::PreRender()
     {
 		if (AppContext::GetIsResizeTriggered())
 			ResizeSwapChain();
+
+        //tempcode
+        m_constantBufferData.color = EngineContext::GetPrimColor();
+		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
         m_imGuiWrapper->NewFrame();
         RecordCommands();
@@ -51,6 +55,10 @@ namespace anarchy
     {
         WaitForGPUToFinish();
         m_imGuiWrapper->Shutdown();
+        
+        for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
+            m_constantBufferUploadHeaps[itr]->Unmap(NULL, nullptr);
+
         CloseHandle(m_fenceEvent);
         CloseHandle(m_frameLatencyWaitableObject);
     }
@@ -70,7 +78,7 @@ namespace anarchy
         CreateSwapChain();
         SetupRenderTargetViewResources();
         CreateRenderTargetViews();
-        CreateCBVSRVHeap();
+        CreateCBVSRVDescriptorHeap();
         CreateCommandAllocators();
         PopulateShaders();
 
@@ -154,13 +162,13 @@ namespace anarchy
         rtvDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
         rtvDesc.NumDescriptors = g_numFrameBuffers;
 
-        m_device->CreateDescriptorHeap(rtvDesc, m_rtvHeap);
+        m_device->CreateDescriptorHeap(rtvDesc, m_rtvDescHeap);
         m_rtvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(rtvDesc.Type);
     }
 
     void D3D12Renderer::CreateRenderTargetViews()
     {
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvDescHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
 		for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
 		{
 			CheckResult(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
@@ -170,14 +178,16 @@ namespace anarchy
 		}
     }
 
-    void D3D12Renderer::CreateCBVSRVHeap()
+    void D3D12Renderer::CreateCBVSRVDescriptorHeap()
     {
-		D3D12_DESCRIPTOR_HEAP_DESC srvUavHeapDesc = {};
-        srvUavHeapDesc.NumDescriptors = 1;
-        srvUavHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-        srvUavHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-        m_device->CreateDescriptorHeap(srvUavHeapDesc, m_srvUavHeap);
-        m_cbvSrvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(srvUavHeapDesc.Type);
+        const uint32 numDescriptors = g_numImGuiSrvDescriptors + g_numCbvDescriptors;
+		D3D12_DESCRIPTOR_HEAP_DESC cbvSrvUavHeapDesc = {};
+        cbvSrvUavHeapDesc.NumDescriptors = numDescriptors;
+        cbvSrvUavHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+        cbvSrvUavHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+
+        m_device->CreateDescriptorHeap(cbvSrvUavHeapDesc, m_cbvSrvUavDescHeap);
+        m_cbvSrvUavHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(cbvSrvUavHeapDesc.Type);
     }
 
     void D3D12Renderer::CreateCommandAllocators()
@@ -238,16 +248,41 @@ namespace anarchy
 
 		CreateVertexBuffer();
 		CreateIndexBuffer();
+        CreateCBVUploadHeap();
+
 		CreateSyncObjects();
 		WaitForGPUToFinish(); // wait for command list to execute
 	}
 
     void D3D12Renderer::CreateRootSignature()
     {
-        // Empty root signature
+        // setup for cbv
+        // TODO: move from here?
+        D3D12_DESCRIPTOR_RANGE ranges[1];
+		ranges[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+		ranges[0].NumDescriptors = 1;
+		ranges[0].BaseShaderRegister = 0;
+		ranges[0].RegisterSpace = 0;
+		ranges[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+        D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable;
+        descriptorTable.NumDescriptorRanges = CountOf(ranges, D3D12_DESCRIPTOR_RANGE);
+        descriptorTable.pDescriptorRanges = &ranges[0];
+        
+        D3D12_ROOT_PARAMETER rootParams[1];
+        rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+        rootParams[0].DescriptorTable = descriptorTable;
+        rootParams[0].ShaderVisibility = (D3D12_SHADER_VISIBILITY)(D3D12_SHADER_VISIBILITY_VERTEX);
+        // setup cbv end
+        
+        uint32 numRootParams = CountOf(rootParams, D3D12_ROOT_PARAMETER);
 
         CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc;
-        rootSigDesc.Init(0, nullptr, 0, nullptr, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+        rootSigDesc.Init(numRootParams, rootParams, 0, nullptr,
+			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT | // we can deny shader stages here for better performance
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS);
 
         ComPtr<ID3DBlob> rootSignatureBlob;
         ComPtr<ID3DBlob> error;
@@ -376,13 +411,13 @@ namespace anarchy
         resourceDesc.SampleDesc.Quality = 0;
         resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
         resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
-
+        
         m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_vertexBuffer, "Vertex Buffer");
 
         D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
         byte* vertexDataGPUBuffer = nullptr;
 
-        CheckResult(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&vertexDataGPUBuffer)), "Failed to map resource");
+        CheckResult(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&vertexDataGPUBuffer)), "Failed to map vertex buffer resource");
         memcpy_s(vertexDataGPUBuffer, vertexBufferSize, vertexBufferData, vertexBufferSize);
         m_vertexBuffer->Unmap(NULL, nullptr);
 
@@ -442,13 +477,59 @@ namespace anarchy
         D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
         byte* indexDataGPUBuffer = nullptr;
 
-        CheckResult(m_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&indexDataGPUBuffer)), "Failed to map resource");
+        CheckResult(m_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&indexDataGPUBuffer)), "Failed to map index buffer resource");
         memcpy_s(indexDataGPUBuffer, indexBufferSize, indexBufferData, indexBufferSize);
         m_indexBuffer->Unmap(NULL, nullptr);
 
         m_indexBufferView.BufferLocation = m_indexBuffer->GetGPUVirtualAddress();
         m_indexBufferView.Format = DXGI_FORMAT_R32_UINT;
         m_indexBufferView.SizeInBytes = indexBufferSize;
+    }
+
+    void D3D12Renderer::CreateCBVUploadHeap()
+    {
+		D3D12_HEAP_PROPERTIES heapProperties = {};
+		heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+		heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+		heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+		heapProperties.CreationNodeMask = NULL; // Single GPU.
+		heapProperties.VisibleNodeMask = NULL; // Single GPU.
+
+        uint64 cbvSize = 1024 * 64; // need to be a multiple of 64kb
+
+		D3D12_RESOURCE_DESC resourceDesc = {};
+		resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+		resourceDesc.Alignment = 0;
+		resourceDesc.Width = cbvSize;
+		resourceDesc.Height = 1;
+		resourceDesc.DepthOrArraySize = 1;
+		resourceDesc.MipLevels = 1;
+		resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
+		resourceDesc.SampleDesc.Count = 1;
+		resourceDesc.SampleDesc.Quality = 0;
+		resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+		resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+
+
+        for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
+        {
+			m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_constantBufferUploadHeaps[itr], fmt::format("Constant Buffer Upload Heap {}", itr));
+			
+            D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
+			cbvDesc.BufferLocation = m_constantBufferUploadHeaps[itr]->GetGPUVirtualAddress();
+            cbvDesc.SizeInBytes = AlignTo(sizeof(SceneConstantBuffer), 256); // 256 byte aligned
+
+            CD3DX12_CPU_DESCRIPTOR_HANDLE cbvDescHandle(m_cbvSrvUavDescHeap->GetCPUDescriptorHandleForHeapStart());
+            cbvDescHandle.Offset(g_numImGuiSrvDescriptors + itr, m_cbvSrvUavHeapIncrementSize);
+
+            m_device->CreateConstantBufferView(cbvDesc, cbvDescHandle);
+
+            ZeroMemory(&m_constantBufferData, sizeof(m_constantBufferData));
+			D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
+
+			CheckResult(m_constantBufferUploadHeaps[itr]->Map(0, &readRange, reinterpret_cast<void**>(&m_constantBufferDataGPUAddresses[itr])), "Failed to map constant buffer resource");
+			memcpy_s(m_constantBufferDataGPUAddresses[itr], sizeof(m_constantBufferData), &m_constantBufferData, sizeof(m_constantBufferData));
+        }
     }
 
     void D3D12Renderer::CreateSyncObjects()
@@ -507,6 +588,12 @@ namespace anarchy
         m_commandList->RSSetViewports(1, &m_viewport);
         m_commandList->RSSetScissorRects(1, &m_scissorRect);
 
+		ID3D12DescriptorHeap* ptrToHeaps[] = { m_cbvSrvUavDescHeap.Get()};
+		m_commandList->SetDescriptorHeaps(CountOf(ptrToHeaps, ID3D12DescriptorHeap*), ptrToHeaps);
+        CD3DX12_GPU_DESCRIPTOR_HANDLE cbvSrvUavHeapDescHandle(m_cbvSrvUavDescHeap->GetGPUDescriptorHandleForHeapStart());
+        cbvSrvUavHeapDescHandle.Offset(g_numImGuiSrvDescriptors + m_currentBackBufferIndex, m_cbvSrvUavHeapIncrementSize);
+        m_commandList->SetGraphicsRootDescriptorTable(0, cbvSrvUavHeapDescHandle);
+
         // Back Buffer as a Render Target
         D3D12_RESOURCE_BARRIER renderTargetBarrier = {};
         renderTargetBarrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
@@ -516,12 +603,9 @@ namespace anarchy
         renderTargetBarrier.Transition.StateAfter = D3D12_RESOURCE_STATE_RENDER_TARGET;
         renderTargetBarrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 
-		ID3D12DescriptorHeap* ptrToHeaps[] = { m_srvUavHeap.Get() };
-		m_commandList->SetDescriptorHeaps(1, ptrToHeaps);
-
         m_commandList->ResourceBarrier(1, &renderTargetBarrier);
 
-        D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvHeap->GetCPUDescriptorHandleForHeapStart());
+        D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvDescHeap->GetCPUDescriptorHandleForHeapStart());
         rtvHandle.ptr += (m_currentBackBufferIndex * m_rtvHeapIncrementSize);
 
         auto fetchedColor = EngineContext::GetClearColor();

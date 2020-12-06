@@ -86,6 +86,11 @@ namespace anarchy
             CheckResult(m_device->CreateFence(initialVal, fenceFlags, IID_PPV_ARGS(&fence)), "Failed to Create Fence");
         }
 
+        inline void CreateConstantBufferView(D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc, D3D12_CPU_DESCRIPTOR_HANDLE cpuDescHandle)
+        {
+            m_device->CreateConstantBufferView(&cbvDesc, cpuDescHandle);
+        }
+
     private:
         ComPtr<ID3D12Device6> m_device = nullptr;
     };

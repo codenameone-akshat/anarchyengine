@@ -622,6 +622,7 @@
     <ClInclude Include="Source\Framework\ClassHelpers.h" />
     <ClInclude Include="Source\Framework\FrameworkHelpers.h" />
     <ClInclude Include="Source\Framework\Math\MathHelper.h" />
+    <ClInclude Include="Source\Framework\MemoryHelpers.h" />
     <ClInclude Include="Source\Framework\ProjectConfig.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
     <ClInclude Include="Source\Graphics\Camera.h" />

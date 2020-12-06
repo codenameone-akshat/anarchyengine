@@ -5,7 +5,6 @@
 
 #include <array>
 #include <memory>
-#include <d3d12.h>
 
 #include "Graphics/GfxRenderer.h"
 #include "Graphics/HLSL/HLSLShader.h"
@@ -17,6 +16,14 @@ namespace anarchy
 {
     constexpr D3D_FEATURE_LEVEL g_minFeatureLevel = D3D_FEATURE_LEVEL_12_1;
     constexpr uint32 g_numFrameBuffers = 3; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
+	constexpr uint32 g_numImGuiSrvDescriptors = 1;
+	constexpr uint32 g_numCbvDescriptors = g_numFrameBuffers;
+
+    struct SceneConstantBuffer
+    {
+        /*Matrix4f viewMatrix;*/
+        Eigen::RowVector4f color;
+    };
 
     class D3D12Renderer : public GfxRenderer
     {
@@ -44,7 +51,7 @@ namespace anarchy
         void CreateSwapChain();
         void SetupRenderTargetViewResources();
         void CreateRenderTargetViews();
-        void CreateCBVSRVHeap();
+        void CreateCBVSRVDescriptorHeap();
         void CreateCommandAllocators();
         void PopulateShaders();
         // End Initializing
@@ -65,6 +72,8 @@ namespace anarchy
 
         void CreateVertexBuffer();
         void CreateIndexBuffer();
+        void CreateCBVUploadHeap();
+
         void CreateSyncObjects();
 		void WaitForGPUToFinish();
 		void WaitForBackBufferAvailability();
@@ -85,8 +94,8 @@ namespace anarchy
         // COM Objects
         ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
         ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
-		ComPtr<ID3D12DescriptorHeap> m_rtvHeap = nullptr;
-		ComPtr<ID3D12DescriptorHeap> m_srvUavHeap = nullptr;
+		ComPtr<ID3D12DescriptorHeap> m_rtvDescHeap = nullptr;
+		ComPtr<ID3D12DescriptorHeap> m_cbvSrvUavDescHeap = nullptr;
 		ComPtr<ID3D12PipelineState> m_graphicsPSO = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
 		ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
 		ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
@@ -107,6 +116,10 @@ namespace anarchy
         D3D12_INDEX_BUFFER_VIEW m_indexBufferView = {};
         uint32 m_indicesPerInstance = 0;
 
+        std::array<ComPtr<ID3D12Resource>, g_numFrameBuffers> m_constantBufferUploadHeaps = {};
+        SceneConstantBuffer m_constantBufferData = {}; // TEMP CODE HERE
+        std::array<byte*, g_numFrameBuffers> m_constantBufferDataGPUAddresses = { };
+
         // Sync Objects
 		ComPtr<ID3D12Fence1> m_fence = nullptr;
 		handle m_frameLatencyWaitableObject = nullptr;
@@ -115,7 +128,7 @@ namespace anarchy
         std::array<uint64, g_numFrameBuffers> m_fenceValues = { };
 
 		uint32 m_rtvHeapIncrementSize = 0;
-		uint32 m_cbvSrvHeapIncrementSize = 0;
+		uint32 m_cbvSrvUavHeapIncrementSize = 0;
 
         // Render Objects
         D3D12_VIEWPORT m_viewport = {};

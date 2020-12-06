@@ -24,4 +24,5 @@
 #define ACBreak 
 #endif // AC_DEBUG
 
+#define CountOf(arr, type) (sizeof(arr) / sizeof(type))
 #endif // _FRAMEWORK_DEFINES_H_

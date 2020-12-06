@@ -3,6 +3,10 @@
 
 #include <Framework/ProjectConfig.h>
 
+#ifdef USE_EIGEN_LIB
+#include <Eigen/Dense_BoostSerialized>
+#endif // USE_EIGEN_LIB
+
 // Types
 #include <Platform/Types/Types.h>
 #include <Platform/Types/NumericTypeLimits.h>
@@ -11,5 +15,14 @@
 #include <Framework/ClassHelpers.h>
 #include <Framework/SerializationHelpers.h>
 #include <Framework/FrameworkHelpers.h>
+#include <Framework/MemoryHelpers.h>
+#include <fmt/core.h>
+
+// Graphics
+#include <d3d12.h>
+
+// C++ Basic Types
+#include <array>
+#include <vector>
 
 #endif // !_ACPCH_H_

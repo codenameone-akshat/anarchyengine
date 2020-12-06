@@ -1,8 +1,6 @@
 #ifndef _ASSERTION_H_
 #define _ASSERTION_H_
 
-#include <fmt/core.h>
-
 #include "Utils/Logger/Logger.h"
 #include "Utils/StringUtils/StringUtils.h"
 

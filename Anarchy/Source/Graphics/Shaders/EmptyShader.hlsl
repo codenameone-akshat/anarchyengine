@@ -6,13 +6,18 @@ struct PSInput
 	float4 color : COLOR;
 };
 
+cbuffer ConstantBuffer : register(b0)
+{
+	float4 mult;
+}
+
 PSInput VertexMain(float4 position : POSITION, 
 					float4 color : COLOR)
 {
 	PSInput result;
 
 	result.position = position;
-	result.color = color;
+	result.color = mult;
 
 	return result;
 }

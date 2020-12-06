@@ -402,6 +402,7 @@
     <ClInclude Include="Source\acpch.h" />
     <ClInclude Include="Source\Framework\ProjectConfig.h" />
     <ClInclude Include="Source\Framework\Math\MathHelper.h" />
+    <ClInclude Include="Source\Framework\MemoryHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

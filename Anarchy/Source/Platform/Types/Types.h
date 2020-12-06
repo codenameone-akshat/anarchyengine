@@ -5,10 +5,6 @@
 
 #include "Platform/PlatformConfig.h"
 
-#ifdef USE_EIGEN_LIB
-#include <Eigen/Dense_BoostSerialized>
-#endif // USE_EIGEN_LIB
-
 #ifdef PLATFORM_WINDOWS
 #include <wrl.h>
 #endif // PLATFORM_WINDOWS
@@ -126,6 +122,13 @@ namespace anarchy
 	using Affine2d			= Eigen::Affine2d;
 	using Affine3f			= Eigen::Affine3f;
 	using Affine3d			= Eigen::Affine3d;
+
+	//Translation
+	using Translation2f = Eigen::Translation2f;
+	using Translation2d = Eigen::Translation2d;
+
+	using Translation3f = Eigen::Translation3f;
+	using Translation3d = Eigen::Translation3d;
 #endif // USE_EIGEN_LIB
 
 }
