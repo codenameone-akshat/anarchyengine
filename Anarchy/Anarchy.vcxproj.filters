@@ -403,6 +403,7 @@
     <ClInclude Include="Source\Framework\ProjectConfig.h" />
     <ClInclude Include="Source\Framework\Math\MathHelper.h" />
     <ClInclude Include="Source\Framework\MemoryHelpers.h" />
+    <ClInclude Include="Source\Framework\Math\Math.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

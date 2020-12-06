@@ -7,6 +7,9 @@
 #include <Eigen/Dense_BoostSerialized>
 #endif // USE_EIGEN_LIB
 
+#ifdef USE_CUSTOM_MATH
+#include <Framework/Math/Math.h>
+#endif // USE_CUSTOM_MATH
 // Types
 #include <Platform/Types/Types.h>
 #include <Platform/Types/NumericTypeLimits.h>
