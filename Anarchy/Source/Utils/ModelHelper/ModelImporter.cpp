@@ -73,7 +73,7 @@ namespace anarchy
                 }
                 else
                 {
-                    vec3.x() = vec3.y() = vec3.z() = 0.0f;
+                    vec3.x = vec3.y = vec3.z = 0.0f;
                     tangents.emplace_back(Vector3f(0.0f, 0.0f, 0.0f));
                     biTangents.emplace_back(Vector3f(0.0f, 0.0f, 0.0f));
                 }

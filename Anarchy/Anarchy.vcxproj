@@ -623,6 +623,10 @@
     <ClInclude Include="Source\Framework\FrameworkHelpers.h" />
     <ClInclude Include="Source\Framework\Math\Math.h" />
     <ClInclude Include="Source\Framework\Math\MathHelper.h" />
+    <ClInclude Include="Source\Framework\Math\Matrix4.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector2.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector3.hpp" />
+    <ClInclude Include="Source\Framework\Math\Vector4.hpp" />
     <ClInclude Include="Source\Framework\MemoryHelpers.h" />
     <ClInclude Include="Source\Framework\ProjectConfig.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
@@ -670,10 +674,6 @@
     <ClInclude Include="Source\Engine\Serialization\Serializer.h" />
     <ClInclude Include="Source\Framework\Includes\ClassHelpers.h" />
     <ClInclude Include="Source\Framework\Includes\SerializationHelpers.h" />
-    <ClInclude Include="Source\Framework\Math\Matrix\Matrix.hpp" />
-    <ClInclude Include="Source\Framework\Math\Vector\Vec2.hpp" />
-    <ClInclude Include="Source\Framework\Math\Vector\Vec3.hpp" />
-    <ClInclude Include="Source\Framework\Math\Vector\Vec4.hpp" />
     <ClInclude Include="Source\Game\GameSpecificCommands.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />

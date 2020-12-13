@@ -1,14 +1,11 @@
 #ifndef _MATH_H_
 #define _MATH_H_
 
-#ifdef USE_CUSTOM_MATH
-
-#include "Framework/Math/Vector/Vec2.hpp"
-#include "Framework/Math/Vector/Vec3.hpp"
-#include "Framework/Math/Vector/Vec4.hpp"
-#include "Framework/Math/Matrix/Matrix.hpp"
-
-#endif // USE_CUSTOM_MATH
+#ifdef ANARCHY_MATH_ENABLE
+#include <Framework/Math/Vector2.hpp>
+#include <Framework/Math/Vector3.hpp>
+#include <Framework/Math/Vector4.hpp>
+#include <Framework/Math/Matrix4.hpp>
+#endif // ANARCHY_MATH_ENABLE
 
 #endif // !_MATH_H_
-

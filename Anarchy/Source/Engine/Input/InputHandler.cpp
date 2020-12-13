@@ -27,10 +27,10 @@ namespace anarchy
         POINT currentMousePos = {};
         ::GetCursorPos(&currentMousePos);
         
-        m_mouseState.mousePositionDelta.x() = currentMousePos.x - m_mouseState.mousePosition.x();
-        m_mouseState.mousePositionDelta.y() = currentMousePos.y - m_mouseState.mousePosition.y();
+        m_mouseState.mousePositionDelta.x = currentMousePos.x - m_mouseState.mousePosition.x;
+        m_mouseState.mousePositionDelta.y = currentMousePos.y - m_mouseState.mousePosition.y;
 
-        m_mouseState.mousePosition.x() = currentMousePos.x;
-        m_mouseState.mousePosition.y() = currentMousePos.y;
+        m_mouseState.mousePosition.x = currentMousePos.x;
+        m_mouseState.mousePosition.y = currentMousePos.y;
     }
 }

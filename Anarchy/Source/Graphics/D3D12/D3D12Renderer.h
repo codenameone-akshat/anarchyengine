@@ -22,7 +22,7 @@ namespace anarchy
     struct SceneConstantBuffer
     {
         /*Matrix4f viewMatrix;*/
-        Eigen::RowVector4f color;
+        Vector4f color;
     };
 
     class D3D12Renderer : public GfxRenderer

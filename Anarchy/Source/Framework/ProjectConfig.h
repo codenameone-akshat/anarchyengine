@@ -7,6 +7,6 @@
 #define AC_DEBUGONLY(x)
 #endif // AC_DEBUG
 
-#define USE_EIGEN_LIB
+#define ANARCHY_MATH_ENABLE
 
 #endif // !_PROJECT_CONFIG_H_

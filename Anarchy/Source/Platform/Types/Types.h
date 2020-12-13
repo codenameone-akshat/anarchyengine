@@ -5,10 +5,6 @@
 
 #include "Platform/PlatformConfig.h"
 
-#ifdef PLATFORM_WINDOWS
-#include <wrl.h>
-#endif // PLATFORM_WINDOWS
-
 namespace anarchy
 {
 	// byte
@@ -131,5 +127,22 @@ namespace anarchy
 	using Translation3d = Eigen::Translation3d;
 #endif // USE_EIGEN_LIB
 
+#ifdef ANARCHY_MATH_ENABLE
+	using Vector2i			= math::Vector2<int32>;
+	using Vector2f			= math::Vector2<float32>;
+	using Vector2d			= math::Vector2<float64>;
+
+	using Vector3i			= math::Vector3<int32>;
+	using Vector3f			= math::Vector3<float32>;
+	using Vector3d			= math::Vector3<float64>;
+
+	using Vector4i			= math::Vector4<int32>;
+	using Vector4f			= math::Vector4<float32>;
+	using Vector4d			= math::Vector4<float64>;
+
+	using Matrix4i			= math::Matrix4<int32>;
+	using Matrix4f			= math::Matrix4<float32>;
+	using Matrix4d			= math::Matrix4<float64>;
+#endif // ANARCHY_MATH_ENABLE
 }
 #endif // !_TYPES_H_
