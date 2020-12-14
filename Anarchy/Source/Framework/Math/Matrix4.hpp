@@ -105,15 +105,14 @@ namespace anarchy::math
 		[[nodiscard]]
 		FORCEINLINE static Matrix4<T> Identity()
 		{
-			Matrix4<T> mIdentity;
-			mIdentity.MakeIdentity();
+			Matrix4<T> mIdentity(Init_Flags::Init_Identity);
 			return mIdentity;
 		}
 
 		[[nodiscard]]
 		FORCEINLINE static Matrix4<T> Zero()
 		{
-			Matrix4<T> mZero;
+			Matrix4<T> mZero(Init_Flags::Init_Zero);
 			return mZero;
 		}
 
@@ -276,7 +275,7 @@ namespace anarchy::math
 		// angle in radians
 		FORCEINLINE void MatrixRotateX(float angle)
 		{
-			this->MakeIdentity();
+			this->SetIdentity();
 			m[1][1] = m[2][2] = static_cast<float>(::cos(angle));
 			m[1][2] = static_cast<float>(::sin(angle));
 			m[2][1] = static_cast<float>(-::sin(angle));
@@ -285,7 +284,7 @@ namespace anarchy::math
 		// angle in radians
 		FORCEINLINE void MatrixRotateY(float angle)
 		{
-			this->MakeIdentity();
+			this->SetIdentity();
 			m[0][0] = m[2][2] = static_cast<float>(::cos(angle));
 			m[0][2] = static_cast<float>(-::sin(angle));
 			m[2][0] = static_cast<float>(::sin(angle));
@@ -294,7 +293,7 @@ namespace anarchy::math
 		// angle in radians
 		FORCEINLINE void MatrixRotateZ(float angle)
 		{
-			this->MakeIdentity();
+			this->SetIdentity();
 			m[0][0] = m[1][1] = static_cast<float>(::cos(angle));
 			m[0][1] = static_cast<float>(::sin(angle));
 			m[1][0] = static_cast<float>(-::sin(angle));
@@ -415,7 +414,7 @@ namespace anarchy::math
 
 		FORCEINLINE void CreatePerspectiveMatrix(float fovY, float aspectRatio, float zNear, float zFar)
 		{
-			this->MakeIdentity();
+			this->SetIdentity();
 			float yScale = static_cast<float>(::cos(fovY / 2.0f) / ::sin(fovY / 2.0f));
 			float xScale = yScale / aspectRatio;
 
@@ -471,6 +470,15 @@ namespace anarchy::math
 				T m20, m21, m22, m23; // m[2]
 				T m30, m31, m32, m33; // m[3]
 			};
+
+			struct 
+			{
+				T m0[4];
+				T m1[4];
+				T m2[4];
+				T m3[4];
+			};
+
 			T m[4][4];
 		};
 	};

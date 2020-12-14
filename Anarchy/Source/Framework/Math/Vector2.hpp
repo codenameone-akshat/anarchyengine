@@ -314,7 +314,7 @@ namespace anarchy::math
 		[[nodiscard]]
 		FORCEINLINE void SetZero()
 		{
-			std::memset(v, 0, sizeof(v));
+			std::memset(vec, 0, sizeof(vec));
 		}
 
 		[[nodiscard]]
@@ -350,7 +350,20 @@ namespace anarchy::math
 				T x;
 				T y;
 			};
-			T v[2];
+			
+			struct
+			{
+				T r;
+				T g;
+			};
+			
+			struct 
+			{
+				T u;
+				T v;
+			};
+
+			T vec[2];
 		};
 	};
 }
