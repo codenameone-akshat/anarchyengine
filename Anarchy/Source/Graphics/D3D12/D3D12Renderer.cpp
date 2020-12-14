@@ -30,7 +30,8 @@ namespace anarchy
 			ResizeSwapChain();
 
         //tempcode
-        m_constantBufferData.color = EngineContext::GetPrimColor();
+		m_constantBufferData.color = EngineContext::GetPrimColor();
+		m_constantBufferData.position = EngineContext::GetPrimPos();
 		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
         m_imGuiWrapper->NewFrame();

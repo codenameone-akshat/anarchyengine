@@ -8,7 +8,8 @@ struct PSInput
 
 cbuffer ConstantBuffer : register(b0)
 {
-	float4 mult;
+	float4 col;
+	float4 pos;
 }
 
 PSInput VertexMain(float4 position : POSITION, 
@@ -16,8 +17,8 @@ PSInput VertexMain(float4 position : POSITION,
 {
 	PSInput result;
 
-	result.position = position;
-	result.color = mult;
+	result.position = position + pos;
+	result.color = col;
 
 	return result;
 }
