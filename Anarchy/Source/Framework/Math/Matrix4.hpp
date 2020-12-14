@@ -251,21 +251,21 @@ namespace anarchy::math
 			return adjoint;
 		}
 
-		FORCEINLINE void MatrixTranslate(const float x, const float y, const float z)
+		FORCEINLINE void Translate(const float x, const float y, const float z)
 		{
 			m[3][0] += x;
 			m[3][1] += y;
 			m[3][2] += z;
 		}
 
-		FORCEINLINE void MatrixScaleUniform(const float scale)
+		FORCEINLINE void ScaleUniform(const float scale)
 		{
 			m[0][0] *= scale;
 			m[1][1] *= scale;
 			m[2][2] *= scale;
 		}
 
-		FORCEINLINE void MatrixScale(const float xScale, const float yScale, const float zScale)
+		FORCEINLINE void Scale(const float xScale, const float yScale, const float zScale)
 		{
 			m[0][0] *= xScale;
 			m[1][1] *= yScale;
@@ -273,7 +273,7 @@ namespace anarchy::math
 		}
 
 		// angle in radians
-		FORCEINLINE void MatrixRotateX(float angle)
+		FORCEINLINE void RotateX(float angle)
 		{
 			this->SetIdentity();
 			m[1][1] = m[2][2] = static_cast<float>(::cos(angle));
@@ -282,7 +282,7 @@ namespace anarchy::math
 		}
 
 		// angle in radians
-		FORCEINLINE void MatrixRotateY(float angle)
+		FORCEINLINE void RotateY(float angle)
 		{
 			this->SetIdentity();
 			m[0][0] = m[2][2] = static_cast<float>(::cos(angle));
@@ -291,7 +291,7 @@ namespace anarchy::math
 		}
 
 		// angle in radians
-		FORCEINLINE void MatrixRotateZ(float angle)
+		FORCEINLINE void RotateZ(float angle)
 		{
 			this->SetIdentity();
 			m[0][0] = m[1][1] = static_cast<float>(::cos(angle));
@@ -300,19 +300,19 @@ namespace anarchy::math
 		}
 
 		// angle in radians
-		FORCEINLINE void MatrixRotateYawPitchRoll(float yaw, float pitch, float roll)
+		FORCEINLINE void RotateYawPitchRoll(float yaw, float pitch, float roll)
 		{
-			this->MatrixRotateXYZ(pitch, yaw, roll);
+			this->RotateXYZ(pitch, yaw, roll);
 		}
 
 		// angle in radians
-		FORCEINLINE void MatrixRotateXYZ(float x, float y, float z)
+		FORCEINLINE void RotateXYZ(float x, float y, float z)
 		{
 			Matrix4<T> xMat, yMat, zMat;
 
-			xMat.MatrixRotateX(x);
-			yMat.MatrixRotateY(y);
-			zMat.MatrixRotateZ(z);
+			xMat.RotateX(x);
+			yMat.RotateY(y);
+			zMat.RotateZ(z);
 
 			*this = (xMat * yMat * zMat);
 		}
@@ -391,7 +391,7 @@ namespace anarchy::math
 		}
 
 		[[nodiscard]]
-		FORCEINLINE Matrix4<T> MatrixInverse()
+		FORCEINLINE Matrix4<T> Inverse()
 		{
 			Matrix4<T> result;
 			const float det = this->Determinant();
@@ -409,7 +409,7 @@ namespace anarchy::math
 
 		FORCEINLINE void Invert()
 		{
-			*this = this->MatrixInverse();
+			*this = this->Inverse();
 		}
 
 		FORCEINLINE void CreatePerspectiveMatrix(float fovY, float aspectRatio, float zNear, float zFar)
@@ -432,7 +432,7 @@ namespace anarchy::math
 			for (uint32_t itr = 0; itr < 4; ++itr)
 			{
 				Vector4<T> vec = GetColumnAtIndex(itr);
-				result[itr] = Dot4(vec, other);
+				result[itr] = Vector4<T>::Dot4(vec, other);
 			}
 			return result;
 		}
@@ -444,7 +444,7 @@ namespace anarchy::math
 			for (uint32_t itr = 0; itr < 3; ++itr)
 			{
 				Vector3<T> vec(m[0][itr], m[1][itr], m[2][itr]);
-				result[itr] = Dot3(vec, other);
+				result[itr] = Vector3<T>::Dot3(vec, other);
 			}
 			return result;
 		}
@@ -456,7 +456,7 @@ namespace anarchy::math
 			for (uint32_t itr = 0; itr < 2; ++itr)
 			{
 				Vector2<T> vec(m[0][itr], m[1][itr]);
-				result[itr] = Dot2(vec, other);
+				result[itr] = Vector2<T>::Dot2(vec, other);
 			}
 			return result;
 		}

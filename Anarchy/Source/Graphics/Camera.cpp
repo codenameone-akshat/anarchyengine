@@ -49,22 +49,25 @@ namespace anarchy
 		}
 
 		//// default camera properties
-		//const float32 dampedDegRotx = DegToRadf(m_cameraRotation.x * CAM_DAMP_FACTOR);
-		//const float32 dampedDegRoty = DegToRadf(m_cameraRotation.y * CAM_DAMP_FACTOR);
+		const float32 dampedDegRotx = DegToRadf(m_cameraRotation.x * CAM_DAMP_FACTOR);
+		const float32 dampedDegRoty = DegToRadf(m_cameraRotation.y * CAM_DAMP_FACTOR);
+		
+		Matrix4f rotMat;
+		rotMat.RotateYawPitchRoll(dampedDegRotx, dampedDegRoty, 0.0f);
 
-		//const Affine3f pitch = Affine3f(AngleAxisf(dampedDegRotx, Vector3f::UnitX()));
-		//const Affine3f yaw = Affine3f(AngleAxisf(dampedDegRoty, Vector3f::UnitY()));
-		//const Affine3f roll = Affine3f(AngleAxisf(0.0f, Vector3f::UnitZ()));
+		Vector4f forward(Vector4f::Init_Flags::Init_UnitZ);
+		Vector4f up		(Vector4f::Init_Flags::Init_UnitY);
+		Vector4f right	(Vector4f::Init_Flags::Init_UnitX);
 
-		//const Affine3f rotMatrix = roll * yaw * pitch;
+		// align normals to rot matrix
+		forward = rotMat.TransformVector(forward);
+		up		= rotMat.TransformVector(up);
+		right	= rotMat.TransformVector(right);
 
-		//const Vector3f transVec(m_cameraPosition.x, m_cameraPosition.y, m_cameraPosition.z);
-		//const Affine3f translation = Affine3f(Translation3f(transVec));
+		Matrix4f translationMat;
+		translationMat.Translate(m_cameraPosition.x, m_cameraPosition.y, m_cameraPosition.z);
 
-		//const Affine3f affineTransform = translation * rotMatrix;
-		//const Matrix4f transform = affineTransform.matrix();
-
-		//m_viewMatrix = transform;
-		//m_viewMatrix = m_viewMatrix.inverse();
+		m_viewMatrix = rotMat * translationMat;
+		m_viewMatrix.Invert();
 	}
 }
