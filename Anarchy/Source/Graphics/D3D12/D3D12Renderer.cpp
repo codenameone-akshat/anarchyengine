@@ -6,6 +6,7 @@
 #include "Engine/Core/EngineContext.h"
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "Framework/AppContext.h"
+#include "Framework/Math/MathHelper.h"
 #include "Platform/ResultHelper.h"
 #include "Utils/Logger/Logger.h"
 #include "Utils/Time/ScopedTimer.h"
@@ -28,10 +29,14 @@ namespace anarchy
     {
 		if (AppContext::GetIsResizeTriggered())
 			ResizeSwapChain();
+        
+		//tempcode
+		m_editorCamera.HandleInput();
+        m_viewMatrix = m_editorCamera.GetViewMatrix();
 
-        //tempcode
 		m_constantBufferData.color = EngineContext::GetPrimColor();
 		m_constantBufferData.position = EngineContext::GetPrimPos();
+        m_constantBufferData.wvpMatrix = (m_viewMatrix * m_projMatrix);
 		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
         m_imGuiWrapper->NewFrame();
@@ -253,6 +258,15 @@ namespace anarchy
 
 		CreateSyncObjects();
 		WaitForGPUToFinish(); // wait for command list to execute
+
+        // Build matrices
+        m_viewMatrix = m_editorCamera.GetViewMatrix();
+		
+        DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+        m_swapChain->GetDesc1(&swapChainDesc);
+        float32 aspectRatio = static_cast<float32>(swapChainDesc.Width) / static_cast<float32>(swapChainDesc.Height);
+
+        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(90), aspectRatio, 1.0f, 10000000.0f);
 	}
 
     void D3D12Renderer::CreateRootSignature()

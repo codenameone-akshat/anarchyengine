@@ -348,7 +348,7 @@ namespace anarchy::math
 		[[nodiscard]]
 		FORCEINLINE Matrix4<T> operator*(const Matrix4<T>& otherMat)
 		{
-			Matrix4<T> result;
+			Matrix4<T> result(Init_Flags::Init_Zero);
 			for (int itr1 = 0; itr1 < 4; ++itr1)
 			{
 				for (int itr2 = 0; itr2 < 4; ++itr2)

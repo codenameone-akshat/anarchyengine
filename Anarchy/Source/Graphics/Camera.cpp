@@ -20,32 +20,32 @@ namespace anarchy
 		// Translation
 		if (m_inputHandler.GetIsKeyDown(KEY_W))
 		{
-			m_cameraPosition.z += 1.0f;
+			m_cameraPosition.z += (CAM_DAMP_FACTOR * 1.0f);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_A))
 		{
-			m_cameraPosition.x -= 1.0f;
+			m_cameraPosition.x -= (CAM_DAMP_FACTOR * 1.0f);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_S))
 		{
-			m_cameraPosition.z -= 1.0f;
+			m_cameraPosition.z -= (CAM_DAMP_FACTOR * 1.0f);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_D))
 		{
-			m_cameraPosition.x += 1.0f;
+			m_cameraPosition.x += (CAM_DAMP_FACTOR * 1.0f);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_Q))
 		{
-			m_cameraPosition.y -= 1.0f;
+			m_cameraPosition.y -= (CAM_DAMP_FACTOR * 1.0f);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_E))
 		{
-			m_cameraPosition.y += 1.0f;
+			m_cameraPosition.y += (CAM_DAMP_FACTOR * 1.0f);
 		}
 
 		//// default camera properties

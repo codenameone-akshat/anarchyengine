@@ -11,6 +11,7 @@
 #include "Graphics/D3D12/HAL/D3D12Factory.h"
 #include "Graphics/D3D12/HAL/D3D12Hardware.h"
 #include "Graphics/ImGui/ImGuiWrapper.h"
+#include "Graphics/Camera.h"
 
 namespace anarchy
 {
@@ -23,6 +24,7 @@ namespace anarchy
     {
 		Vector4f color;
 		Vector4f position;
+        Matrix4f wvpMatrix;
 	};
 
     class D3D12Renderer : public GfxRenderer
@@ -133,6 +135,12 @@ namespace anarchy
         // Render Objects
         D3D12_VIEWPORT m_viewport = {};
         D3D12_RECT m_scissorRect = {};
+
+        Camera m_editorCamera;
+
+		Matrix4f m_viewMatrix;
+		Matrix4f m_projMatrix;
+		Matrix4f m_worldMatrix;
     };
 }
 
