@@ -35,7 +35,6 @@ namespace anarchy
         m_viewMatrix = m_editorCamera.GetViewMatrix();
 
 		m_constantBufferData.color = EngineContext::GetPrimColor();
-		m_constantBufferData.position = EngineContext::GetPrimPos();
         m_constantBufferData.wvpMatrix = (m_viewMatrix * m_projMatrix);
 		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
@@ -266,7 +265,7 @@ namespace anarchy
         m_swapChain->GetDesc1(&swapChainDesc);
         float32 aspectRatio = static_cast<float32>(swapChainDesc.Width) / static_cast<float32>(swapChainDesc.Height);
 
-        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(90), aspectRatio, 1.0f, 10000000.0f);
+        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(45), aspectRatio, 1.0f, 10000000.0f);
 	}
 
     void D3D12Renderer::CreateRootSignature()

@@ -26,15 +26,11 @@ namespace anarchy
 		static Vector4f GetPrimColor() noexcept { return ms_primColor; }
 		static void SetPrimColor(Vector4f primColor) { ms_primColor = primColor; }
 
-		static Vector4f GetPrimPos() noexcept { return ms_primPos; }
-		static void SetPrimPos(Vector4f primPos) { ms_primPos = primPos; }
-
     private:
         inline static bool ms_isEngineRunning = false;
         inline static std::shared_ptr<game::GameSettings> m_gameSpecificSettings = nullptr;
 		inline static Vector4f ms_clearColor = { 0.0f, 0.5f, 0.7f, 1.0f };
 		inline static Vector4f ms_primColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-		inline static Vector4f ms_primPos = Vector4f::Zero();
     };
 }
 

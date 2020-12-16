@@ -53,9 +53,6 @@ namespace anarchy
 		ImGui::NewLine();
 		ImGui::ColorEdit3("Primitive Color", (float*)&prim_color); // Edit 3 floats representing a color
 		EngineContext::SetPrimColor(Vector4f(prim_color.x, prim_color.y, prim_color.z, prim_color.w));
-		ImGui::NewLine();
-		ImGui::DragFloat4("Primitive Position", (float*)&prim_pos, 0.005f); // Edit 3 floats representing a color
-		EngineContext::SetPrimPos(Vector4f(prim_pos.x, prim_pos.y, prim_pos.z, prim_pos.w));
 		ImGui::End();
 
 		// Frame Stats

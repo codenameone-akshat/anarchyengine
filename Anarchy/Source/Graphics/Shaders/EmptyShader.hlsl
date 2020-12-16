@@ -9,7 +9,6 @@ struct PSInput
 cbuffer ConstantBuffer : register(b0)
 {
 	float4 col;
-	float4 pos;
 	float4x4 wvp;
 }
 

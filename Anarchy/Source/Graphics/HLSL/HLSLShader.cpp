@@ -25,7 +25,7 @@ namespace anarchy
     void HLSLShader::CompileShader()
     {
 #ifdef AC_DEBUG
-        uint32 shaderCompileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+        uint32 shaderCompileFlags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION | D3DCOMPILE_PACK_MATRIX_ROW_MAJOR;
 #endif // AC_DEBUG
 
         ComPtr<ID3DBlob> error;

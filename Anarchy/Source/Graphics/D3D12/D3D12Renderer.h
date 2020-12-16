@@ -20,10 +20,10 @@ namespace anarchy
 	constexpr uint32 g_numImGuiSrvDescriptors = 1;
 	constexpr uint32 g_numCbvDescriptors = g_numFrameBuffers;
 
-    struct SceneConstantBuffer
+    // strictly 16 byte aligned
+    struct alignas(16) SceneConstantBuffer
     {
 		Vector4f color;
-		Vector4f position;
         Matrix4f wvpMatrix;
 	};
 
@@ -140,7 +140,6 @@ namespace anarchy
 
 		Matrix4f m_viewMatrix;
 		Matrix4f m_projMatrix;
-		Matrix4f m_worldMatrix;
     };
 }
 

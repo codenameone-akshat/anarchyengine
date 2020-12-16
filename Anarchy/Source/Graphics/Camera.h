@@ -14,8 +14,6 @@ namespace anarchy
 		Matrix4f GetViewMatrix() { return m_viewMatrix; }
 		
 	private:
-	/*	void HandleCameraRotation();
-		void HandleCameraTranslation();*/
 
 		Matrix4f m_viewMatrix = Matrix4f::Identity();
 		Vector3f m_cameraPosition = Vector3f(0.0f, 0.0f, -1.0f);
