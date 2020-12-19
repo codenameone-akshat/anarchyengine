@@ -16,10 +16,6 @@
 #include <wrl.h>
 #endif // PLATFORM_WINDOWS
 
-#ifdef USE_EIGEN_LIB
-#include <Eigen/Dense_BoostSerialized>
-#endif // USE_EIGEN_LIB
-
 #ifdef ANARCHY_MATH_ENABLE
 #include <Framework/Math/Math.h>
 #endif // ANARCHY_MATH_ENABLE

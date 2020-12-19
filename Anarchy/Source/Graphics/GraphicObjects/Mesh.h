@@ -2,7 +2,6 @@
 #define _MESH_H_
 
 #include <vector>
-#include <Eigen/Dense>
 
 #ifdef AC_DEBUG
 #include <string>
