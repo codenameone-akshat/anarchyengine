@@ -40,11 +40,8 @@ namespace anarchy
 
 	void ImGuiWrapper::SetupDebugUI()
 	{
-		static float f = 0.0f;
-		static int counter = 0;
 		static ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 		static ImVec4 prim_color = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
-		static ImVec4 prim_pos = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
 
 		// Debug Menu
 		ImGui::Begin("Debug Menu");
