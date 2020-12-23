@@ -64,7 +64,7 @@ namespace anarchy
 
 			auto windowDesc = AppContext::GetMainWindowDesc();
 			uint32 width = (UINT)LOWORD(lParam);
-			uint32 height = (UINT)HIWORD(wParam);
+			uint32 height = (UINT)HIWORD(lParam);
 			windowDesc.width = width;
 			windowDesc.height = height;
 			AppContext::SetMainWindowDesc(windowDesc);

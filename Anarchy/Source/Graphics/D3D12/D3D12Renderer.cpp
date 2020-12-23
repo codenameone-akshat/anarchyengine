@@ -25,7 +25,7 @@ namespace anarchy
 		/// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
         {
             ACScopedTimer("Loading Model Task: ");
-            string dataDir = AppContext::GetDataDirPath() + "teapotHighPoly.FBX";
+            string dataDir = AppContext::GetDataDirPath() + "teapotHighPoly.fbx";
             m_entities.emplace_back(m_modelImporter->ReadEntityFromFile(dataDir));
         }
 
@@ -234,6 +234,16 @@ namespace anarchy
 
         m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
         m_fenceValues.fill(0);
+
+        m_viewport.Width = static_cast<float>(windowDesc.width);
+        m_viewport.Height = static_cast<float>(windowDesc.height);
+
+        m_scissorRect.right = windowDesc.width;
+        m_scissorRect.bottom = windowDesc.height;
+
+		// Recreate projection matrix with new aspect ratio :)
+        float32 aspectRatio = static_cast<float32>(windowDesc.width) / static_cast<float32>(windowDesc.height);
+		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(60), aspectRatio, 1.0f, 10000000.0f);
 
 		AppContext::SetIsResizeTriggered(false);
 	}
