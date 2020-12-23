@@ -28,12 +28,8 @@
     <ClCompile Include="Source\acpch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Engine\Core\Entity\Entity.h" />
-    <ClInclude Include="Source\Framework\App\AppContext.h" />
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
     <ClInclude Include="Source\Graphics\GraphicObjects\Mesh.h" />
-    <ClInclude Include="Source\Framework\Includes\ClassHelpers.h" />
-    <ClInclude Include="Source\Framework\Includes\SerializationHelpers.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
@@ -43,9 +39,6 @@
     <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Factory.h" />
     <ClInclude Include="Source\Graphics\HLSL\HLSLShader.h" />
     <ClInclude Include="Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
-    <ClInclude Include="Source\Framework\Includes\FrameworkAliases.h" />
-    <ClInclude Include="Source\Framework\Includes\FrameworkDefines.h" />
-    <ClInclude Include="Source\Framework\Includes\FrameworkHeaders.h" />
     <ClInclude Include="Source\Utils\Logger\Logger.h" />
     <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h" />
     <ClInclude Include="Source\Utils\ModelHelper\ModelImporter.h" />
@@ -53,9 +46,6 @@
     <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Game\GameSpecificCommands.h" />
-    <ClInclude Include="Source\Framework\Platform\Platform.h" />
-    <ClInclude Include="Source\Framework\Types\Types.h" />
-    <ClInclude Include="Source\Framework\Types\NumericTypeLimits.h" />
     <ClInclude Include="Source\Platform\Platform.h" />
     <ClInclude Include="Source\Framework\Platform\Platform_Win32.h" />
     <ClInclude Include="Source\Platform\PlatformConfig.h" />

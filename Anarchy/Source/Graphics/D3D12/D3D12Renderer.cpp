@@ -265,7 +265,7 @@ namespace anarchy
         m_swapChain->GetDesc1(&swapChainDesc);
         float32 aspectRatio = static_cast<float32>(swapChainDesc.Width) / static_cast<float32>(swapChainDesc.Height);
 
-        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(45), aspectRatio, 1.0f, 10000000.0f);
+        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(60), aspectRatio, 1.0f, 10000000.0f);
 	}
 
     void D3D12Renderer::CreateRootSignature()
