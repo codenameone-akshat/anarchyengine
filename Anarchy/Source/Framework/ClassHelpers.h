@@ -110,6 +110,10 @@ inline void Set##propertyName(const type& arg);
 #define DECLARE_DEFAULT_ACCESSORS_STATIC(type, varName, propertyName) \
 static type Get##propertyName() { return ms_##varName; } \
 static void Set##propertyName(const type& arg) { ms_##varName = arg; }
+
+#define DECLARE_DEFAULT_ACCESSORS_REFGET(type, varName, propertyName) \
+inline type& Get##propertyName() { return m_##varName; } \
+inline void Set##propertyName(const type& arg) { m_##varName = arg; }
 // !Class Member Getter Setter Helpers
 
 
@@ -143,6 +147,12 @@ public: \
 DECLARE_DEFAULT_ACCESSORS_STATIC(type, varName, propertyName) \
 private: \
 inline static type ms_##varName = defaultVal; 
+
+#define DECLARE_PROPERTY_REFGET(type, varName, propertyName, defaultVal) \
+public: \
+DECLARE_DEFAULT_ACCESSORS_REFGET(type, varName, propertyName) \
+private: \
+type m_##varName = defaultVal; 
 // !Class Member Declaration Helpers
 
 
@@ -161,6 +171,9 @@ DECLARE_PROPERTY_NODEF_GETSET(type, varName, propertyName, {})
 
 #define DECLARE_DEFAULT_PROPERTY_STATIC(type, varName, propertyName) \
 DECLARE_PROPERTY_STATIC(type, varName, propertyName, {}) 
+
+#define DECLARE_DEFAULT_PROPERTY_REFGET(type, varName, propertyName) \
+DECLARE_PROPERTY_REFGET(type, varName, propertyName, {}) 
 // !Class Member Default Initialized Declaration Helpers
 
 // Class Security Helpers

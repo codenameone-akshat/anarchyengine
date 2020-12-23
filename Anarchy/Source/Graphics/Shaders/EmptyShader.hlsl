@@ -12,12 +12,11 @@ cbuffer ConstantBuffer : register(b0)
 	float4x4 wvp;
 }
 
-PSInput VertexMain(float4 position : POSITION, 
-					float4 color : COLOR)
+PSInput VertexMain(float3 position : POSITION)
 {
 	PSInput result;
 
-	result.position = mul(position, wvp);
+	result.position = mul(float4(position, 1.0f), wvp);
 	result.color = col;
 
 	return result;

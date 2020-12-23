@@ -41,7 +41,7 @@ namespace anarchy
     {
         DECLARE_DEFAULT_CLASSMEMBERS(Mesh);
 
-        DECLARE_DEFAULT_PROPERTY(MeshGPUData, meshGPUData, MeshGPUData);
+        DECLARE_DEFAULT_PROPERTY_REFGET(MeshGPUData, meshGPUData, MeshGPUData);
         DECLARE_DEFAULT_PROPERTY(uint32, materialIndex, MaterialIndex);
         AC_DEBUGONLY(DECLARE_PROPERTY(std::string, name, Name, "UnNamed");)
     

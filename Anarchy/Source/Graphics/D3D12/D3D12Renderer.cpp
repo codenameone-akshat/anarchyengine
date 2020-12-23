@@ -4,6 +4,7 @@
 
 #include "D3D12Renderer.h"
 #include "Engine/Core/EngineContext.h"
+#include "Engine/Object/Entity/Entity.h"
 #include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
 #include "Framework/AppContext.h"
 #include "Framework/Math/MathHelper.h"
@@ -20,6 +21,14 @@ namespace anarchy
     void D3D12Renderer::Initialize()
     {
         InitializeAPI();
+		
+		/// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
+        {
+            ACScopedTimer("Loading Model Task: ");
+            string dataDir = AppContext::GetDataDirPath() + "teapotHighPoly.FBX";
+            m_entities.emplace_back(m_modelImporter->ReadEntityFromFile(dataDir));
+        }
+
         InitalizeResources();
         m_imGuiWrapper->InitializeImGuiLib();
         m_imGuiWrapper->InitializeImGuiWindowsD3D12(AppContext::GetHandleToMainWindow()->GetRawHandleToWindow(), m_device->GetRawDevice(), g_numFrameBuffers, DXGI_FORMAT_R8G8B8A8_UNORM, m_cbvSrvUavDescHeap, m_cbvSrvUavDescHeap->GetCPUDescriptorHandleForHeapStart(), m_cbvSrvUavDescHeap->GetGPUDescriptorHandleForHeapStart());
@@ -351,13 +360,17 @@ namespace anarchy
 
     void D3D12Renderer::CreateGraphicsPipelineStateObject()
     {
+
+        D3D12_RASTERIZER_DESC rasterizerDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+        rasterizerDesc.FillMode = D3D12_FILL_MODE_WIREFRAME;
+
         D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
         psoDesc.pRootSignature = m_rootSignature.Get();
         psoDesc.VS = m_shaders[0].GetShaderByteCode();
         psoDesc.PS = m_shaders[1].GetShaderByteCode();
         psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
         psoDesc.SampleMask = uint32_max; // Default 0xffff
-        psoDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+        psoDesc.RasterizerState = rasterizerDesc;
 
         psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
         psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
@@ -388,23 +401,17 @@ namespace anarchy
         struct Vertex
         {
             Vector3f position;
-            Vector4f color;
         };
 
-        Vertex vertexBufferData[] =
-        {
-            { {-0.5f,-0.5f,-0.5f}, {1.0f, 0.0f, 0.0f, 1.0f} },
-            { {-0.5f,-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f, 1.0f} },
-            { {-0.5f, 0.5f,-0.5f}, {0.0f, 0.0f, 1.0f, 1.0f} },
-            { {-0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+        MeshGPUData meshData = m_entities.at(0)->GetMeshes().at(0).GetMeshGPUData();
+        std::vector<Vertex> vertexBufferData;
+        auto vertices = meshData.GetVertices();
 
-            { {0.5f,-0.5f,-0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
-            { {0.5f,-0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
-            { {0.5f, 0.5f,-0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} },
-            { {0.5f, 0.5f, 0.5f}, {0.0f, 1.0f, 0.0f, 1.0f} }
-        };
+        vertexBufferData.reserve(vertices.size());
+        std::for_each(vertices.begin(), vertices.end(), [&vertexBufferData](Vector3f vertex) { vertexBufferData.emplace_back(vertex); });
+        vertexBufferData.shrink_to_fit();
 
-        uint32 vertexBufferSize = sizeof(vertexBufferData);
+        uint32 vertexBufferSize = sizeof(Vertex) * (uint32)vertexBufferData.size();;
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
         heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -430,9 +437,10 @@ namespace anarchy
 
         D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
         byte* vertexDataGPUBuffer = nullptr;
+        auto data = vertexBufferData.data();
 
         CheckResult(m_vertexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&vertexDataGPUBuffer)), "Failed to map vertex buffer resource");
-        memcpy_s(vertexDataGPUBuffer, vertexBufferSize, vertexBufferData, vertexBufferSize);
+        memcpy_s(vertexDataGPUBuffer, vertexBufferSize, vertexBufferData.data(), vertexBufferSize);
         m_vertexBuffer->Unmap(NULL, nullptr);
 
         m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
@@ -442,28 +450,15 @@ namespace anarchy
 
     void D3D12Renderer::CreateIndexBuffer()
     {
-        uint32 indexBufferData[] =
-        {
-            0,2,1, // -x
-            1,2,3,
+		MeshGPUData meshData = m_entities.at(0)->GetMeshes().at(0).GetMeshGPUData();
+        std::vector<uint32> indexBufferData;
+		auto indices = meshData.GetIndices();
 
-            4,5,6, // +x
-            5,7,6,
+        indexBufferData.reserve(indices.size());
+		std::for_each(indices.begin(), indices.end(), [&indexBufferData](uint32 index) { indexBufferData.emplace_back(index); });
+        indexBufferData.shrink_to_fit();
 
-            0,1,5, // -y
-            0,5,4,
-
-            2,6,7, // +y
-            2,7,3,
-
-            0,4,6, // -z
-            0,6,2,
-
-            1,3,7, // +z
-            1,7,5,
-        };
-
-        uint32 indexBufferSize = sizeof(indexBufferData);
+        uint32 indexBufferSize = sizeof(uint32) * (uint32)indexBufferData.size();
         m_indicesPerInstance = indexBufferSize / sizeof(uint32);
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
@@ -492,7 +487,7 @@ namespace anarchy
         byte* indexDataGPUBuffer = nullptr;
 
         CheckResult(m_indexBuffer->Map(0, &readRange, reinterpret_cast<void**>(&indexDataGPUBuffer)), "Failed to map index buffer resource");
-        memcpy_s(indexDataGPUBuffer, indexBufferSize, indexBufferData, indexBufferSize);
+        memcpy_s(indexDataGPUBuffer, indexBufferSize, indexBufferData.data(), indexBufferSize);
         m_indexBuffer->Unmap(NULL, nullptr);
 
         m_indexBufferView.BufferLocation = m_indexBuffer->GetGPUVirtualAddress();

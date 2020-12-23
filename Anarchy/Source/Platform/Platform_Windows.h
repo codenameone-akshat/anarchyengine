@@ -24,8 +24,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	using namespace anarchy;
 
 	const string argv(lpCmdLine);
-
-	string sourceDirPath = []()
+	string sourceDirPath;
+	string dataDirPath;
+	auto setDirPaths = [&sourceDirPath, &dataDirPath]()
 	{
 		const auto hModule = GetModuleHandle(NULL); // Get handle to current module
 		const DWORD pathLength = 180;
@@ -39,18 +40,24 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 			const string parentDirName(PROJECT_PARENT_DIR_NAME);
 			const string sourceDir("\\Anarchy\\Source\\");
+			const string dataDir("\\Anarchy\\Data\\");
 
 			const size_t pos = outputString.find(parentDirName);
 			outputString = outputString.substr(0, pos + parentDirName.length());
 
-			outputString = outputString + sourceDir;
-			outputString.shrink_to_fit();
-			return outputString;
+			sourceDirPath = outputString + sourceDir;
+			sourceDirPath.shrink_to_fit();
+
+			dataDirPath = outputString + dataDir;
+			dataDirPath.shrink_to_fit();
 		}
 		return string("");
 	}();
-	Assert(!sourceDirPath.empty(), "Cannot find root directory.");
+
+	Assert(!sourceDirPath.empty(), "Cannot find Source directory.");
+	Assert(!dataDirPath.empty(), "Cannot find Data directory.");
 	AppContext::SetSourceDirPath(sourceDirPath);
+	AppContext::SetDataDirPath(dataDirPath);
 
 	const int32 argc = [](const string& argv)
 	{

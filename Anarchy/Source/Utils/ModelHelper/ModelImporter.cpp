@@ -10,18 +10,22 @@
 
 namespace anarchy
 {
-    void ModelImporter::ReadFile(string fileName)
+    std::shared_ptr<Entity> ModelImporter::ReadEntityFromFile(string fileName)
     {
         const aiScene* scene = m_importer.ReadFile(fileName, gcx_meshLoaderImportFlags);
-        PopulateEntityAndSerialize(scene, scene->GetShortFilename(fileName.c_str()));
+        Assert(scene, "Failed to load model. Model does not exist. Path: " + fileName);
+
+		std::shared_ptr<Entity> entity = std::make_shared<Entity>();
+        PopulateEntityAndSerialize(scene, scene->GetShortFilename(fileName.c_str()), entity);
+        
+        return entity;
     }
 
-    void ModelImporter::PopulateEntityAndSerialize(const aiScene* scene, string shortFileName)
+    void ModelImporter::PopulateEntityAndSerialize(const aiScene* scene, string shortFileName, std::shared_ptr<Entity> entity)
     {
         auto meshes = scene->mMeshes;
 
-        Entity entity = {};
-        entity.ReserveMeshMemory(scene->mNumMeshes);
+        entity->ReserveMeshMemory(scene->mNumMeshes);
 
         auto aiVector3ToVector3f = [](aiVector3D vec)
         {
@@ -38,11 +42,11 @@ namespace anarchy
             auto mesh = meshes[itr];
             Mesh engineMesh = {};
 
-            std::vector<Vector3f> vertices(mesh->mNumVertices);
-            std::vector<Vector3f> normals(mesh->mNumVertices);
-            std::vector<Vector2f> texCoords(mesh->mNumVertices);
-            std::vector<Vector3f> tangents(mesh->mNumVertices);
-            std::vector<Vector3f> biTangents(mesh->mNumVertices);
+            std::vector<Vector3f> vertices;
+            std::vector<Vector3f> normals;
+            std::vector<Vector2f> texCoords;
+            std::vector<Vector3f> tangents;
+            std::vector<Vector3f> biTangents;
 
             for (uint32 itr = 0; itr < mesh->mNumVertices; ++itr)
             {
@@ -77,7 +81,7 @@ namespace anarchy
                 }
             }
 
-            std::vector<uint32> indices(mesh->mNumFaces * 3);
+            std::vector<uint32> indices;
             for (uint32 itr = 0; itr < mesh->mNumFaces; ++itr)
             {
                 // TODO: make this Vec3<uint32_t> when Vec3 is templatized
@@ -101,10 +105,10 @@ namespace anarchy
             engineMesh.SetName(name);
             engineMesh.SetMaterialIndex(mesh->mMaterialIndex);
 
-            entity.AddMesh(engineMesh);
+            entity->AddMesh(engineMesh);
         }
 
-        SerializeEntity(entity, shortFileName);
+        //SerializeEntity(entity, shortFileName);
     }
 
     void ModelImporter::SerializeEntity(Entity entity, string filename)

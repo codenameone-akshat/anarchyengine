@@ -12,6 +12,7 @@
 #include "Graphics/D3D12/HAL/D3D12Hardware.h"
 #include "Graphics/ImGui/ImGuiWrapper.h"
 #include "Graphics/Camera.h"
+#include "Utils/ModelHelper/ModelImporter.h"
 
 namespace anarchy
 {
@@ -140,6 +141,10 @@ namespace anarchy
 
 		Matrix4f m_viewMatrix;
 		Matrix4f m_projMatrix;
+
+		/// TEMP CODE | MOVE FROM HERE
+		std::unique_ptr<ModelImporter> m_modelImporter = std::make_unique<ModelImporter>();
+        std::vector<std::shared_ptr<Entity>> m_entities;
     };
 }
 
