@@ -18,18 +18,17 @@ namespace anarchy
 
     void ModelImporter::PopulateEntityAndSerialize(const aiScene* scene, string shortFileName)
     {
-
         auto meshes = scene->mMeshes;
 
         Entity entity = {};
         entity.ReserveMeshMemory(scene->mNumMeshes);
 
-        auto aiVector3ToVec3 = [](aiVector3D vec)
+        auto aiVector3ToVector3f = [](aiVector3D vec)
         {
             return Vector3f(vec.x, vec.y, vec.z);
         };
 
-        auto aiVector3ToVec2 = [](aiVector3D vec)
+        auto aiVector3ToVector2f = [](aiVector3D vec)
         {
             return Vector2f(vec.x, vec.y);
         };
@@ -50,26 +49,25 @@ namespace anarchy
                 Vector3f vec3 = {};
                 Vector2f vec2 = {};
 
-                vertices.emplace_back(aiVector3ToVec3(mesh->mVertices[itr]));
+                vertices.emplace_back(aiVector3ToVector3f(mesh->mVertices[itr]));
 
-                normals.emplace_back(aiVector3ToVec3(mesh->mNormals[itr]));
+                normals.emplace_back(aiVector3ToVector3f(mesh->mNormals[itr]));
 
                 // lets just hope we are just using the first UV channel :P
                 if (mesh->HasTextureCoords(0))
                 {
-                    texCoords.emplace_back(aiVector3ToVec2(mesh->mTextureCoords[0][itr]));
+                    texCoords.emplace_back(aiVector3ToVector2f(mesh->mTextureCoords[0][itr]));
                 }
                 else
                 {
                     texCoords.emplace_back(Vector2f(0.0f, 0.0f));
                 }
 
-
                 if (mesh->HasTangentsAndBitangents())
                 {
-                    tangents.emplace_back(aiVector3ToVec3(mesh->mTangents[itr]));
+                    tangents.emplace_back(aiVector3ToVector3f(mesh->mTangents[itr]));
 
-                    biTangents.emplace_back(aiVector3ToVec3(mesh->mBitangents[itr]));
+                    biTangents.emplace_back(aiVector3ToVector3f(mesh->mBitangents[itr]));
                 }
                 else
                 {
