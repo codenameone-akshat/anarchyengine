@@ -7,9 +7,9 @@
 #include <memory>
 
 #include "Graphics/GfxRenderer.h"
-#include "Graphics/HLSL/HLSLShader.h"
 #include "Graphics/D3D12/HAL/D3D12Factory.h"
 #include "Graphics/D3D12/HAL/D3D12Hardware.h"
+#include "Graphics/D3D12/D3D12GraphicsPSOManager.h"
 #include "Graphics/ImGui/ImGuiWrapper.h"
 #include "Graphics/Camera.h"
 #include "Utils/ModelHelper/ModelImporter.h"
@@ -66,10 +66,6 @@ namespace anarchy
         // Load Pipe
         void InitalizeResources();
 
-        void CreateRootSignature();
-        void CompileAllShaders();
-        void CreateVertexInputLayout();
-        void CreateGraphicsPipelineStateObject();
         void CreateGraphicsCommandList();
         void CloseGraphicsCommandList();
 
@@ -99,8 +95,6 @@ namespace anarchy
         ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
 		ComPtr<ID3D12DescriptorHeap> m_rtvDescHeap = nullptr;
 		ComPtr<ID3D12DescriptorHeap> m_cbvSrvUavDescHeap = nullptr;
-		ComPtr<ID3D12PipelineState> m_graphicsPSO = nullptr; // TODO: Wrap this in some PSO manager? Maybe?
-		ComPtr<ID3D12RootSignature> m_rootSignature = nullptr; // TODO: Find a better place for this?
 		ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
 
         // Per Frame COM Objects
@@ -110,8 +104,9 @@ namespace anarchy
         // Mesh Data
         std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputElementDescs = { };
 		std::vector<HLSLShader> m_shaders = { }; // Rework required for GraphicsPipelineState
-		std::vector<string> m_shaderFullFileNames = { };
         
+        std::unique_ptr<D3D12GraphicsPSOManager> m_graphicPSOManager = std::make_unique<D3D12GraphicsPSOManager>();
+
         // Here for now. TODO: Remove from here maybe?
         ComPtr<ID3D12Resource> m_vertexBuffer = nullptr;
         D3D12_VERTEX_BUFFER_VIEW m_vertexBufferView = {};

@@ -107,6 +107,12 @@ inline void Set##propertyName(const type& arg);
 inline type Get##propertyName() const; \
 inline void Set##propertyName(const type& arg);
 
+#define DECLARE_DEFAULT_ACCESSORS_NO_GET(type, varName, propertyName) \
+inline void Set##propertyName(const type& arg) { m_##varName = arg; }
+
+#define DECLARE_DEFAULT_ACCESSORS_NO_SET(type, varName, propertyName) \
+inline type Get##propertyName() const { return m_##varName; } \
+
 #define DECLARE_DEFAULT_ACCESSORS_STATIC(type, varName, propertyName) \
 static type Get##propertyName() { return ms_##varName; } \
 static void Set##propertyName(const type& arg) { ms_##varName = arg; }
@@ -142,6 +148,18 @@ DECLARE_DEFAULT_ACCESSORS_NODEF_GETSET(type, varName, propertyName) \
 private: \
 type m_##varName = defaultVal; 
 
+#define DECLARE_PROPERTY_NO_GET(type, varName, propertyName, defaultVal) \
+public: \
+DECLARE_DEFAULT_ACCESSORS_NO_GET(type, varName, propertyName) \
+private: \
+type m_##varName = defaultVal; 
+
+#define DECLARE_PROPERTY_NO_SET(type, varName, propertyName, defaultVal) \
+public: \
+DECLARE_DEFAULT_ACCESSORS_NO_SET(type, varName, propertyName) \
+private: \
+type m_##varName = defaultVal; 
+
 #define DECLARE_PROPERTY_STATIC(type, varName, propertyName, defaultVal) \
 public: \
 DECLARE_DEFAULT_ACCESSORS_STATIC(type, varName, propertyName) \
@@ -168,6 +186,12 @@ DECLARE_PROPERTY_NODEF_SET(type, varName, propertyName, {})
 
 #define DECLARE_DEFAULT_PROPERTY_NODEF_GETSET(type, varName, propertyName) \
 DECLARE_PROPERTY_NODEF_GETSET(type, varName, propertyName, {}) 
+
+#define DECLARE_DEFAULT_PROPERTY_NO_GET(type, varName, propertyName) \
+DECLARE_PROPERTY_NO_GET(type, varName, propertyName, {}) 
+
+#define DECLARE_DEFAULT_PROPERTY_NO_SET(type, varName, propertyName) \
+DECLARE_PROPERTY_NO_SET(type, varName, propertyName, {}) 
 
 #define DECLARE_DEFAULT_PROPERTY_STATIC(type, varName, propertyName) \
 DECLARE_PROPERTY_STATIC(type, varName, propertyName, {}) 

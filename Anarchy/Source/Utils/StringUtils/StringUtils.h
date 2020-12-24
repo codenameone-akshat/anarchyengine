@@ -3,9 +3,9 @@
 
 #ifdef PLATFORM_WINDOWS
 #include <windows.h>
-#endif // PLATFORM_WINDOWS
-
+#else
 #include "Platform/Assertion.h"
+#endif // PLATFORM_WINDOWS
 
 namespace anarchy
 {

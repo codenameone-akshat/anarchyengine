@@ -261,11 +261,7 @@ namespace anarchy
 
 	void D3D12Renderer::InitalizeResources()
 	{
-		CreateRootSignature();
-		CompileAllShaders();
-		CreateVertexInputLayout(); // Modify this as per the shader??
-		CreateGraphicsPipelineStateObject();
-
+        m_graphicPSOManager->Initialize(m_device);
 		CreateGraphicsCommandList();
 		// Populate code if something is there to record. Leaving it for now since there is nothing to records. Maybe put this in a Command List Manager?
 		CloseGraphicsCommandList();
@@ -287,117 +283,10 @@ namespace anarchy
         m_projMatrix.CreatePerspectiveMatrix(DegToRadf(60), aspectRatio, 1.0f, 10000000.0f);
 	}
 
-    void D3D12Renderer::CreateRootSignature()
-    {
-        // setup for cbv
-        // TODO: move from here?
-        D3D12_DESCRIPTOR_RANGE ranges[1];
-		ranges[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
-		ranges[0].NumDescriptors = 1;
-		ranges[0].BaseShaderRegister = 0;
-		ranges[0].RegisterSpace = 0;
-		ranges[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-        D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable;
-        descriptorTable.NumDescriptorRanges = CountOf(ranges, D3D12_DESCRIPTOR_RANGE);
-        descriptorTable.pDescriptorRanges = &ranges[0];
-        
-        D3D12_ROOT_PARAMETER rootParams[1];
-        rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-        rootParams[0].DescriptorTable = descriptorTable;
-        rootParams[0].ShaderVisibility = (D3D12_SHADER_VISIBILITY)(D3D12_SHADER_VISIBILITY_VERTEX);
-        // setup cbv end
-        
-        uint32 numRootParams = CountOf(rootParams, D3D12_ROOT_PARAMETER);
-
-        CD3DX12_ROOT_SIGNATURE_DESC rootSigDesc;
-        rootSigDesc.Init(numRootParams, rootParams, 0, nullptr,
-			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT | // we can deny shader stages here for better performance
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS);
-
-        ComPtr<ID3DBlob> rootSignatureBlob;
-        ComPtr<ID3DBlob> error;
-
-        CheckResult(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1_0, &rootSignatureBlob, &error), "Failed to serialize root signature.");
-        m_device->CreateRootSignature(0, rootSignatureBlob, m_rootSignature);
-    }
-
-    void D3D12Renderer::CompileAllShaders()
-    {
-        ACScopedTimer("Shader Compilation");
-        Logger::LogInfo(Logger::LogCategory::Graphics, "Compiling Shaders Started...");
-
-        for (auto& shader : m_shaders)
-        {
-            shader.CompileShader();
-        }
-
-        Logger::LogInfo(Logger::LogCategory::Graphics, "Shader Compilation Done!");
-    }
-
-    void D3D12Renderer::CreateVertexInputLayout()
-    {
-        m_inputElementDescs.reserve(2);
-
-        D3D12_INPUT_ELEMENT_DESC inputElemDesc =
-        {
-            "POSITION",
-            0,
-            DXGI_FORMAT_R32G32B32_FLOAT, // Vector3f
-            0,
-            0,
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0
-        };
-
-        m_inputElementDescs.emplace_back(inputElemDesc);
-
-        inputElemDesc =
-        {
-            "COLOR",
-            0,
-            DXGI_FORMAT_R32G32B32A32_FLOAT, // Vec4
-            0,
-            12, // Size of Vec3. Find a better way to do this
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0
-        };
-
-        m_inputElementDescs.emplace_back(inputElemDesc);
-    }
-
-    void D3D12Renderer::CreateGraphicsPipelineStateObject()
-    {
-
-        D3D12_RASTERIZER_DESC rasterizerDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-        rasterizerDesc.FillMode = D3D12_FILL_MODE_WIREFRAME;
-
-        D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
-        psoDesc.pRootSignature = m_rootSignature.Get();
-        psoDesc.VS = m_shaders[0].GetShaderByteCode();
-        psoDesc.PS = m_shaders[1].GetShaderByteCode();
-        psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-        psoDesc.SampleMask = uint32_max; // Default 0xffff
-        psoDesc.RasterizerState = rasterizerDesc;
-
-        psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
-        psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
-
-        psoDesc.InputLayout = { m_inputElementDescs.data(), static_cast<uint32_t>(m_inputElementDescs.size()) };
-        psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-        psoDesc.NumRenderTargets = 1;
-        psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-        psoDesc.SampleDesc.Count = 1;
-
-        m_device->CreateGraphicsPipelineStateObject(psoDesc, m_graphicsPSO);
-    }
-
     void D3D12Renderer::CreateGraphicsCommandList()
     {
         // Create from the current frame's command allocator. On Reset, the other command allocators are used.
-        m_device->CreateCommandList(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicsPSO.Get(), m_commandList);
+        m_device->CreateCommandList(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicPSOManager->GetDefaultPipelineState().Get(), m_commandList);
     }
 
     void D3D12Renderer::CloseGraphicsCommandList()
@@ -587,13 +476,12 @@ namespace anarchy
 		
         ::WaitForSingleObject(m_frameLatencyWaitableObject, 0); // idk... nvidia do's and don'ts say to wait for this object :/
 
-        // Wait until the fence signal issued above set the fence to the value. (if value is set, the queue has finished execution the command list. Else, wait).
+        // Wait until the fence signal issued above set the fence to the value. (if value is set, the queue has finished executing the command list. Else, wait).
         if (m_fence->GetCompletedValue() < m_fenceValues[m_currentBackBufferIndex])
         {
             CheckResult(m_fence->SetEventOnCompletion(m_fenceValues[m_currentBackBufferIndex], m_fenceEvent), "Failed to Fire Event");
             ::WaitForSingleObject(m_fenceEvent, INFINITE);
         }
-		
 
         m_fenceValues[m_currentBackBufferIndex] = fenceVal + 1;
     }
@@ -601,9 +489,9 @@ namespace anarchy
     void D3D12Renderer::RecordCommands()
     {
         CheckResult(m_commandAllocators[m_currentBackBufferIndex]->Reset(), "Failed to reset the command allocator");
-        CheckResult(m_commandList->Reset(m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicsPSO.Get()), "Failed to reset the command list");
+        CheckResult(m_commandList->Reset(m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicPSOManager->GetDefaultPipelineState().Get()), "Failed to reset the command list");
 
-        m_commandList->SetGraphicsRootSignature(m_rootSignature.Get());
+        m_commandList->SetGraphicsRootSignature(m_graphicPSOManager->GetDefaultRootSignature().Get());
         m_commandList->RSSetViewports(1, &m_viewport);
         m_commandList->RSSetScissorRects(1, &m_scissorRect);
 
