@@ -337,6 +337,7 @@
     <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\D3D12\D3D12GraphicsPSOManager.h" />
     <ClInclude Include="Source\Graphics\D3D12\D3D12InputLayout.h" />
+    <ClInclude Include="Source\Graphics\GfxControllables.h" />
     <ClInclude Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.h" />
     <ClInclude Include="Source\Graphics\ImGui\imconfig.h" />
     <ClInclude Include="Source\Graphics\ImGui\imgui.h" />

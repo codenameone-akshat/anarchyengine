@@ -3,14 +3,16 @@
 #if defined(AC_D3D12) && defined(PLATFORM_WINDOWS)
 
 #include "D3D12Renderer.h"
-#include "Engine/Core/EngineContext.h"
-#include "Engine/Object/Entity/Entity.h"
-#include "Extern/Graphics/D3D12/D3DX12/d3dx12.h"
-#include "Framework/AppContext.h"
-#include "Framework/Math/MathHelper.h"
-#include "Platform/ResultHelper.h"
-#include "Utils/Logger/Logger.h"
-#include "Utils/Time/ScopedTimer.h"
+
+#include <Engine/Core/EngineContext.h>
+#include <Engine/Object/Entity/Entity.h>
+#include <Extern/Graphics/D3D12/D3DX12/d3dx12.h>
+#include <Framework/AppContext.h>
+#include <Framework/Math/MathHelper.h>
+#include <Graphics/GfxControllables.h>
+#include <Platform/ResultHelper.h>
+#include <Utils/Logger/Logger.h>
+#include <Utils/Time/ScopedTimer.h>
 
 namespace anarchy
 {
@@ -43,7 +45,7 @@ namespace anarchy
 		m_editorCamera.HandleInput();
         m_viewMatrix = m_editorCamera.GetViewMatrix();
 
-		m_constantBufferData.color = EngineContext::GetPrimColor();
+		m_constantBufferData.color = GfxControllables::GetPrimitiveColor();
         m_constantBufferData.wvpMatrix = (m_viewMatrix * m_projMatrix);
 		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
@@ -515,7 +517,7 @@ namespace anarchy
         D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvDescHeap->GetCPUDescriptorHandleForHeapStart());
         rtvHandle.ptr += (m_currentBackBufferIndex * m_rtvHeapIncrementSize);
 
-        auto fetchedColor = EngineContext::GetClearColor();
+        auto fetchedColor = GfxControllables::GetClearColor();
         m_commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
         m_commandList->ClearRenderTargetView(rtvHandle, (float*)&fetchedColor, 0, nullptr);
         

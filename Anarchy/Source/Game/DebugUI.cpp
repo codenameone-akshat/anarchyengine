@@ -2,6 +2,7 @@
 #include "DebugUI.h"
 
 #include <Graphics/ImGui/imgui.h>
+#include <Graphics/GfxControllables.h>
 
 namespace anarchy::sandbox
 {
@@ -13,10 +14,10 @@ namespace anarchy::sandbox
         // Debug Menu
         ImGui::Begin("Debug Menu");
         ImGui::ColorEdit3("Clear Color", (float*)&clear_color); // Edit 3 floats representing a color
-        EngineContext::SetClearColor(Vector4f(clear_color.x, clear_color.y, clear_color.z, clear_color.w));
+        GfxControllables::SetClearColor(Vector4f(clear_color.x, clear_color.y, clear_color.z, clear_color.w));
         ImGui::NewLine();
         ImGui::ColorEdit3("Primitive Color", (float*)&prim_color); // Edit 3 floats representing a color
-        EngineContext::SetPrimColor(Vector4f(prim_color.x, prim_color.y, prim_color.z, prim_color.w));
+        GfxControllables::SetPrimitiveColor(Vector4f(prim_color.x, prim_color.y, prim_color.z, prim_color.w));
         ImGui::End();
 
         // Frame Stats

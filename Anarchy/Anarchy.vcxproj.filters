@@ -100,6 +100,7 @@
     <ClInclude Include="Source\Framework\GameSpecificInterface.h" />
     <ClInclude Include="Source\Game\SandboxInterface.h" />
     <ClInclude Include="Source\Game\DebugUI.h" />
+    <ClInclude Include="Source\Graphics\GfxControllables.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
