@@ -48,11 +48,11 @@ namespace anarchy
 		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
         m_imGuiWrapper->NewFrame();
-        RecordCommands();
     }
 
     void D3D12Renderer::Render()
     {
+        RecordCommands();
         ID3D12CommandList* ppCommandList[] = { m_commandList.Get() };
         m_graphicsCommandQueue->ExecuteCommandLists(1, ppCommandList);
 

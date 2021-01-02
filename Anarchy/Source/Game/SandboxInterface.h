@@ -1,15 +1,14 @@
 #ifndef _SANDBOX_INTERFACE_H_
 #define _SANDBOX_INTERFACE_H_
 
-#include <Framework/GameSpecificInterface.h>
-
 #define ENABLE_SUPER_CALLS 1
-
 #if ENABLE_SUPER_CALLS
 #define SUPER_CALL(x) x
 #else
 #define SUPER_CALL(x) 
 #endif
+
+#include <Framework/GameSpecificInterface.h>
 
 namespace anarchy
 {
@@ -17,10 +16,12 @@ namespace anarchy
 
 	namespace sandbox
 	{
+		class DebugUI;
 		class SandboxInterface : public GameSpecificInterface
 		{
 			DECLARE_SUPERCLASS(GameSpecificInterface);
 			VIRTUAL_DTOR_GUARD(GameSpecificInterface);
+
 		public:
 			virtual void Initialize() override;
 
@@ -33,6 +34,9 @@ namespace anarchy
 			virtual void PostRender() override;
 
 			virtual void Shutdown() override;
+
+        private:
+            std::unique_ptr<DebugUI> m_debugUI = std::make_unique<DebugUI>();
 		};
 	}
 }

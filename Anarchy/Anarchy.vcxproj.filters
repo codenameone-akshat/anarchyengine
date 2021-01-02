@@ -29,6 +29,7 @@
     <ClCompile Include="Source\Graphics\D3D12\D3D12GraphicsPSOManager.cpp" />
     <ClCompile Include="Source\Game\SandboxInterface.cpp" />
     <ClCompile Include="Source\Framework\GameSpecificInterface.cpp" />
+    <ClCompile Include="Source\Game\DebugUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="Source\Graphics\D3D12\D3D12InputLayout.h" />
     <ClInclude Include="Source\Framework\GameSpecificInterface.h" />
     <ClInclude Include="Source\Game\SandboxInterface.h" />
+    <ClInclude Include="Source\Game\DebugUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

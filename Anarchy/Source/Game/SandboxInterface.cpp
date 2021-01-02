@@ -1,6 +1,8 @@
 #include "acpch.h"
 #include "SandboxInterface.h"
 
+#include <Game/DebugUI.h>
+
 namespace anarchy
 {
 	// Instance Creation
@@ -28,7 +30,8 @@ namespace anarchy
 		void SandboxInterface::Render()
 		{
 			SUPER_CALL(super::Render();)
-		}
+            m_debugUI->Draw();
+        }
 
 		void SandboxInterface::PostRender()
 		{

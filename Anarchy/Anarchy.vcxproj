@@ -290,6 +290,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug_UnityBuild|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Framework\GameSpecificInterface.cpp" />
+    <ClCompile Include="Source\Game\DebugUI.cpp" />
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
     <ClCompile Include="Source\Game\SandboxInterface.cpp" />
     <ClCompile Include="Source\Graphics\Camera.cpp" />
@@ -331,6 +332,7 @@
     <ClInclude Include="Source\Framework\MemoryHelpers.h" />
     <ClInclude Include="Source\Framework\ProjectConfig.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
+    <ClInclude Include="Source\Game\DebugUI.h" />
     <ClInclude Include="Source\Game\SandboxInterface.h" />
     <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\D3D12\D3D12GraphicsPSOManager.h" />
