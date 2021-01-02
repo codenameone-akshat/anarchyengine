@@ -289,7 +289,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug_UnityBuild|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Framework\GameSpecificInterface.cpp" />
     <ClCompile Include="Source\Game\GameSpecificCommands.cpp" />
+    <ClCompile Include="Source\Game\SandboxInterface.cpp" />
     <ClCompile Include="Source\Graphics\Camera.cpp" />
     <ClCompile Include="Source\Graphics\D3D12\D3D12GraphicsPSOManager.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.cpp" />
@@ -319,6 +321,7 @@
     <ClInclude Include="Source\Framework\AppContext.h" />
     <ClInclude Include="Source\Framework\ClassHelpers.h" />
     <ClInclude Include="Source\Framework\FrameworkHelpers.h" />
+    <ClInclude Include="Source\Framework\GameSpecificInterface.h" />
     <ClInclude Include="Source\Framework\Math\Math.h" />
     <ClInclude Include="Source\Framework\Math\MathHelper.h" />
     <ClInclude Include="Source\Framework\Math\Matrix4.hpp" />
@@ -328,6 +331,7 @@
     <ClInclude Include="Source\Framework\MemoryHelpers.h" />
     <ClInclude Include="Source\Framework\ProjectConfig.h" />
     <ClInclude Include="Source\Framework\SerializationHelpers.h" />
+    <ClInclude Include="Source\Game\SandboxInterface.h" />
     <ClInclude Include="Source\Graphics\Camera.h" />
     <ClInclude Include="Source\Graphics\D3D12\D3D12GraphicsPSOManager.h" />
     <ClInclude Include="Source\Graphics\D3D12\D3D12InputLayout.h" />

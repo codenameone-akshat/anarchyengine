@@ -80,6 +80,14 @@ className(const className&) = delete; \
 className(className&&) = delete; \
 className& operator=(const className&) = delete;
 
+#define DECLARE_DEFAULT_CLASSMEMBERS_INTERFACE(className) \
+public: \
+className() = default; \
+virtual ~className() = default; \
+className(const className&) = default; \
+className(className&&) = default; \
+className& operator=(const className&) = default;
+
 #define DECLARE_DELETED_CLASSMEMBERS(className) \
 public: \
 className() = delete; \
@@ -204,6 +212,8 @@ DECLARE_PROPERTY_REFGET(type, varName, propertyName, {})
 #define VIRTUAL_DTOR_GUARD(Base) \
 static_assert(std::has_virtual_destructor<Base>::value, "Possible Memory Leak. Base Class doesn't have a virual desctructor.");
 
+#define DECLARE_SUPERCLASS(Base) \
+using super = Base
 //#define NO_DEFAULT_CONSTRUCT_GUARD(T) \ 
 //static_assert(!std::is_default_constructible_v<T>, "T is default constructible.");
 

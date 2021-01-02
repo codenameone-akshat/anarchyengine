@@ -29,14 +29,15 @@ namespace anarchy
         void InitializeEngine();
         void Update();
         void ShutdownEngine();
-
+        
     private:
 
         std::shared_ptr<Window> m_mainWindow = std::make_shared<Window>();
         std::shared_ptr<WindowEventHandler> m_windowEventHandler = std::make_shared<WindowEventHandler>();
         std::unique_ptr<GfxRenderer> m_renderer = std::make_unique<RenderAPI>();
         std::unique_ptr<game::GameSpecificCommands> m_gameSpecificCommands = std::make_unique<game::GameSpecificCommands>();
-		InputHandler& m_input = InputHandler::GetInstance();
+
+        InputHandler& m_input = InputHandler::GetInstance();
     };
 }
 

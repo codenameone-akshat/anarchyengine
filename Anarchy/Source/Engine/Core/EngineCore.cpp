@@ -3,6 +3,7 @@
 #include "Engine/Core/EngineCore.h"
 #include "Engine/Core/EngineContext.h"
 #include "Framework/AppContext.h"
+#include <Framework/GameSpecificInterface.h>
 
 namespace anarchy
 {
@@ -24,24 +25,34 @@ namespace anarchy
         m_gameSpecificCommands->InitializeSettings();
         EngineContext::SetGameSpecificSettings(m_gameSpecificCommands->GetSettings());
         
+        GameSpecificInterface::SetupGameSpecificInstance();
+        acGameSpecificInterface->Initialize();
+
         // Initialize the Renderer
-        m_renderer->Initialize();
-    }
+        m_renderer->Initialize();        
+	}
 
     void EngineCore::Update()
     {
         m_windowEventHandler->PollMessage();
 		m_input.PollInputFromOS();
+        acGameSpecificInterface->Update();
 
+        acGameSpecificInterface->PreRender();
         m_renderer->PreRender();
-        m_renderer->Render();
-        m_renderer->PostRender();
+		
+        acGameSpecificInterface->Render();
+		m_renderer->Render();
+		
+        acGameSpecificInterface->PostRender();
+		m_renderer->PostRender();
     }
 
     void EngineCore::ShutdownEngine()
     {
         // Cleanup. Maybe call from Dtor for RAII?
         m_renderer->Shutdown();
+        acGameSpecificInterface->Shutdown();
         m_mainWindow->DestroyWindow();
     }
 }
