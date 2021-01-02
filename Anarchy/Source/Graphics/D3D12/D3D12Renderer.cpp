@@ -491,7 +491,7 @@ namespace anarchy
     void D3D12Renderer::RecordCommands()
     {
         CheckResult(m_commandAllocators[m_currentBackBufferIndex]->Reset(), "Failed to reset the command allocator");
-        CheckResult(m_commandList->Reset(m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicPSOManager->GetDefaultPipelineState().Get()), "Failed to reset the command list");
+        CheckResult(m_commandList->Reset(m_commandAllocators[m_currentBackBufferIndex].Get(), m_graphicPSOManager->GetPipelineState(GfxControllables::GetPipelineState()).Get()), "Failed to reset the command list");
 
         m_commandList->SetGraphicsRootSignature(m_graphicPSOManager->GetDefaultRootSignature().Get());
         m_commandList->RSSetViewports(1, &m_viewport);

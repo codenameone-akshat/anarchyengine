@@ -10,6 +10,7 @@ namespace anarchy
     public:
         DECLARE_DEFAULT_PROPERTY_STATIC(Vector4f, clearColor, ClearColor);
         DECLARE_DEFAULT_PROPERTY_STATIC(Vector4f, primitiveColor, PrimitiveColor);
+        DECLARE_DEFAULT_PROPERTY_STATIC(PipelineState, pipelineState, PipelineState);
     };
 }
 

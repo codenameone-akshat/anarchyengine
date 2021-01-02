@@ -25,4 +25,5 @@
 #endif // AC_DEBUG
 
 #define CountOf(arr, type) (sizeof(arr) / sizeof(type))
+#define ToUnderlyingType(x) static_cast<std::underlying_type_t<x>>
 #endif // _FRAMEWORK_DEFINES_H_

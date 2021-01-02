@@ -19,6 +19,27 @@ namespace anarchy
 		CreateRootSignatures();
 		SetupPipelineStateObjects();
 	}
+
+	ComPtr<ID3D12PipelineState> D3D12GraphicsPSOManager::GetPipelineState(PipelineState state)
+	{
+		switch (state)
+		{
+		case PipelineState::Default:
+			return m_defaultPipelineState;
+			break;
+		case PipelineState::Wireframe:
+			return m_wireframePipelineState;
+			break;
+		case PipelineState::FontFaceCull:
+			return m_frontFaceCullPipelineState;
+			break;
+		default: 
+			return m_defaultPipelineState;
+			break;
+		}
+		
+		return nullptr;
+	}
 	
 	void D3D12GraphicsPSOManager::CompileShaders()
 	{

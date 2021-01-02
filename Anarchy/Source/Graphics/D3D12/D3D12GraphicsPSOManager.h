@@ -7,6 +7,14 @@
 
 namespace anarchy
 {
+	enum class PipelineState
+	{
+		Default,
+		Wireframe,
+		FontFaceCull,
+		_Count
+	};
+
 	class D3D12GraphicsPSOManager
 	{
 		DECLARE_DEFAULT_CLASSMEMBERS(D3D12GraphicsPSOManager);
@@ -25,6 +33,7 @@ namespace anarchy
 	
 	public:
 		void Initialize(std::shared_ptr<D3D12Device> device);
+		ComPtr<ID3D12PipelineState> GetPipelineState(PipelineState state);
 	
 	private:
 		void CompileShaders();
