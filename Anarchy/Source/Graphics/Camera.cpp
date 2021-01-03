@@ -2,14 +2,16 @@
 
 #include "Camera.h"
 #include <Framework/Math/MathHelper.h>
-
-#define CAM_DAMP_FACTOR_ROT 0.12f
-#define CAM_DAMP_FACTOR_TRANS 0.07f
+#include <Graphics/GfxControllables.h>
 
 namespace anarchy
 {
 	void Camera::HandleInput()
 	{
+		// Controllable's Update
+        m_translationSpeedMultiplier = GfxControllables::GetCamTranslationSpeedMult();
+        m_rotationSpeedMultiplier = GfxControllables::GetCamRotationSpeedMult();
+
 		// Rotation
 		if (m_inputHandler.GetIsKeyDown(MOUSE_RBUTTON))
 		{
@@ -19,8 +21,8 @@ namespace anarchy
 		}
 
 		//// default camera properties
-		const float32 dampedDegRotx = DegToRadf(m_cameraRotation.x * CAM_DAMP_FACTOR_ROT);
-		const float32 dampedDegRoty = DegToRadf(m_cameraRotation.y * CAM_DAMP_FACTOR_ROT);
+		const float32 dampedDegRotx = DegToRadf(m_cameraRotation.x * m_rotationSpeedMultiplier);
+		const float32 dampedDegRoty = DegToRadf(m_cameraRotation.y * m_rotationSpeedMultiplier);
 
 		Matrix4f rotMat;
 		rotMat.RotateYawPitchRoll(dampedDegRotx, dampedDegRoty, 0.0f);
@@ -41,32 +43,32 @@ namespace anarchy
 		// Translation
 		if (m_inputHandler.GetIsKeyDown(KEY_W))
 		{
-			m_cameraPosition += (forward * CAM_DAMP_FACTOR_TRANS);
+			m_cameraPosition += (forward * m_translationSpeedMultiplier);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_A))
 		{
-			m_cameraPosition -= (right * CAM_DAMP_FACTOR_TRANS);
+			m_cameraPosition -= (right * m_translationSpeedMultiplier);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_S))
 		{
-			m_cameraPosition -= (forward * CAM_DAMP_FACTOR_TRANS);
+			m_cameraPosition -= (forward * m_translationSpeedMultiplier);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_D))
 		{
-			m_cameraPosition += (right * CAM_DAMP_FACTOR_TRANS);
+			m_cameraPosition += (right * m_translationSpeedMultiplier);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_Q))
 		{
-			m_cameraPosition -= (up * CAM_DAMP_FACTOR_TRANS);
+			m_cameraPosition -= (up * m_translationSpeedMultiplier);
 		}
 		
 		if (m_inputHandler.GetIsKeyDown(KEY_E))
 		{
-			m_cameraPosition += (up * CAM_DAMP_FACTOR_TRANS);
+			m_cameraPosition += (up * m_translationSpeedMultiplier);
 		}
 
 		Matrix4f translationMat;

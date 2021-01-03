@@ -245,7 +245,7 @@ namespace anarchy
 
 		// Recreate projection matrix with new aspect ratio :)
         float32 aspectRatio = static_cast<float32>(windowDesc.width) / static_cast<float32>(windowDesc.height);
-		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(60), aspectRatio, 1.0f, 10000000.0f);
+		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, 1.0f, 10000000.0f);
 
 		AppContext::SetIsResizeTriggered(false);
 	}
@@ -282,7 +282,7 @@ namespace anarchy
         m_swapChain->GetDesc1(&swapChainDesc);
         float32 aspectRatio = static_cast<float32>(swapChainDesc.Width) / static_cast<float32>(swapChainDesc.Height);
 
-        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(60), aspectRatio, 1.0f, 10000000.0f);
+        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, 1.0f, 10000000.0f);
 	}
 
     void D3D12Renderer::CreateGraphicsCommandList()
