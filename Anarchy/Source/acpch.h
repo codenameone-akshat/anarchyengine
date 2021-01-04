@@ -19,6 +19,7 @@
 //External Libs
 #include <fmt/core.h>
 #include <d3d12.h>
+#include <boost/signals2.hpp>
 
 #ifdef ANARCHY_MATH_ENABLE
 #include <Framework/Math/Math.h>
