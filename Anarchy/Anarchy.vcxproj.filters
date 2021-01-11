@@ -30,6 +30,7 @@
     <ClCompile Include="Source\Game\SandboxInterface.cpp" />
     <ClCompile Include="Source\Framework\GameSpecificInterface.cpp" />
     <ClCompile Include="Source\Game\DebugUI.cpp" />
+    <ClCompile Include="Source\Graphics\GfxManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
@@ -101,6 +102,8 @@
     <ClInclude Include="Source\Game\SandboxInterface.h" />
     <ClInclude Include="Source\Game\DebugUI.h" />
     <ClInclude Include="Source\Graphics\GfxControllables.h" />
+    <ClInclude Include="Source\Graphics\PlatformRenderer.h" />
+    <ClInclude Include="Source\Graphics\GfxManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

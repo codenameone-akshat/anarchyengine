@@ -29,7 +29,7 @@ namespace anarchy
         acGameSpecificInterface->Initialize();
 
         // Initialize the Renderer
-        m_renderer->Initialize();        
+        m_gfxManager->Initialize();        
 	}
 
     void EngineCore::Update()
@@ -39,19 +39,19 @@ namespace anarchy
         acGameSpecificInterface->Update();
 
         acGameSpecificInterface->PreRender();
-        m_renderer->PreRender();
+        m_gfxManager->PreRender();
 		
         acGameSpecificInterface->Render();
-		m_renderer->Render();
+		m_gfxManager->Render();
 		
         acGameSpecificInterface->PostRender();
-		m_renderer->PostRender();
+		m_gfxManager->PostRender();
     }
 
     void EngineCore::ShutdownEngine()
     {
         // Cleanup. Maybe call from Dtor for RAII?
-        m_renderer->Shutdown();
+        m_gfxManager->Shutdown();
         acGameSpecificInterface->Shutdown();
         m_mainWindow->DestroyWindow();
     }
