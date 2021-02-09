@@ -104,6 +104,10 @@
     <ClInclude Include="Source\Graphics\GfxControllables.h" />
     <ClInclude Include="Source\Graphics\PlatformRenderer.h" />
     <ClInclude Include="Source\Graphics\GfxManager.h" />
+    <ClInclude Include="Source\Graphics\GfxEvents.h" />
+    <ClInclude Include="Source\Engine\EventBase.h" />
+    <ClInclude Include="Source\Engine\EventDispatcher.hpp" />
+    <ClInclude Include="Source\Engine\NativeEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

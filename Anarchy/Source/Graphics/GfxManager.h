@@ -1,5 +1,5 @@
-#ifndef _GRAPHIC_MANAGER_H_
-#define _GRAPHIC_MANAGER_H_
+#ifndef _GFX_MANAGER_H_
+#define _GFX_MANAGER_H_
 
 #include <Graphics/PlatformRenderer.h>
 
@@ -17,9 +17,11 @@ namespace anarchy
         void PostRender();
 
     private:
+        void HandleEvents();
+
         std::unique_ptr<GfxRenderer> m_renderer = std::make_unique<RenderAPI>();
     };
 }
 
-#endif // !_GRAPHIC_MANAGER_H_
+#endif // !_GFX_MANAGER_H_
 

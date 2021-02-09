@@ -47,7 +47,6 @@ namespace anarchy
         static string GetSourceDirPath() { return ms_sourceDirPath; }
         static void SetSourceDirPath(string path) { ms_sourceDirPath = path; }
 
-		DECLARE_PROPERTY_STATIC(bool, isResizeTriggered, IsResizeTriggered, false);
         DECLARE_DEFAULT_PROPERTY_STATIC(string, dataDirPath, DataDirPath);
 
     private:

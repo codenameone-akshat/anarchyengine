@@ -318,6 +318,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Extern\Engine\Entt\entt.hpp" />
+    <ClInclude Include="Source\Engine\EventBase.h" />
+    <ClInclude Include="Source\Engine\EventDispatcher.hpp" />
     <ClInclude Include="Source\Engine\Object\Component\CameraComponent.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Framework\AppContext.h" />
@@ -339,6 +341,7 @@
     <ClInclude Include="Source\Graphics\D3D12\D3D12GraphicsPSOManager.h" />
     <ClInclude Include="Source\Graphics\D3D12\D3D12InputLayout.h" />
     <ClInclude Include="Source\Graphics\GfxControllables.h" />
+    <ClInclude Include="Source\Graphics\GfxEvents.h" />
     <ClInclude Include="Source\Graphics\GfxManager.h" />
     <ClInclude Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.h" />
     <ClInclude Include="Source\Graphics\ImGui\imconfig.h" />
@@ -356,6 +359,7 @@
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug_UnityBuild|x64'">false</DeploymentContent>
     </ClInclude>
     <ClInclude Include="Source\Graphics\PlatformRenderer.h" />
+    <ClInclude Include="Source\Engine\NativeEvent.h" />
     <ClInclude Include="Source\Platform\Assertion.h" />
     <ClInclude Include="Source\Platform\ResultHelper.h" />
     <ClInclude Include="Source\Platform\Platform.h" />

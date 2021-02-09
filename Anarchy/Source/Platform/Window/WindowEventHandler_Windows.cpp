@@ -1,9 +1,11 @@
 #include "acpch.h"
 
 #include "WindowEventHandler.h"
-#include "Framework/AppContext.h"
-#include "Engine/Core/EngineContext.h"
-#include "Graphics/ImGui/Windows/imgui_impl_win32.h"
+#include <Framework/AppContext.h>
+#include <Engine/Core/EngineContext.h>
+#include <Graphics/ImGui/Windows/imgui_impl_win32.h>
+#include <Engine/EventDispatcher.hpp>
+#include <Graphics/GfxEvents.h>
 
 // External Linkage to ImGui WindowEventHandler
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -37,7 +39,11 @@ namespace anarchy
 			break;
 		case WindowEvent::Close:
 			break;
-		default:
+        case WindowEvent::Resize:
+			SwapChainResizeEvent event;
+			acEventDispatcher.TriggerEvent(event);
+            break;
+        default:
 			break;
 		}
 	}
@@ -62,13 +68,14 @@ namespace anarchy
 			if (!AppContext::GetHandleToMainWindow())
 				break;
 
-			auto windowDesc = AppContext::GetMainWindowDesc();
-			uint32 width = (UINT)LOWORD(lParam);
-			uint32 height = (UINT)HIWORD(lParam);
-			windowDesc.width = width;
-			windowDesc.height = height;
-			AppContext::SetMainWindowDesc(windowDesc);
-			AppContext::SetIsResizeTriggered(true);
+            WindowEventHandlerPtr->HandleMessage(WindowEvent::Resize);
+
+            auto windowDesc = AppContext::GetMainWindowDesc();
+            uint32 width = (UINT)LOWORD(lParam);
+            uint32 height = (UINT)HIWORD(lParam);
+            windowDesc.width = width;
+            windowDesc.height = height;
+            AppContext::SetMainWindowDesc(windowDesc);
 			break;
 		}
 		return ::DefWindowProc(hWnd, message, wParam, lParam);

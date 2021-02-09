@@ -6,13 +6,14 @@
 #include <array>
 #include <memory>
 
-#include "Graphics/GfxRenderer.h"
-#include "Graphics/D3D12/HAL/D3D12Factory.h"
-#include "Graphics/D3D12/HAL/D3D12Hardware.h"
-#include "Graphics/D3D12/D3D12GraphicsPSOManager.h"
-#include "Graphics/ImGui/ImGuiWrapper.h"
-#include "Graphics/Camera.h"
-#include "Utils/ModelHelper/ModelImporter.h"
+#include <Graphics/GfxRenderer.h>
+#include <Graphics/D3D12/HAL/D3D12Factory.h>
+#include <Graphics/D3D12/HAL/D3D12Hardware.h>
+#include <Graphics/D3D12/D3D12GraphicsPSOManager.h>
+#include <Graphics/ImGui/ImGuiWrapper.h>
+#include <Graphics/Camera.h>
+#include <Utils/ModelHelper/ModelImporter.h>
+#include <Engine/EventBase.h>
 
 namespace anarchy
 {
@@ -60,7 +61,7 @@ namespace anarchy
         // End Initializing
 
         // Resize 
-		void ResizeSwapChain();
+        DECLARE_EVENT_CALLBACK(ResizeSwapChain);
         void CleanupRenderTargetViews();
 
         // Load Pipe

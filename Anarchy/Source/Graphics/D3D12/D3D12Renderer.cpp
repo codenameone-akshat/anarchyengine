@@ -13,6 +13,8 @@
 #include <Platform/ResultHelper.h>
 #include <Utils/Logger/Logger.h>
 #include <Utils/Time/ScopedTimer.h>
+#include <Engine/EventDispatcher.hpp>
+#include <Graphics/GfxEvents.h>
 
 namespace anarchy
 {
@@ -34,14 +36,14 @@ namespace anarchy
         InitalizeResources();
         m_imGuiWrapper->InitializeImGuiLib();
         m_imGuiWrapper->InitializeImGuiWindowsD3D12(AppContext::GetHandleToMainWindow()->GetRawHandleToWindow(), m_device->GetRawDevice(), g_numFrameBuffers, DXGI_FORMAT_R8G8B8A8_UNORM, m_cbvSrvUavDescHeap, m_cbvSrvUavDescHeap->GetCPUDescriptorHandleForHeapStart(), m_cbvSrvUavDescHeap->GetGPUDescriptorHandleForHeapStart());
+
+        // Register Events
+        acEventDispatcher.RegisterEventCallback<SwapChainResizeEvent>(this, &D3D12Renderer::ResizeSwapChain);
     }
 
     void D3D12Renderer::PreRender()
     {
-		if (AppContext::GetIsResizeTriggered())
-			ResizeSwapChain();
-        
-		//tempcode
+		// tempcode
 		m_editorCamera.HandleInput();
         m_viewMatrix = m_editorCamera.GetViewMatrix();
 
@@ -220,7 +222,7 @@ namespace anarchy
         m_shaders = EngineContext::GetGameSpecificSettings()->GetAllShaders();
     }
 
-	void D3D12Renderer::ResizeSwapChain()
+    DEFINE_EVENT_MEMBER_CALLBACK(D3D12Renderer, ResizeSwapChain)
 	{
         CleanupRenderTargetViews();
         m_imGuiWrapper->InvalidateResources();
@@ -246,8 +248,6 @@ namespace anarchy
 		// Recreate projection matrix with new aspect ratio :)
         float32 aspectRatio = static_cast<float32>(windowDesc.width) / static_cast<float32>(windowDesc.height);
 		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, 1.0f, 10000000.0f);
-
-		AppContext::SetIsResizeTriggered(false);
 	}
 
 	void D3D12Renderer::CleanupRenderTargetViews()

@@ -16,16 +16,16 @@ namespace anarchy
 		if (m_inputHandler.GetIsKeyDown(MOUSE_RBUTTON))
 		{
 			Vector2i mousePosition = m_inputHandler.GetMousePositionDelta();
-			m_cameraRotation.x += mousePosition.x;
-			m_cameraRotation.y += mousePosition.y;
+			m_cameraRotation.x += (mousePosition.x * m_rotationSpeedMultiplier);
+			m_cameraRotation.y += (mousePosition.y * m_rotationSpeedMultiplier);
 		}
 
 		//// default camera properties
-		const float32 dampedDegRotx = DegToRadf(m_cameraRotation.x * m_rotationSpeedMultiplier);
-		const float32 dampedDegRoty = DegToRadf(m_cameraRotation.y * m_rotationSpeedMultiplier);
+		const float32 rotx = DegToRadf(m_cameraRotation.x);
+		const float32 roty = DegToRadf(m_cameraRotation.y);
 
 		Matrix4f rotMat;
-		rotMat.RotateYawPitchRoll(dampedDegRotx, dampedDegRoty, 0.0f);
+		rotMat.RotateYawPitchRoll(rotx, roty, 0.0f);
 
 		Vector4f forward(Vector4f::Init_Flags::Init_UnitZ);
 		Vector4f up(Vector4f::Init_Flags::Init_UnitY);
