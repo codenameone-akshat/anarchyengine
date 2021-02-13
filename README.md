@@ -12,6 +12,7 @@ The following are the libs used for the engine:
 - [D3DX12] via single header include
 - [DirectXMath] via NuGet
 - [fmt] via vcpkg
+- [assimp] via static lib
 
 [entt]: https://github.com/skypjack/entt
 [ImGui]: https://github.com/ocornut/imgui
@@ -20,3 +21,4 @@ The following are the libs used for the engine:
 [assimp]: https://github.com/assimp/assimp
 [DirectXMath]: https://github.com/microsoft/DirectXMath
 [fmt]: https://github.com/fmtlib/fmt
+[assimp]: https://github.com/assimp/assimp
