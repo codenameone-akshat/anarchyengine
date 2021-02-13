@@ -30,6 +30,9 @@ namespace anarchy
 		case PipelineState::Wireframe:
 			return m_wireframePipelineState;
 			break;
+        case PipelineState::WireframeNoCull:
+            return m_wireframeNoCullPipelineState;
+            break;
 		case PipelineState::FontFaceCull:
 			return m_frontFaceCullPipelineState;
 			break;
@@ -139,6 +142,32 @@ namespace anarchy
 
 			m_device->CreateGraphicsPipelineStateObject(psoDesc, m_wireframePipelineState);
 		}
+
+        // Wireframe No Culling PSO
+        {
+            D3D12_RASTERIZER_DESC rasterizerDesc = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+            rasterizerDesc.FillMode = D3D12_FILL_MODE_WIREFRAME;
+            rasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
+
+            D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = {};
+            psoDesc.pRootSignature = m_defaultRootSignature.Get();
+            psoDesc.VS = m_defaultShaderVS->GetShaderByteCode();
+            psoDesc.PS = m_defaultShaderPS->GetShaderByteCode();
+            psoDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+            psoDesc.SampleMask = uint32_max; // Default 0xffff
+            psoDesc.RasterizerState = rasterizerDesc;
+
+            psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
+            psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
+
+            psoDesc.InputLayout = { m_inputLayout.inputLayoutList.data(), static_cast<uint32_t>(m_inputLayout.inputLayoutList.size()) };
+            psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+            psoDesc.NumRenderTargets = 1;
+            psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+            psoDesc.SampleDesc.Count = 1;
+
+            m_device->CreateGraphicsPipelineStateObject(psoDesc, m_wireframeNoCullPipelineState);
+        }
 
 		//Cull Mode Front PSO
 		{

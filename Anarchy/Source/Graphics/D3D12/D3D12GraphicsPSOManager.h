@@ -11,6 +11,7 @@ namespace anarchy
 	{
 		Default,
 		Wireframe,
+		WireframeNoCull,
 		FontFaceCull,
 		_Count
 	};
@@ -21,7 +22,8 @@ namespace anarchy
 
 		// Pipeline States
 		DECLARE_PROPERTY_NO_SET(ComPtr<ID3D12PipelineState>, defaultPipelineState, DefaultPipelineState, nullptr);
-		DECLARE_PROPERTY_NO_SET(ComPtr<ID3D12PipelineState>, wireframePipelineState, WireframePipelineState, nullptr);
+        DECLARE_PROPERTY_NO_SET(ComPtr<ID3D12PipelineState>, wireframePipelineState, WireframePipelineState, nullptr);
+        DECLARE_PROPERTY_NO_SET(ComPtr<ID3D12PipelineState>, wireframeNoCullPipelineState, WireframeNoCullPipelineState, nullptr);
 		DECLARE_PROPERTY_NO_SET(ComPtr<ID3D12PipelineState>, frontFaceCullPipelineState, FrontFaceCullPipelineState, nullptr);
 
 		// Root Signatures

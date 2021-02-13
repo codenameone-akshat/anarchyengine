@@ -32,7 +32,7 @@ namespace anarchy::sandbox
             GfxControllables::SetPrimitiveColor(Vector4f(prim_color.x, prim_color.y, prim_color.z, prim_color.w));
 
             static int32 currentPipelineStateIdx = 0;
-            const char* pipelineStates[] = { "Default", "Wireframe", "FronFaceCull" };
+            const char* pipelineStates[] = { "Default", "Wireframe", "Wireframe NoCull", "FronFaceCull" };
             ImGui::SetNextItemWidth(120);
             ImGui::Combo("Render Mode", &currentPipelineStateIdx, pipelineStates, ToUnderlyingType(PipelineState)(PipelineState::_Count));
             GfxControllables::SetPipelineState(static_cast<PipelineState>(currentPipelineStateIdx));
