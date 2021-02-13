@@ -17,7 +17,7 @@ The following are the libs used for the engine:
 [entt]: https://github.com/skypjack/entt
 [ImGui]: https://github.com/ocornut/imgui
 [Boost v1.73]: https://www.boost.org/users/history/version_1_73_0.html
-[D3DX12]: https://github.com/microsoft/DirectX-Graphics-Samples/blob/master/Libraries/D3DX12/d3dx12.h
+[D3DX12]: https://github.com/microsoft/DirectX-Headers/blob/main/include/directx/d3dx12.h
 [assimp]: https://github.com/assimp/assimp
 [DirectXMath]: https://github.com/microsoft/DirectXMath
 [fmt]: https://github.com/fmtlib/fmt
