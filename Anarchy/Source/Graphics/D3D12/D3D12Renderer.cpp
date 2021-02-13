@@ -29,7 +29,7 @@ namespace anarchy
 		/// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
         {
             ACScopedTimer("Loading Model Task: ");
-            string dataDir = AppContext::GetDataDirPath() + "teapotHighPoly.fbx";
+            string dataDir = AppContext::GetDataDirPath() + "sponza.wavobj";
             m_entities.emplace_back(m_modelImporter->ReadEntityFromFile(dataDir));
         }
 
@@ -247,7 +247,7 @@ namespace anarchy
 
 		// Recreate projection matrix with new aspect ratio :)
         float32 aspectRatio = static_cast<float32>(windowDesc.width) / static_cast<float32>(windowDesc.height);
-		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, 1.0f, 10000000.0f);
+		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, 0.01f, 10000000.0f);
 	}
 
 	void D3D12Renderer::CleanupRenderTargetViews()
@@ -304,15 +304,22 @@ namespace anarchy
             Vector3f position;
         };
 
-        MeshGPUData meshData = m_entities.at(0)->GetMeshes().at(0).GetMeshGPUData();
         std::vector<Vertex> vertexBufferData;
-        auto vertices = meshData.GetVertices();
+        
+        // TODO: Cleanup 
+        for (auto entity : m_entities)
+        {
+            for (uint32 itr = 0; itr < entity->GetMeshes().size(); ++itr)
+            {
+                MeshGPUData meshData = entity->GetMeshes().at(itr).GetMeshGPUData();
+                auto vertices = meshData.GetVertices();
+                std::for_each(vertices.begin(), vertices.end(), [&vertexBufferData](Vector3f vertex) { vertexBufferData.emplace_back(vertex); });
+            }
+        }
 
-        vertexBufferData.reserve(vertices.size());
-        std::for_each(vertices.begin(), vertices.end(), [&vertexBufferData](Vector3f vertex) { vertexBufferData.emplace_back(vertex); });
-        vertexBufferData.shrink_to_fit();
+        //vertexBufferData.shrink_to_fit();
 
-        uint32 vertexBufferSize = sizeof(Vertex) * (uint32)vertexBufferData.size();;
+        uint64 vertexBufferSize = sizeof(Vertex) * vertexBufferData.size();;
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
         heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -346,21 +353,28 @@ namespace anarchy
 
         m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
         m_vertexBufferView.StrideInBytes = sizeof(Vertex);
-        m_vertexBufferView.SizeInBytes = vertexBufferSize;
+        m_vertexBufferView.SizeInBytes = (uint32)vertexBufferSize;
     }
 
     void D3D12Renderer::CreateIndexBuffer()
     {
-		MeshGPUData meshData = m_entities.at(0)->GetMeshes().at(0).GetMeshGPUData();
         std::vector<uint32> indexBufferData;
-		auto indices = meshData.GetIndices();
 
-        indexBufferData.reserve(indices.size());
-		std::for_each(indices.begin(), indices.end(), [&indexBufferData](uint32 index) { indexBufferData.emplace_back(index); });
+        // TODO: Cleanup 
+        for (auto entity : m_entities)
+        {
+            for (uint32 itr = 0; itr < entity->GetMeshes().size(); ++itr)
+            {
+                MeshGPUData meshData = entity->GetMeshes().at(itr).GetMeshGPUData();
+                auto indices = meshData.GetIndices();
+                std::for_each(indices.begin(), indices.end(), [&indexBufferData](uint32 index) { indexBufferData.emplace_back(index); });
+            }
+        }
+
         indexBufferData.shrink_to_fit();
 
-        uint32 indexBufferSize = sizeof(uint32) * (uint32)indexBufferData.size();
-        m_indicesPerInstance = indexBufferSize / sizeof(uint32);
+        uint64 indexBufferSize = sizeof(uint32) * indexBufferData.size();
+        m_indicesPerInstance = (uint32)indexBufferSize / sizeof(uint32);
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
         heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -393,7 +407,7 @@ namespace anarchy
 
         m_indexBufferView.BufferLocation = m_indexBuffer->GetGPUVirtualAddress();
         m_indexBufferView.Format = DXGI_FORMAT_R32_UINT;
-        m_indexBufferView.SizeInBytes = indexBufferSize;
+        m_indexBufferView.SizeInBytes = (uint32)indexBufferSize;
     }
 
     void D3D12Renderer::CreateCBVUploadHeap()

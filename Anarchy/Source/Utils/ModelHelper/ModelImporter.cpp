@@ -37,6 +37,8 @@ namespace anarchy
             return Vector2f(vec.x, vec.y);
         };
 
+        int32 indicesOffset = 0; // index per mesh offset
+
         for (uint32 itr = 0; itr < scene->mNumMeshes; ++itr)
         {
             auto mesh = meshes[itr];
@@ -55,7 +57,8 @@ namespace anarchy
 
                 vertices.emplace_back(aiVector3ToVector3f(mesh->mVertices[itr]));
 
-                normals.emplace_back(aiVector3ToVector3f(mesh->mNormals[itr]));
+                if(mesh->HasNormals())
+                    normals.emplace_back(aiVector3ToVector3f(mesh->mNormals[itr]));
 
                 // lets just hope we are just using the first UV channel :P
                 if (mesh->HasTextureCoords(0))
@@ -85,14 +88,17 @@ namespace anarchy
             for (uint32 itr = 0; itr < mesh->mNumFaces; ++itr)
             {
                 // TODO: make this Vec3<uint32_t> when Vec3 is templatized
-				const uint32 vertexA = mesh->mFaces[itr].mIndices[0];
-				const uint32 vertexB = mesh->mFaces[itr].mIndices[1];
-				const uint32 vertexC = mesh->mFaces[itr].mIndices[2];
+				const uint32 vertexA = mesh->mFaces[itr].mIndices[0] + indicesOffset;
+				const uint32 vertexB = mesh->mFaces[itr].mIndices[1] + indicesOffset;
+				const uint32 vertexC = mesh->mFaces[itr].mIndices[2] + indicesOffset;
 
                 indices.push_back(vertexA);
                 indices.push_back(vertexB);
                 indices.push_back(vertexC);
             }
+
+            // Offset the index buffer to take from the last + 1 indexed vertex to start the next mesh from (STUPID BUG THANKS TO ME :D).... took me 2 days
+            indicesOffset += mesh->mNumVertices;
 
             string name = mesh->mName.C_Str();
 
