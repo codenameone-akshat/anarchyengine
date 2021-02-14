@@ -41,6 +41,8 @@ namespace anarchy
 		inline void SetWindowDesc(const WindowDesc& windowDesc) { m_windowDesc = windowDesc; }
 
 		inline void SetMessageProcedureFunctor(MessageHandlerFunctor messageHandler) { m_messageHandlerFunctor = messageHandler; }
+
+		RECT GetWindowRect();
 	
 	private:
 		void RegisterClassInternal();

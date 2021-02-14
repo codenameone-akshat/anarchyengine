@@ -45,6 +45,13 @@ namespace anarchy
 		::UnregisterClass(m_windowClass.lpszClassName, m_windowClass.hInstance);
 	}
 
+	RECT Window_Windows::GetWindowRect()
+	{
+		RECT rect;
+		::GetWindowRect(m_rawWindowHandle, &rect);
+		return rect;
+	}
+
 	void Window_Windows::RegisterClassInternal()
 	{
 		Assert(m_messageHandlerFunctor != nullptr, "Message Handler Functor (WndProc) is nullptr. Please specify the functor.");
