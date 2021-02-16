@@ -98,7 +98,6 @@ namespace anarchy
         CreateRenderTargetViews();
         CreateCBVSRVDescriptorHeap();
         CreateCommandAllocators();
-        PopulateShaders();
 
         m_viewport =
         {
@@ -215,11 +214,6 @@ namespace anarchy
             m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, m_commandAllocators[itr]);
             m_commandAllocators[itr]->SetName(string_cast<wstring>((string("Command Allocator for Frame: " + to_string(itr)))).c_str());
         }
-    }
-
-    void D3D12Renderer::PopulateShaders()
-    {
-        m_shaders = EngineContext::GetGameSpecificSettings()->GetAllShaders();
     }
 
     DEFINE_EVENT_MEMBER_CALLBACK(D3D12Renderer, ResizeSwapChain)

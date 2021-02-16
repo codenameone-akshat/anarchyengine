@@ -57,7 +57,6 @@ namespace anarchy
         void CreateRenderTargetViews();
         void CreateCBVSRVDescriptorHeap();
         void CreateCommandAllocators();
-        void PopulateShaders();
         // End Initializing
 
         // Resize 
@@ -104,7 +103,6 @@ namespace anarchy
        
         // Mesh Data
         std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputElementDescs = { };
-		std::vector<HLSLShader> m_shaders = { }; // Rework required for GraphicsPipelineState
         
         std::unique_ptr<D3D12GraphicsPSOManager> m_graphicPSOManager = std::make_unique<D3D12GraphicsPSOManager>();
 
