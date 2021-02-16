@@ -101,6 +101,7 @@ className& operator=(const className&) = delete;
 // Class Member Getter Setter Helpers
 #define DECLARE_DEFAULT_ACCESSORS(type, varName, propertyName) \
 inline type Get##propertyName() const { return m_##varName; } \
+inline const type& Get##propertyName##Ref() const { return m_##varName; } \
 inline void Set##propertyName(const type& arg) { m_##varName = arg; }
 
 #define DECLARE_DEFAULT_ACCESSORS_NODEF_GET(type, varName, propertyName) \
