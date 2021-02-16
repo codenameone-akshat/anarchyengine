@@ -1,12 +1,14 @@
 #include "acpch.h"
 
+#include <algorithm>
 #include <assimp/mesh.h>
 #include <assimp/scene.h>
 
 #include "ModelImporter.h"
-#include "Engine/Object/Entity/Entity.h"
-#include "Graphics/GraphicObjects/Mesh.h"
-#include "Engine/Serialization/Serializer.h"
+#include <Engine/Object/Entity/Entity.h>
+#include <Graphics/GraphicObjects/Mesh.h>
+#include <Engine/Serialization/Serializer.h>
+#include <Graphics/VertexLayout.h>
 
 namespace anarchy
 {
@@ -41,6 +43,8 @@ namespace anarchy
 
         for (uint32 itr = 0; itr < scene->mNumMeshes; ++itr)
         {
+            ACScopedTimer(fmt::format("Parsing Mesh {} : {} of {} ", meshes[itr]->mName.C_Str(), itr, scene->mNumMeshes));
+
             auto mesh = meshes[itr];
             Mesh engineMesh = {};
 
@@ -49,16 +53,25 @@ namespace anarchy
             std::vector<Vector2f> texCoords;
             std::vector<Vector3f> tangents;
             std::vector<Vector3f> biTangents;
+            std::vector<VertexLayout> rawVertexLayout;
+            rawVertexLayout.reserve(mesh->mNumVertices);
 
             for (uint32 itr = 0; itr < mesh->mNumVertices; ++itr)
             {
                 Vector3f vec3 = {};
                 Vector2f vec2 = {};
+                VertexLayout rawData = {};
 
-                vertices.emplace_back(aiVector3ToVector3f(mesh->mVertices[itr]));
-
-                if(mesh->HasNormals())
-                    normals.emplace_back(aiVector3ToVector3f(mesh->mNormals[itr]));
+                auto vertex = aiVector3ToVector3f(mesh->mVertices[itr]);
+                vertices.emplace_back(vertex);
+                rawData.position = vertex;
+                
+                if (mesh->HasNormals())
+                {
+                    auto normal = aiVector3ToVector3f(mesh->mNormals[itr]);
+                    normals.emplace_back(normal);
+                    rawData.normal = normal;
+                }
 
                 // lets just hope we are just using the first UV channel :P
                 if (mesh->HasTextureCoords(0))
@@ -82,6 +95,8 @@ namespace anarchy
                     tangents.emplace_back(Vector3f(0.0f, 0.0f, 0.0f));
                     biTangents.emplace_back(Vector3f(0.0f, 0.0f, 0.0f));
                 }
+
+                rawVertexLayout.push_back(rawData);
             }
 
             std::vector<uint32> indices;
@@ -108,8 +123,11 @@ namespace anarchy
             engineMesh.GetMeshGPUData().SetTangents(tangents);
             engineMesh.GetMeshGPUData().SetBiTangents(biTangents);
             engineMesh.GetMeshGPUData().SetIndices(indices);
+            engineMesh.GetMeshGPUData().SetRawVertexLayoutData(rawVertexLayout);
             engineMesh.SetName(name);
             engineMesh.SetMaterialIndex(mesh->mMaterialIndex);
+            engineMesh.SetVertexCount(mesh->mNumVertices);
+            engineMesh.SetIndexCount(mesh->mNumFaces * 3);
 
             entity->AddMesh(engineMesh);
         }

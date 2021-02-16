@@ -241,6 +241,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>acpch.h</PrecompiledHeaderFile>
       <MinFilesInUnityFile>4</MinFilesInUnityFile>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -360,6 +361,8 @@
     </ClInclude>
     <ClInclude Include="Source\Graphics\PlatformRenderer.h" />
     <ClInclude Include="Source\Engine\NativeEvent.h" />
+    <ClInclude Include="Source\Graphics\SceneConstantBuffer.h" />
+    <ClInclude Include="Source\Graphics\VertexLayout.h" />
     <ClInclude Include="Source\Platform\Assertion.h" />
     <ClInclude Include="Source\Platform\ResultHelper.h" />
     <ClInclude Include="Source\Platform\Platform.h" />

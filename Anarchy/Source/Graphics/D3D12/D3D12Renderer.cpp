@@ -15,6 +15,7 @@
 #include <Utils/Time/ScopedTimer.h>
 #include <Engine/EventDispatcher.hpp>
 #include <Graphics/GfxEvents.h>
+#include <Graphics/VertexLayout.h>
 
 namespace anarchy
 {
@@ -29,7 +30,7 @@ namespace anarchy
 		/// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
         {
             ACScopedTimer("Loading Model Task: ");
-            string dataDir = AppContext::GetDataDirPath() + "sponza.wavobj";
+            string dataDir = AppContext::GetDataDirPath() + "teapotlowpoly.fbx";
             m_entities.emplace_back(m_modelImporter->ReadEntityFromFile(dataDir));
         }
 
@@ -44,10 +45,12 @@ namespace anarchy
     void D3D12Renderer::PreRender()
     {
 		// tempcode
-		m_editorCamera.HandleInput();
+        m_editorCamera.HandleInput();
         m_viewMatrix = m_editorCamera.GetViewMatrix();
 
-		m_constantBufferData.color = GfxControllables::GetPrimitiveColor();
+        m_constantBufferData.color = GfxControllables::GetPrimitiveColor();
+        m_constantBufferData.lightDirection = GfxControllables::GetLightDirection();
+        m_constantBufferData.ambientLight = GfxControllables::GetAmbientLight();
         m_constantBufferData.wvpMatrix = (m_viewMatrix * m_projMatrix);
 		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
@@ -292,28 +295,21 @@ namespace anarchy
 
     void D3D12Renderer::CreateVertexBuffer()
     {
-        // Creating Vertex Layout here for now
-        struct Vertex
-        {
-            Vector3f position;
-        };
+        ACScopedTimer("Vertex Buffer Creation: ");
+        std::vector<VertexLayout> vertexBufferData;
 
-        std::vector<Vertex> vertexBufferData;
-        
-        // TODO: Cleanup 
         for (auto entity : m_entities)
         {
-            for (uint32 itr = 0; itr < entity->GetMeshes().size(); ++itr)
+            auto meshes = entity->GetMeshesRef();
+            for (uint32 itr = 0; itr < meshes.size(); ++itr)
             {
-                MeshGPUData meshData = entity->GetMeshes().at(itr).GetMeshGPUData();
-                auto vertices = meshData.GetVertices();
-                std::for_each(vertices.begin(), vertices.end(), [&vertexBufferData](Vector3f vertex) { vertexBufferData.emplace_back(vertex); });
+                MeshGPUData& meshData = meshes.at(itr).GetMeshGPUData();
+                const std::vector<VertexLayout>& rawData = meshData.GetRawVertexLayoutDataRef();
+                vertexBufferData.insert(vertexBufferData.end(), std::begin(rawData), std::end(rawData));
             }
         }
 
-        //vertexBufferData.shrink_to_fit();
-
-        uint64 vertexBufferSize = sizeof(Vertex) * vertexBufferData.size();;
+        uint64 vertexBufferSize = sizeof(VertexLayout) * vertexBufferData.size();;
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
         heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
@@ -346,22 +342,23 @@ namespace anarchy
         m_vertexBuffer->Unmap(NULL, nullptr);
 
         m_vertexBufferView.BufferLocation = m_vertexBuffer->GetGPUVirtualAddress();
-        m_vertexBufferView.StrideInBytes = sizeof(Vertex);
+        m_vertexBufferView.StrideInBytes = sizeof(VertexLayout);
         m_vertexBufferView.SizeInBytes = (uint32)vertexBufferSize;
     }
 
     void D3D12Renderer::CreateIndexBuffer()
     {
+        ACScopedTimer("Index Buffer Creation: ");
         std::vector<uint32> indexBufferData;
 
-        // TODO: Cleanup 
         for (auto entity : m_entities)
         {
-            for (uint32 itr = 0; itr < entity->GetMeshes().size(); ++itr)
+            auto meshes = entity->GetMeshesRef();
+            for (uint32 itr = 0; itr < meshes.size(); ++itr)
             {
-                MeshGPUData meshData = entity->GetMeshes().at(itr).GetMeshGPUData();
-                auto indices = meshData.GetIndices();
-                std::for_each(indices.begin(), indices.end(), [&indexBufferData](uint32 index) { indexBufferData.emplace_back(index); });
+                MeshGPUData meshData = meshes.at(itr).GetMeshGPUData();
+                auto indices = meshData.GetIndicesRef();
+                indexBufferData.insert(indexBufferData.end(), std::begin(indices), std::end(indices));
             }
         }
 

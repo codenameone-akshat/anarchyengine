@@ -31,6 +31,16 @@ namespace anarchy::sandbox
             ImGui::ColorEdit3("Primitive Color", (float*)&prim_color); // Edit 3 floats representing a color
             GfxControllables::SetPrimitiveColor(Vector4f(prim_color.x, prim_color.y, prim_color.z, prim_color.w));
 
+            static ImVec4 ambient_light = ImVec4(0.5f, 0.5f, 0.5f, 0.5f);
+            ImGui::SetNextItemWidth(120);
+            ImGui::ColorEdit4("Ambient Light", (float*)&ambient_light); // Edit 4 floats representing a color
+            GfxControllables::SetAmbientLight(Vector4f(ambient_light.x, ambient_light.y, ambient_light.z, ambient_light.w));
+
+            static Vector3f light_dir = Vector3f(1.00f, 1.00f, 0.30f);
+            ImGui::SetNextItemWidth(120);
+            ImGui::DragFloat3("Light Direction", (float*)&light_dir, 0.01f);
+            GfxControllables::SetLightDirection(light_dir);
+
             static int32 currentPipelineStateIdx = 0;
             const char* pipelineStates[] = { "Default", "Wireframe", "Wireframe NoCull", "FronFaceCull" };
             ImGui::SetNextItemWidth(120);

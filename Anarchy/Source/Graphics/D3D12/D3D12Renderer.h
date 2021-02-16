@@ -12,6 +12,7 @@
 #include <Graphics/D3D12/D3D12GraphicsPSOManager.h>
 #include <Graphics/ImGui/ImGuiWrapper.h>
 #include <Graphics/Camera.h>
+#include <Graphics/SceneConstantBuffer.h>
 #include <Utils/ModelHelper/ModelImporter.h>
 #include <Engine/EventBase.h>
 
@@ -21,13 +22,6 @@ namespace anarchy
     constexpr uint32 g_numFrameBuffers = 3; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
 	constexpr uint32 g_numImGuiSrvDescriptors = 1;
 	constexpr uint32 g_numCbvDescriptors = g_numFrameBuffers;
-
-    // strictly 16 byte aligned
-    struct alignas(16) SceneConstantBuffer
-    {
-		Vector4f color;
-        Matrix4f wvpMatrix;
-	};
 
     class D3D12Renderer : public GfxRenderer
     {
@@ -43,7 +37,6 @@ namespace anarchy
         virtual void Shutdown() override;
 
     private:
-
         // Initializing D3D12
         void InitializeAPI();
 

@@ -12,6 +12,7 @@
 
 namespace anarchy
 {
+    struct VertexLayout;
     class MeshGPUData
     {
         DECLARE_DEFAULT_CLASSMEMBERS(MeshGPUData);
@@ -22,6 +23,7 @@ namespace anarchy
         DECLARE_DEFAULT_PROPERTY(std::vector<Vector3f>, tangents, Tangents);
         DECLARE_DEFAULT_PROPERTY(std::vector<Vector3f>, biTangents, BiTangents);
         DECLARE_DEFAULT_PROPERTY(std::vector<uint32>, indices, Indices);
+        DECLARE_DEFAULT_PROPERTY(std::vector<VertexLayout>, rawVertexLayoutData, RawVertexLayoutData);
 
     private:
         SERIALIZATION_PRIVATE_IMPL_ENABLE;
@@ -43,6 +45,8 @@ namespace anarchy
 
         DECLARE_DEFAULT_PROPERTY_REFGET(MeshGPUData, meshGPUData, MeshGPUData);
         DECLARE_DEFAULT_PROPERTY(uint32, materialIndex, MaterialIndex);
+        DECLARE_DEFAULT_PROPERTY(uint64, vertexCount, VertexCount);
+        DECLARE_DEFAULT_PROPERTY(uint64, indexCount, IndexCount);
         AC_DEBUGONLY(DECLARE_PROPERTY(std::string, name, Name, "UnNamed");)
     
     private:

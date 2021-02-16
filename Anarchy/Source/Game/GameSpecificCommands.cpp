@@ -16,11 +16,11 @@ namespace anarchy::game
         HLSLShaderDesc empty_vs_desc;
         empty_vs_desc.shaderEntryPoint = "VertexMain";
         empty_vs_desc.shaderTarget = HLSLShaderTarget::vs_5_0;
-        m_settings->AddShaderFileToList("EmptyShader.hlsl", empty_vs_desc, true);
+        m_settings->AddShaderFileToList("PhongLighting.hlsl", empty_vs_desc, true);
 
         HLSLShaderDesc empty_ps_desc;
         empty_ps_desc.shaderEntryPoint = "PixelMain";
         empty_ps_desc.shaderTarget = HLSLShaderTarget::ps_5_0;
-        m_settings->AddShaderFileToList("EmptyShader.hlsl", empty_ps_desc, true);
+        m_settings->AddShaderFileToList("PhongLighting.hlsl", empty_ps_desc, true);
     }
 }

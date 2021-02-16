@@ -107,6 +107,9 @@
     <ClInclude Include="Source\Engine\EventBase.h" />
     <ClInclude Include="Source\Engine\EventDispatcher.hpp" />
     <ClInclude Include="Source\Engine\NativeEvent.h" />
+    <ClInclude Include="Source\Platform\Window\Window_Base.h" />
+    <ClInclude Include="Source\Graphics\VertexLayout.h" />
+    <ClInclude Include="Source\Graphics\SceneConstantBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

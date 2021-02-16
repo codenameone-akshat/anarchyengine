@@ -71,7 +71,7 @@ namespace anarchy
 			D3D12_ROOT_PARAMETER rootParams[1];
 			rootParams[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 			rootParams[0].DescriptorTable = descriptorTable;
-			rootParams[0].ShaderVisibility = (D3D12_SHADER_VISIBILITY)(D3D12_SHADER_VISIBILITY_VERTEX);
+			rootParams[0].ShaderVisibility = (D3D12_SHADER_VISIBILITY)(D3D12_SHADER_VISIBILITY_ALL);
 
 			uint32 numRootParams = CountOf(rootParams, D3D12_ROOT_PARAMETER);
 
