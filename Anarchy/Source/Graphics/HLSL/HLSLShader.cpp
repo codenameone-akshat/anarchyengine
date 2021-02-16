@@ -36,7 +36,7 @@ namespace anarchy
         string entryPoint = m_shaderDesc.shaderEntryPoint;
         string target = HLSLShaderTarget_GetName(m_shaderDesc.shaderTarget);
 
-        CheckResult((D3DCompileFromFile(shaderwstr.c_str(), NULL, NULL, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &m_shaderBlob, &error)), errorMessage, error);
+        CheckResult((D3DCompileFromFile(shaderwstr.c_str(), NULL, D3D_COMPILE_STANDARD_FILE_INCLUDE, entryPoint.c_str(), target.c_str(), shaderCompileFlags, NULL, &m_shaderBlob, &error)), errorMessage, error);
 
         m_shaderByteCode.pShaderBytecode = m_shaderBlob->GetBufferPointer();
         m_shaderByteCode.BytecodeLength = m_shaderBlob->GetBufferSize();
