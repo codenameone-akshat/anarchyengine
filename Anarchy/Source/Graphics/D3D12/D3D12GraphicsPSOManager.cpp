@@ -106,13 +106,14 @@ namespace anarchy
 			psoDesc.SampleMask = uint32_max; // Default 0xffff
 			psoDesc.RasterizerState = rasterizerDesc;
 
-			psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
-			psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
+			psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+			psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 			psoDesc.InputLayout = { m_inputLayout.inputLayoutList.data(), static_cast<uint32_t>(m_inputLayout.inputLayoutList.size()) };
 			psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 			psoDesc.NumRenderTargets = 1;
 			psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+			psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 			psoDesc.SampleDesc.Count = 1;
 
 			m_device->CreateGraphicsPipelineStateObject(psoDesc, m_defaultPipelineState);
@@ -131,14 +132,15 @@ namespace anarchy
 			psoDesc.SampleMask = uint32_max; // Default 0xffff
 			psoDesc.RasterizerState = rasterizerDesc;
 
-			psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
-			psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
+            psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+            psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 			psoDesc.InputLayout = { m_inputLayout.inputLayoutList.data(), static_cast<uint32_t>(m_inputLayout.inputLayoutList.size()) };
 			psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 			psoDesc.NumRenderTargets = 1;
 			psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-			psoDesc.SampleDesc.Count = 1;
+            psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+            psoDesc.SampleDesc.Count = 1;
 
 			m_device->CreateGraphicsPipelineStateObject(psoDesc, m_wireframePipelineState);
 		}
@@ -157,13 +159,14 @@ namespace anarchy
             psoDesc.SampleMask = uint32_max; // Default 0xffff
             psoDesc.RasterizerState = rasterizerDesc;
 
-            psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
-            psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
+            psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+            psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
             psoDesc.InputLayout = { m_inputLayout.inputLayoutList.data(), static_cast<uint32_t>(m_inputLayout.inputLayoutList.size()) };
             psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
             psoDesc.NumRenderTargets = 1;
             psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+            psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
             psoDesc.SampleDesc.Count = 1;
 
             m_device->CreateGraphicsPipelineStateObject(psoDesc, m_wireframeNoCullPipelineState);
@@ -182,14 +185,15 @@ namespace anarchy
 			psoDesc.SampleMask = uint32_max; // Default 0xffff
 			psoDesc.RasterizerState = rasterizerDesc;
 
-			psoDesc.DepthStencilState.DepthEnable = false; // Disable for now
-			psoDesc.DepthStencilState.StencilEnable = false; // Disable for now
+            psoDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+            psoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
 			psoDesc.InputLayout = { m_inputLayout.inputLayoutList.data(), static_cast<uint32_t>(m_inputLayout.inputLayoutList.size()) };
 			psoDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 			psoDesc.NumRenderTargets = 1;
 			psoDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-			psoDesc.SampleDesc.Count = 1;
+            psoDesc.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+            psoDesc.SampleDesc.Count = 1;
 
 			m_device->CreateGraphicsPipelineStateObject(psoDesc, m_frontFaceCullPipelineState);
 		}

@@ -30,7 +30,7 @@ namespace anarchy
 		/// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
         {
             ACScopedTimer("Loading Model Task: ");
-            string dataDir = AppContext::GetDataDirPath() + "teapotlowpoly.fbx";
+            string dataDir = AppContext::GetDataDirPath() + "sponza.fbx";
             m_entities.emplace_back(m_modelImporter->ReadEntityFromFile(dataDir));
         }
 
@@ -97,8 +97,9 @@ namespace anarchy
         CreateDevice();
         CreateGraphicsCommandQueue();
         CreateSwapChain();
-        SetupRenderTargetViewResources();
+        SetupFrameResources();
         CreateRenderTargetViews();
+        CreateDepthStencilResources();
         CreateCBVSRVDescriptorHeap();
         CreateCommandAllocators();
 
@@ -107,7 +108,9 @@ namespace anarchy
             0.0f,
             0.0f,
             static_cast<float>(AppContext::GetMainWindowDesc().width),
-            static_cast<float>(AppContext::GetMainWindowDesc().height)
+            static_cast<float>(AppContext::GetMainWindowDesc().height),
+            g_minDepth,
+            g_maxDepth
         };
 
         m_scissorRect =
@@ -175,7 +178,7 @@ namespace anarchy
         m_frameLatencyWaitableObject = m_swapChain->GetFrameLatencyWaitableObject();
     }
 
-    void D3D12Renderer::SetupRenderTargetViewResources()
+    void D3D12Renderer::SetupFrameResources()
     {
         D3D12_DESCRIPTOR_HEAP_DESC rtvDesc = {};
         rtvDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
@@ -184,6 +187,13 @@ namespace anarchy
 
         m_device->CreateDescriptorHeap(rtvDesc, m_rtvDescHeap);
         m_rtvHeapIncrementSize = m_device->GetDescriptorHandleIncrementSize(rtvDesc.Type);
+
+        D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
+        dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+        dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+        dsvHeapDesc.NumDescriptors = 1;
+
+        m_device->CreateDescriptorHeap(dsvHeapDesc, m_dsvDescHeap);
     }
 
     void D3D12Renderer::CreateRenderTargetViews()
@@ -196,6 +206,45 @@ namespace anarchy
 			rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
             m_renderTargets.at(itr)->SetName(string_cast<wstring>((string("Render Target " + to_string(itr)))).c_str());
 		}
+    }
+
+    void D3D12Renderer::CreateDepthStencilResources()
+    {
+        D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc = {};
+        dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+        dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+        dsvDesc.Flags = D3D12_DSV_FLAG_NONE;
+
+        D3D12_CLEAR_VALUE depthClearValue = {};
+        depthClearValue.Format = DXGI_FORMAT_D32_FLOAT;
+        depthClearValue.DepthStencil.Depth = g_depthClearValue;
+        depthClearValue.DepthStencil.Stencil = g_stencilClearValue;
+
+        // Create DSV Resource
+        D3D12_HEAP_PROPERTIES heapProperties = {};
+        heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT; // More GPU Bandwidth
+        heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+        heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+        heapProperties.CreationNodeMask = NULL; // Single GPU.
+        heapProperties.VisibleNodeMask = NULL; // Single GPU.
+        
+        D3D12_RESOURCE_DESC resourceDesc = {};
+        resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+        resourceDesc.Alignment = 0;
+        resourceDesc.Width = AppContext::GetMainWindowDesc().width;
+        resourceDesc.Height = AppContext::GetMainWindowDesc().height;
+        resourceDesc.DepthOrArraySize = 1;
+        resourceDesc.MipLevels = 1;
+        resourceDesc.Format = DXGI_FORMAT_D32_FLOAT;
+        resourceDesc.SampleDesc.Count = 1;
+        resourceDesc.SampleDesc.Quality = 0;
+        resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+        resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+
+        m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_DEPTH_WRITE, &depthClearValue, m_depthStencilBuffer, "Depth Stencil Buffer");
+
+        CD3DX12_CPU_DESCRIPTOR_HANDLE dsvDescriptorHandle(m_dsvDescHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
+        m_device->CreateDepthStencilView(m_depthStencilBuffer, &dsvDesc, dsvDescriptorHandle);
     }
 
     void D3D12Renderer::CreateCBVSRVDescriptorHeap()
@@ -221,7 +270,7 @@ namespace anarchy
 
     DEFINE_EVENT_MEMBER_CALLBACK(D3D12Renderer, ResizeSwapChain)
 	{
-        CleanupRenderTargetViews();
+        CleanupFrameOutputResources();
         m_imGuiWrapper->InvalidateResources();
 
         auto windowDesc = AppContext::GetMainWindowDesc();
@@ -231,6 +280,7 @@ namespace anarchy
         m_swapChain->ResizeBuffers(g_numFrameBuffers, windowDesc.width, windowDesc.height, swapChainDesc.Format, swapChainDesc.Flags | DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
         CreateRenderTargetViews();
+        CreateDepthStencilResources();
         m_imGuiWrapper->RecreateResources();
 
         m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
@@ -238,24 +288,26 @@ namespace anarchy
 
         m_viewport.Width = static_cast<float>(windowDesc.width);
         m_viewport.Height = static_cast<float>(windowDesc.height);
-
         m_scissorRect.right = windowDesc.width;
         m_scissorRect.bottom = windowDesc.height;
 
 		// Recreate projection matrix with new aspect ratio :)
         float32 aspectRatio = static_cast<float32>(windowDesc.width) / static_cast<float32>(windowDesc.height);
-		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, 0.01f, 10000000.0f);
+		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, g_nearPlaneZ, g_farPlaneZ);
 	}
 
-	void D3D12Renderer::CleanupRenderTargetViews()
+	void D3D12Renderer::CleanupFrameOutputResources()
 	{
         WaitForBackBufferAvailability();
 
         for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
         {
-            if (m_renderTargets[itr].Get())
+            if(m_renderTargets[itr].Get())
                 m_renderTargets[itr].Reset();
         }
+        
+        if (m_depthStencilBuffer.Get())
+            m_depthStencilBuffer.Reset();
 	}
 
 	void D3D12Renderer::InitalizeResources()
@@ -279,7 +331,7 @@ namespace anarchy
         m_swapChain->GetDesc1(&swapChainDesc);
         float32 aspectRatio = static_cast<float32>(swapChainDesc.Width) / static_cast<float32>(swapChainDesc.Height);
 
-        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, 1.0f, 10000000.0f);
+        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, g_nearPlaneZ, g_farPlaneZ);
 	}
 
     void D3D12Renderer::CreateGraphicsCommandList()
@@ -312,7 +364,7 @@ namespace anarchy
         uint64 vertexBufferSize = sizeof(VertexLayout) * vertexBufferData.size();;
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
-        heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+        heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD; // TODO: Switch to default since no dynamic CPU write needed
         heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
         heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
         heapProperties.CreationNodeMask = NULL; // Single GPU.
@@ -368,7 +420,7 @@ namespace anarchy
         m_indicesPerInstance = (uint32)indexBufferSize / sizeof(uint32);
 
         D3D12_HEAP_PROPERTIES heapProperties = {};
-        heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+        heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD; // TODO: Switch to default since no dynamic CPU write needed
         heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
         heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
         heapProperties.CreationNodeMask = NULL; // Single GPU.
@@ -522,10 +574,12 @@ namespace anarchy
         D3D12_CPU_DESCRIPTOR_HANDLE rtvHandle(m_rtvDescHeap->GetCPUDescriptorHandleForHeapStart());
         rtvHandle.ptr += (m_currentBackBufferIndex * m_rtvHeapIncrementSize);
 
+        D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle(m_dsvDescHeap->GetCPUDescriptorHandleForHeapStart());
+
         auto fetchedColor = GfxControllables::GetClearColor();
-        m_commandList->OMSetRenderTargets(1, &rtvHandle, false, nullptr);
+        m_commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
         m_commandList->ClearRenderTargetView(rtvHandle, (float*)&fetchedColor, 0, nullptr);
-        
+        m_commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, g_depthClearValue, NULL, NULL, nullptr);
         
         m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);

@@ -22,6 +22,12 @@ namespace anarchy
     constexpr uint32 g_numFrameBuffers = 3; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
 	constexpr uint32 g_numImGuiSrvDescriptors = 1;
 	constexpr uint32 g_numCbvDescriptors = g_numFrameBuffers;
+    constexpr float32 g_depthClearValue = 1.0f;
+    constexpr uint8 g_stencilClearValue = 0;
+    constexpr float32 g_minDepth = 0.0f;
+    constexpr float32 g_maxDepth = 1.0f;
+    constexpr float32 g_nearPlaneZ = 1.0f;
+    constexpr float32 g_farPlaneZ = 2000.0f;
 
     class D3D12Renderer : public GfxRenderer
     {
@@ -46,15 +52,16 @@ namespace anarchy
         void CreateDevice();
         void CreateGraphicsCommandQueue();
         void CreateSwapChain();
-        void SetupRenderTargetViewResources();
+        void SetupFrameResources();
         void CreateRenderTargetViews();
+        void CreateDepthStencilResources();
         void CreateCBVSRVDescriptorHeap();
         void CreateCommandAllocators();
         // End Initializing
 
         // Resize 
         DECLARE_EVENT_CALLBACK(ResizeSwapChain);
-        void CleanupRenderTargetViews();
+        void CleanupFrameOutputResources();
 
         // Load Pipe
         void InitalizeResources();
@@ -86,12 +93,14 @@ namespace anarchy
         // COM Objects
         ComPtr<ID3D12CommandQueue> m_graphicsCommandQueue = nullptr;
         ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
-		ComPtr<ID3D12DescriptorHeap> m_rtvDescHeap = nullptr;
+        ComPtr<ID3D12DescriptorHeap> m_rtvDescHeap = nullptr;
+        ComPtr<ID3D12DescriptorHeap> m_dsvDescHeap = nullptr;
 		ComPtr<ID3D12DescriptorHeap> m_cbvSrvUavDescHeap = nullptr;
 		ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
 
         // Per Frame COM Objects
         std::array<ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets = { };
+        ComPtr<ID3D12Resource> m_depthStencilBuffer = nullptr;
         std::array<ComPtr<ID3D12CommandAllocator>, g_numFrameBuffers> m_commandAllocators = { };
        
         // Mesh Data

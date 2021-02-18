@@ -53,6 +53,11 @@ namespace anarchy
             m_device->CreateRenderTargetView(d3d12Resource.Get(), rtvDesc, descriptorHandle);
         }
 
+        inline void CreateDepthStencilView(ComPtr<ID3D12Resource>& d3d12Resource, const D3D12_DEPTH_STENCIL_VIEW_DESC* dsvDesc, CD3DX12_CPU_DESCRIPTOR_HANDLE descriptorHandle)
+        {
+            m_device->CreateDepthStencilView(d3d12Resource.Get(), dsvDesc, descriptorHandle);
+        }
+
         inline void CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE type, ComPtr<ID3D12CommandAllocator>& commandAllocator)
         {
             CheckResult(m_device->CreateCommandAllocator(type, IID_PPV_ARGS(&commandAllocator)), "Failed to create Command Allocator.");

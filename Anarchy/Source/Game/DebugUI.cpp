@@ -31,7 +31,7 @@ namespace anarchy::sandbox
             ImGui::ColorEdit3("Primitive Color", (float*)&prim_color); // Edit 3 floats representing a color
             GfxControllables::SetPrimitiveColor(Vector4f(prim_color.x, prim_color.y, prim_color.z, prim_color.w));
 
-            static ImVec4 ambient_light = ImVec4(0.5f, 0.5f, 0.5f, 0.5f);
+            static ImVec4 ambient_light = ImVec4(0.25f, 0.25f, 0.25f, 0.25f);
             ImGui::SetNextItemWidth(120);
             ImGui::ColorEdit4("Ambient Light", (float*)&ambient_light); // Edit 4 floats representing a color
             GfxControllables::SetAmbientLight(Vector4f(ambient_light.x, ambient_light.y, ambient_light.z, ambient_light.w));

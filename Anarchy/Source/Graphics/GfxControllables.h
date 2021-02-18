@@ -15,7 +15,7 @@ namespace anarchy
         DECLARE_PROPERTY_STATIC(float32, camTranslationSpeedMult, CamTranslationSpeedMult, 5.0f);
         DECLARE_PROPERTY_STATIC(float32, camRotationSpeedMult, CamRotationSpeedMult, 0.12f);
         DECLARE_PROPERTY_STATIC(Vector3f, lightDirection, LightDirection, Vector3f(1.0f, 1.0f, 0.3f));
-        DECLARE_PROPERTY_STATIC(Vector4f, ambientLight, AmbientLight, Vector4f(0.5f, 0.5f, 0.5f, 0.5f));
+        DECLARE_PROPERTY_STATIC(Vector4f, ambientLight, AmbientLight, Vector4f(0.25f, 0.25f, 0.25f, 0.25f));
     };
 }
 
