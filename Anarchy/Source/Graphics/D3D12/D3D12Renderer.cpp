@@ -17,7 +17,6 @@
 #include <Graphics/GfxEvents.h>
 #include <Graphics/VertexLayout.h>
 #include <DirectXTex.h>
-#include <roapi.h> // For RoInitializeWrapper 
 
 namespace anarchy
 {
