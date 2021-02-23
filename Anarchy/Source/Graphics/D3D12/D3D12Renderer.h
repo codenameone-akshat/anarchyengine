@@ -20,8 +20,8 @@ namespace anarchy
 {
     constexpr D3D_FEATURE_LEVEL g_minFeatureLevel = D3D_FEATURE_LEVEL_12_1;
     constexpr uint32 g_numFrameBuffers = 3; // TODO: Maybe Retrieve from D3D12Context or EngineContext or EngineSettings or RenderSettings or RenderingContext
-	constexpr uint32 g_numImGuiSrvDescriptors = 1;
-	constexpr uint32 g_numCbvDescriptors = g_numFrameBuffers;
+    constexpr uint32 g_numImGuiSrvDescriptors = 1;
+    constexpr uint32 g_numCbvDescriptors = g_numFrameBuffers;
     constexpr float32 g_depthClearValue = 1.0f;
     constexpr uint8 g_stencilClearValue = 0;
     constexpr float32 g_minDepth = 0.0f;
@@ -74,8 +74,8 @@ namespace anarchy
         void CreateCBVUploadHeap();
 
         void CreateSyncObjects();
-		void WaitForGPUToFinish();
-		void WaitForBackBufferAvailability();
+        void WaitForGPUToFinish();
+        void WaitForBackBufferAvailability();
         // End Load Pipe
 
         // Render
@@ -85,8 +85,8 @@ namespace anarchy
         // HW Objects
         std::shared_ptr<D3D12Factory> m_factory = std::make_shared<D3D12Factory>();
         std::shared_ptr<D3D12Adapter> m_adapter = std::make_shared<D3D12Adapter>();
-		std::shared_ptr<D3D12Device> m_device = std::make_shared<D3D12Device>();
-		
+        std::shared_ptr<D3D12Device> m_device = std::make_shared<D3D12Device>();
+        
         // imGui Wrapper
         std::shared_ptr<ImGuiWrapper> m_imGuiWrapper = std::make_shared<ImGuiWrapper>();
 
@@ -95,8 +95,8 @@ namespace anarchy
         ComPtr<IDXGISwapChain4> m_swapChain = nullptr;
         ComPtr<ID3D12DescriptorHeap> m_rtvDescHeap = nullptr;
         ComPtr<ID3D12DescriptorHeap> m_dsvDescHeap = nullptr;
-		ComPtr<ID3D12DescriptorHeap> m_cbvSrvUavDescHeap = nullptr;
-		ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
+        ComPtr<ID3D12DescriptorHeap> m_cbvSrvUavDescHeap = nullptr;
+        ComPtr<ID3D12GraphicsCommandList> m_commandList = nullptr; // TODO: Take this to a manager?
 
         // Per Frame COM Objects
         std::array<ComPtr<ID3D12Resource>, g_numFrameBuffers> m_renderTargets = { };
@@ -120,14 +120,14 @@ namespace anarchy
         std::array<byte*, g_numFrameBuffers> m_constantBufferDataGPUAddresses = { };
 
         // Sync Objects
-		ComPtr<ID3D12Fence1> m_fence = nullptr;
-		handle m_frameLatencyWaitableObject = nullptr;
+        ComPtr<ID3D12Fence1> m_fence = nullptr;
+        handle m_frameLatencyWaitableObject = nullptr;
         handle m_fenceEvent = nullptr;
-		uint32 m_currentBackBufferIndex = 0; // frameIndex
+        uint32 m_currentBackBufferIndex = 0; // frameIndex
         std::array<uint64, g_numFrameBuffers> m_fenceValues = { };
 
-		uint32 m_rtvHeapIncrementSize = 0;
-		uint32 m_cbvSrvUavHeapIncrementSize = 0;
+        uint32 m_rtvHeapIncrementSize = 0;
+        uint32 m_cbvSrvUavHeapIncrementSize = 0;
 
         // Render Objects
         D3D12_VIEWPORT m_viewport = {};
@@ -135,11 +135,11 @@ namespace anarchy
 
         Camera m_editorCamera;
 
-		Matrix4f m_viewMatrix;
-		Matrix4f m_projMatrix;
+        Matrix4f m_viewMatrix;
+        Matrix4f m_projMatrix;
 
-		/// TEMP CODE | MOVE FROM HERE
-		std::unique_ptr<ModelImporter> m_modelImporter = std::make_unique<ModelImporter>();
+        /// TEMP CODE | MOVE FROM HERE
+        std::unique_ptr<ModelImporter> m_modelImporter = std::make_unique<ModelImporter>();
         std::vector<std::shared_ptr<Entity>> m_entities;
     };
 }

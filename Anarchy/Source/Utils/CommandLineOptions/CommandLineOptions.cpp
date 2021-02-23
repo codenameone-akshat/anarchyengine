@@ -6,7 +6,7 @@
 
 namespace anarchy
 {
-	void anarchy::CommandLineOptions::Init()
-	{
-	}
+    void anarchy::CommandLineOptions::Init()
+    {
+    }
 }

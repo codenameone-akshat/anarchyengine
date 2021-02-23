@@ -26,8 +26,8 @@ namespace anarchy
     void D3D12Renderer::Initialize()
     {
         InitializeAPI();
-		
-		/// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
+        
+        /// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
         {
             ACScopedTimer("Loading Model Task: ");
             string dataDir = AppContext::GetDataDirPath() + "sponza.fbx";
@@ -44,7 +44,7 @@ namespace anarchy
 
     void D3D12Renderer::PreRender()
     {
-		// tempcode
+        // tempcode
         m_editorCamera.HandleInput();
         m_viewMatrix = m_editorCamera.GetViewMatrix();
 
@@ -52,7 +52,7 @@ namespace anarchy
         m_constantBufferData.lightDirection = GfxControllables::GetLightDirection();
         m_constantBufferData.ambientLight = GfxControllables::GetAmbientLight();
         m_constantBufferData.wvpMatrix = (m_viewMatrix * m_projMatrix);
-		memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
+        memcpy(m_constantBufferDataGPUAddresses[m_currentBackBufferIndex], &m_constantBufferData, sizeof(m_constantBufferData));
 
         m_imGuiWrapper->NewFrame();
     }
@@ -63,13 +63,13 @@ namespace anarchy
         ID3D12CommandList* ppCommandList[] = { m_commandList.Get() };
         m_graphicsCommandQueue->ExecuteCommandLists(1, ppCommandList);
 
-		WaitForBackBufferAvailability();
-		CheckResult(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
+        WaitForBackBufferAvailability();
+        CheckResult(m_swapChain->Present(1, NULL), "SwapChain Failed to Present");
     }
 
     void D3D12Renderer::PostRender()
     {
-		WaitForBackBufferAvailability();
+        WaitForBackBufferAvailability();
     }
 
     void D3D12Renderer::Shutdown()
@@ -198,14 +198,14 @@ namespace anarchy
 
     void D3D12Renderer::CreateRenderTargetViews()
     {
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvDescHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
-		for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
-		{
-			CheckResult(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
-			m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
-			rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
+        CD3DX12_CPU_DESCRIPTOR_HANDLE rtvDescriptorHandle(m_rtvDescHeap->GetCPUDescriptorHandleForHeapStart()); // Handle to the begin ptr.
+        for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
+        {
+            CheckResult(m_swapChain->GetBuffer(itr, IID_PPV_ARGS(&(m_renderTargets.at(itr)))), "Failed to get Buffer for provided Index from swap chain.");
+            m_device->CreateRenderTargetView(m_renderTargets.at(itr), nullptr, rtvDescriptorHandle); // Null RTV_DESC for default desc.
+            rtvDescriptorHandle.Offset(1, m_rtvHeapIncrementSize); // Move handle to the next ptr.
             m_renderTargets.at(itr)->SetName(string_cast<wstring>((string("Render Target " + to_string(itr)))).c_str());
-		}
+        }
     }
 
     void D3D12Renderer::CreateDepthStencilResources()
@@ -250,7 +250,7 @@ namespace anarchy
     void D3D12Renderer::CreateCBVSRVDescriptorHeap()
     {
         const uint32 numDescriptors = g_numImGuiSrvDescriptors + g_numCbvDescriptors;
-		D3D12_DESCRIPTOR_HEAP_DESC cbvSrvUavHeapDesc = {};
+        D3D12_DESCRIPTOR_HEAP_DESC cbvSrvUavHeapDesc = {};
         cbvSrvUavHeapDesc.NumDescriptors = numDescriptors;
         cbvSrvUavHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
         cbvSrvUavHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
@@ -269,7 +269,7 @@ namespace anarchy
     }
 
     DEFINE_EVENT_MEMBER_CALLBACK(D3D12Renderer, ResizeSwapChain)
-	{
+    {
         CleanupFrameOutputResources();
         m_imGuiWrapper->InvalidateResources();
 
@@ -291,13 +291,13 @@ namespace anarchy
         m_scissorRect.right = windowDesc.width;
         m_scissorRect.bottom = windowDesc.height;
 
-		// Recreate projection matrix with new aspect ratio :)
+        // Recreate projection matrix with new aspect ratio :)
         float32 aspectRatio = static_cast<float32>(windowDesc.width) / static_cast<float32>(windowDesc.height);
-		m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, g_nearPlaneZ, g_farPlaneZ);
-	}
+        m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, g_nearPlaneZ, g_farPlaneZ);
+    }
 
-	void D3D12Renderer::CleanupFrameOutputResources()
-	{
+    void D3D12Renderer::CleanupFrameOutputResources()
+    {
         WaitForBackBufferAvailability();
 
         for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
@@ -308,31 +308,31 @@ namespace anarchy
         
         if (m_depthStencilBuffer.Get())
             m_depthStencilBuffer.Reset();
-	}
+    }
 
-	void D3D12Renderer::InitalizeResources()
-	{
+    void D3D12Renderer::InitalizeResources()
+    {
         m_graphicPSOManager->Initialize(m_device);
-		CreateGraphicsCommandList();
-		// Populate code if something is there to record. Leaving it for now since there is nothing to records. Maybe put this in a Command List Manager?
-		CloseGraphicsCommandList();
+        CreateGraphicsCommandList();
+        // Populate code if something is there to record. Leaving it for now since there is nothing to records. Maybe put this in a Command List Manager?
+        CloseGraphicsCommandList();
 
-		CreateVertexBuffer();
-		CreateIndexBuffer();
+        CreateVertexBuffer();
+        CreateIndexBuffer();
         CreateCBVUploadHeap();
 
-		CreateSyncObjects();
-		WaitForGPUToFinish(); // wait for command list to execute
+        CreateSyncObjects();
+        WaitForGPUToFinish(); // wait for command list to execute
 
         // Build matrices
         m_viewMatrix = m_editorCamera.GetViewMatrix();
-		
+        
         DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
         m_swapChain->GetDesc1(&swapChainDesc);
         float32 aspectRatio = static_cast<float32>(swapChainDesc.Width) / static_cast<float32>(swapChainDesc.Height);
 
         m_projMatrix.CreatePerspectiveMatrix(DegToRadf(GfxControllables::GetFOV()), aspectRatio, g_nearPlaneZ, g_farPlaneZ);
-	}
+    }
 
     void D3D12Renderer::CreateGraphicsCommandList()
     {
@@ -455,35 +455,35 @@ namespace anarchy
 
     void D3D12Renderer::CreateCBVUploadHeap()
     {
-		D3D12_HEAP_PROPERTIES heapProperties = {};
-		heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
-		heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-		heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
-		heapProperties.CreationNodeMask = NULL; // Single GPU.
-		heapProperties.VisibleNodeMask = NULL; // Single GPU.
+        D3D12_HEAP_PROPERTIES heapProperties = {};
+        heapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+        heapProperties.CPUPageProperty = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+        heapProperties.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+        heapProperties.CreationNodeMask = NULL; // Single GPU.
+        heapProperties.VisibleNodeMask = NULL; // Single GPU.
 
         uint64 cbvSize = 1024 * 64; // need to be a multiple of 64kb
 
-		D3D12_RESOURCE_DESC resourceDesc = {};
-		resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-		resourceDesc.Alignment = 0;
-		resourceDesc.Width = cbvSize;
-		resourceDesc.Height = 1;
-		resourceDesc.DepthOrArraySize = 1;
-		resourceDesc.MipLevels = 1;
-		resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
-		resourceDesc.SampleDesc.Count = 1;
-		resourceDesc.SampleDesc.Quality = 0;
-		resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-		resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+        D3D12_RESOURCE_DESC resourceDesc = {};
+        resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+        resourceDesc.Alignment = 0;
+        resourceDesc.Width = cbvSize;
+        resourceDesc.Height = 1;
+        resourceDesc.DepthOrArraySize = 1;
+        resourceDesc.MipLevels = 1;
+        resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
+        resourceDesc.SampleDesc.Count = 1;
+        resourceDesc.SampleDesc.Quality = 0;
+        resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+        resourceDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
 
         for (uint32 itr = 0; itr < g_numFrameBuffers; ++itr)
         {
-			m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_constantBufferUploadHeaps[itr], fmt::format("Constant Buffer Upload Heap {}", itr));
-			
+            m_device->CreateCommittedResource(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, m_constantBufferUploadHeaps[itr], fmt::format("Constant Buffer Upload Heap {}", itr));
+            
             D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc = {};
-			cbvDesc.BufferLocation = m_constantBufferUploadHeaps[itr]->GetGPUVirtualAddress();
+            cbvDesc.BufferLocation = m_constantBufferUploadHeaps[itr]->GetGPUVirtualAddress();
             cbvDesc.SizeInBytes = AlignTo(sizeof(SceneConstantBuffer), 256); // 256 byte aligned
 
             CD3DX12_CPU_DESCRIPTOR_HANDLE cbvDescHandle(m_cbvSrvUavDescHeap->GetCPUDescriptorHandleForHeapStart());
@@ -492,10 +492,10 @@ namespace anarchy
             m_device->CreateConstantBufferView(cbvDesc, cbvDescHandle);
 
             ZeroMemory(&m_constantBufferData, sizeof(m_constantBufferData));
-			D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
+            D3D12_RANGE readRange = { 0, 0 }; // No Need to read, hence begin = end.
 
-			CheckResult(m_constantBufferUploadHeaps[itr]->Map(0, &readRange, reinterpret_cast<void**>(&m_constantBufferDataGPUAddresses[itr])), "Failed to map constant buffer resource");
-			memcpy_s(m_constantBufferDataGPUAddresses[itr], sizeof(m_constantBufferData), &m_constantBufferData, sizeof(m_constantBufferData));
+            CheckResult(m_constantBufferUploadHeaps[itr]->Map(0, &readRange, reinterpret_cast<void**>(&m_constantBufferDataGPUAddresses[itr])), "Failed to map constant buffer resource");
+            memcpy_s(m_constantBufferDataGPUAddresses[itr], sizeof(m_constantBufferData), &m_constantBufferData, sizeof(m_constantBufferData));
         }
     }
 
@@ -513,15 +513,15 @@ namespace anarchy
     {
         const uint64 fenceVal = m_fenceValues[m_currentBackBufferIndex];
 
-		// Schedule a Signal command in the queue.
-		CheckResult(m_graphicsCommandQueue->Signal(m_fence.Get(), fenceVal), "Failed to Update Fence Value");
+        // Schedule a Signal command in the queue.
+        CheckResult(m_graphicsCommandQueue->Signal(m_fence.Get(), fenceVal), "Failed to Update Fence Value");
 
-		// Wait until the fence has been processed.
+        // Wait until the fence has been processed.
         CheckResult(m_fence->SetEventOnCompletion(fenceVal, m_fenceEvent), "Failed to Fire Event");
         ::WaitForSingleObjectEx(m_fenceEvent, INFINITE, false);
 
-		// Increment the fence value for the current frame.
-		m_fenceValues[m_currentBackBufferIndex]++;
+        // Increment the fence value for the current frame.
+        m_fenceValues[m_currentBackBufferIndex]++;
     }
 
     void D3D12Renderer::WaitForBackBufferAvailability()
@@ -532,7 +532,7 @@ namespace anarchy
 
         // calling after present, the back buffer has changed.
         m_currentBackBufferIndex = m_swapChain->GetCurrentBackBufferIndex();
-		
+        
         ::WaitForSingleObject(m_frameLatencyWaitableObject, 0); // idk... nvidia do's and don'ts say to wait for this object :/
 
         // Wait until the fence signal issued above set the fence to the value. (if value is set, the queue has finished executing the command list. Else, wait).
@@ -554,8 +554,8 @@ namespace anarchy
         m_commandList->RSSetViewports(1, &m_viewport);
         m_commandList->RSSetScissorRects(1, &m_scissorRect);
 
-		ID3D12DescriptorHeap* ptrToHeaps[] = { m_cbvSrvUavDescHeap.Get()};
-		m_commandList->SetDescriptorHeaps(CountOf(ptrToHeaps, ID3D12DescriptorHeap*), ptrToHeaps);
+        ID3D12DescriptorHeap* ptrToHeaps[] = { m_cbvSrvUavDescHeap.Get()};
+        m_commandList->SetDescriptorHeaps(CountOf(ptrToHeaps, ID3D12DescriptorHeap*), ptrToHeaps);
         CD3DX12_GPU_DESCRIPTOR_HANDLE cbvSrvUavHeapDescHandle(m_cbvSrvUavDescHeap->GetGPUDescriptorHandleForHeapStart());
         cbvSrvUavHeapDescHandle.Offset(g_numImGuiSrvDescriptors + m_currentBackBufferIndex, m_cbvSrvUavHeapIncrementSize);
         m_commandList->SetGraphicsRootDescriptorTable(0, cbvSrvUavHeapDescHandle);
@@ -585,7 +585,7 @@ namespace anarchy
         m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
         m_commandList->IASetIndexBuffer(&m_indexBufferView);
         m_commandList->DrawIndexedInstanced(m_indicesPerInstance, 1, 0, 0, 0);
-		
+        
         m_imGuiWrapper->Render(m_commandList);
 
         // Back Buffer used to Present

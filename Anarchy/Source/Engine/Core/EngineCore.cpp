@@ -11,7 +11,7 @@ namespace anarchy
     {
         // Initialize
         m_windowEventHandler->Initialize();
-		AppContext::SetWindowEventHandler(m_windowEventHandler);
+        AppContext::SetWindowEventHandler(m_windowEventHandler);
 
         m_mainWindow->InitWindowParams(); // default init
         m_mainWindow->SetMessageProcedureFunctor(AppContext::GetMessageHandlerFunctor());
@@ -30,22 +30,22 @@ namespace anarchy
 
         // Initialize the Renderer
         m_gfxManager->Initialize();        
-	}
+    }
 
     void EngineCore::Update()
     {
         m_windowEventHandler->PollMessage();
-		m_input.PollInputFromOS();
+        m_input.PollInputFromOS();
         acGameSpecificInterface->Update();
 
         acGameSpecificInterface->PreRender();
         m_gfxManager->PreRender();
-		
+        
         acGameSpecificInterface->Render();
-		m_gfxManager->Render();
-		
+        m_gfxManager->Render();
+        
         acGameSpecificInterface->PostRender();
-		m_gfxManager->PostRender();
+        m_gfxManager->PostRender();
     }
 
     void EngineCore::ShutdownEngine()

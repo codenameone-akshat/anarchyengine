@@ -21,58 +21,58 @@ extern anarchy::int32 anarchyMain(anarchy::int32 argc, const anarchy::string arg
 // Entry Point For Windows
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, anarchy::int32 nShowCmd)
 {
-	using namespace anarchy;
+    using namespace anarchy;
 
-	const string argv(lpCmdLine);
-	string sourceDirPath;
-	string dataDirPath;
-	auto setDirPaths = [&sourceDirPath, &dataDirPath]()
-	{
-		const auto hModule = GetModuleHandle(NULL); // Get handle to current module
-		const DWORD pathLength = 180;
+    const string argv(lpCmdLine);
+    string sourceDirPath;
+    string dataDirPath;
+    auto setDirPaths = [&sourceDirPath, &dataDirPath]()
+    {
+        const auto hModule = GetModuleHandle(NULL); // Get handle to current module
+        const DWORD pathLength = 180;
 
-		char* outStr = static_cast<char*>(std::calloc(pathLength, sizeof(char)));
+        char* outStr = static_cast<char*>(std::calloc(pathLength, sizeof(char)));
 
-		if (::GetModuleFileNameA(hModule, outStr, pathLength))
-		{
-			string outputString(outStr);
-			std::free(outStr);
+        if (::GetModuleFileNameA(hModule, outStr, pathLength))
+        {
+            string outputString(outStr);
+            std::free(outStr);
 
-			const string parentDirName(PROJECT_PARENT_DIR_NAME);
-			const string sourceDir("\\Anarchy\\Source\\");
-			const string dataDir("\\Anarchy\\Data\\");
+            const string parentDirName(PROJECT_PARENT_DIR_NAME);
+            const string sourceDir("\\Anarchy\\Source\\");
+            const string dataDir("\\Anarchy\\Data\\");
 
-			const size_t pos = outputString.find(parentDirName);
-			outputString = outputString.substr(0, pos + parentDirName.length());
+            const size_t pos = outputString.find(parentDirName);
+            outputString = outputString.substr(0, pos + parentDirName.length());
 
-			sourceDirPath = outputString + sourceDir;
-			sourceDirPath.shrink_to_fit();
+            sourceDirPath = outputString + sourceDir;
+            sourceDirPath.shrink_to_fit();
 
-			dataDirPath = outputString + dataDir;
-			dataDirPath.shrink_to_fit();
-		}
-		return string("");
-	}();
+            dataDirPath = outputString + dataDir;
+            dataDirPath.shrink_to_fit();
+        }
+        return string("");
+    }();
 
-	Assert(!sourceDirPath.empty(), "Cannot find Source directory.");
-	Assert(!dataDirPath.empty(), "Cannot find Data directory.");
-	AppContext::SetSourceDirPath(sourceDirPath);
-	AppContext::SetDataDirPath(dataDirPath);
+    Assert(!sourceDirPath.empty(), "Cannot find Source directory.");
+    Assert(!dataDirPath.empty(), "Cannot find Data directory.");
+    AppContext::SetSourceDirPath(sourceDirPath);
+    AppContext::SetDataDirPath(dataDirPath);
 
-	const int32 argc = [](const string& argv)
-	{
-		std::vector<string> splitUpString = {};
-		boost::split(splitUpString, argv, [](char ch) { return std::isspace(ch); });
-		return static_cast<int32>(splitUpString.size());
-	}(argv);
+    const int32 argc = [](const string& argv)
+    {
+        std::vector<string> splitUpString = {};
+        boost::split(splitUpString, argv, [](char ch) { return std::isspace(ch); });
+        return static_cast<int32>(splitUpString.size());
+    }(argv);
 
 
-	// set the source dir path in app context
-	MainParams params{ hInstance, hPrevInstance, argc, argv, nShowCmd };
-	AppContext::SetMainParams(params);
+    // set the source dir path in app context
+    MainParams params{ hInstance, hPrevInstance, argc, argv, nShowCmd };
+    AppContext::SetMainParams(params);
 
-	// call anarchyMain()
-	anarchyMain(argc, argv);
+    // call anarchyMain()
+    anarchyMain(argc, argv);
 }
 
 #endif // !_PLATFORM_WINDOWS_H_

@@ -14,11 +14,11 @@ int32 anarchyMain(int32 argc, const string argv)
     EngineContext::SetIsEngneRunning(true);
 
     do
-	{
-		// Engine Running state should be set in the enginecore
+    {
+        // Engine Running state should be set in the enginecore
         engineCore->Update();
 
-	} while (EngineContext::GetIsEngneRunning());
+    } while (EngineContext::GetIsEngneRunning());
 
     engineCore->ShutdownEngine();
 

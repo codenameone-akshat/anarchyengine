@@ -9,11 +9,11 @@
 
 namespace anarchy
 {
-	template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>
-	auto constexpr to_string(T x) { return std::to_string(x); }
+    template <typename T, typename = std::enable_if_t<!std::is_same_v<T, bool>>>
+    auto constexpr to_string(T x) { return std::to_string(x); }
 
 #ifdef PLATFORM_WINDOWS
-	template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::wstring>>>
+    template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::wstring>>>
     T string_cast(const std::string input)
     {
         // Get the size to allocate.
@@ -52,16 +52,16 @@ namespace anarchy
     }
 }
 #else
-	template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::string>>>
+    template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::string>>>
     T string_cast(const std::wstring input)
     {
         NoImplAssert;
     }
 
-	template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::wstring>>>
+    template <typename T, typename = std::enable_if_t<std::is_same_v<T, std::wstring>>>
     T string_cast(const std::string input)
     {
-		NoImplAssert;
+        NoImplAssert;
     }
 #endif // PLATFORM_WINDOWS
 

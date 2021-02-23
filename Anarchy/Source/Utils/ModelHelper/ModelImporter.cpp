@@ -17,7 +17,7 @@ namespace anarchy
         const aiScene* scene = m_importer.ReadFile(fileName, gcx_meshLoaderImportFlags);
         Assert(scene, "Failed to load model. Model does not exist. Path: " + fileName);
 
-		std::shared_ptr<Entity> entity = std::make_shared<Entity>();
+        std::shared_ptr<Entity> entity = std::make_shared<Entity>();
         PopulateEntityAndSerialize(scene, scene->GetShortFilename(fileName.c_str()), entity);
         
         return entity;
@@ -103,9 +103,9 @@ namespace anarchy
             for (uint32 itr = 0; itr < mesh->mNumFaces; ++itr)
             {
                 // TODO: make this Vec3<uint32_t> when Vec3 is templatized
-				const uint32 vertexA = mesh->mFaces[itr].mIndices[0] + indicesOffset;
-				const uint32 vertexB = mesh->mFaces[itr].mIndices[1] + indicesOffset;
-				const uint32 vertexC = mesh->mFaces[itr].mIndices[2] + indicesOffset;
+                const uint32 vertexA = mesh->mFaces[itr].mIndices[0] + indicesOffset;
+                const uint32 vertexB = mesh->mFaces[itr].mIndices[1] + indicesOffset;
+                const uint32 vertexC = mesh->mFaces[itr].mIndices[2] + indicesOffset;
 
                 indices.push_back(vertexA);
                 indices.push_back(vertexB);

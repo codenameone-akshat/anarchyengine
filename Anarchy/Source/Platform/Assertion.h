@@ -6,7 +6,7 @@
 
 namespace anarchy
 {
-	using LogCategory = Logger::LogCategory;
+    using LogCategory = Logger::LogCategory;
 
 //#ifdef PLATFORM_WINDOWS
 //	// Define these here inline
@@ -14,21 +14,21 @@ namespace anarchy
 //	void ComCheck(HRESULT hr, string message, ComPtr<ID3DBlob>& errorMessagePtr);
 //#endif // PLATFORM_WINDOWS
 
-	// Terminates the program
-	inline void TriggerAssertion(bool condition, string message, string sourceFileName, int32 line)
-	{
-		// TODO: replace with std::format when stdlib supports it
-		string assertMessage = fmt::format("{}. File: {}. Line: {}.", message, sourceFileName, line);
-		Logger::LogError(LogCategory::System, condition, assertMessage);
-	}
-	
-	// Doesn't terminate the program.
-	inline void TriggerSoftAssertion(bool condition, string message, string sourceFileName, int32 line)
-	{
-		// TODO: replace with std::format when stdlib supports it
-		string assertMessage = fmt::format("{}. File: {}. Line: {}.", message, sourceFileName, line);
-		Logger::LogWarning(LogCategory::System, condition, assertMessage);
-	}
+    // Terminates the program
+    inline void TriggerAssertion(bool condition, string message, string sourceFileName, int32 line)
+    {
+        // TODO: replace with std::format when stdlib supports it
+        string assertMessage = fmt::format("{}. File: {}. Line: {}.", message, sourceFileName, line);
+        Logger::LogError(LogCategory::System, condition, assertMessage);
+    }
+    
+    // Doesn't terminate the program.
+    inline void TriggerSoftAssertion(bool condition, string message, string sourceFileName, int32 line)
+    {
+        // TODO: replace with std::format when stdlib supports it
+        string assertMessage = fmt::format("{}. File: {}. Line: {}.", message, sourceFileName, line);
+        Logger::LogWarning(LogCategory::System, condition, assertMessage);
+    }
 
 #ifdef AC_DEBUG
 #define Assert(x, message) TriggerAssertion(x, message, __FILE__, __LINE__)

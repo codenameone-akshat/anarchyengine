@@ -12,61 +12,61 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace anarchy
 {
-	void WindowEventHandler_Windows::Initialize()
-	{
-		AppContext::SetMessageHandlerFunctor(MessageHandler);
-	}
+    void WindowEventHandler_Windows::Initialize()
+    {
+        AppContext::SetMessageHandlerFunctor(MessageHandler);
+    }
 
-	void WindowEventHandler_Windows::PollMessage()
-	{
-		MSG msg = {};
-		while (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) // 0,0 here represents to take any input possible
-		{
-			::TranslateMessage(&msg);
-			::DispatchMessage(&msg);
-		}
+    void WindowEventHandler_Windows::PollMessage()
+    {
+        MSG msg = {};
+        while (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) // 0,0 here represents to take any input possible
+        {
+            ::TranslateMessage(&msg);
+            ::DispatchMessage(&msg);
+        }
 
-		if (msg.message == WM_QUIT)
-			HandleMessage(WindowEvent::Quit);
-	}
+        if (msg.message == WM_QUIT)
+            HandleMessage(WindowEvent::Quit);
+    }
 
-	void WindowEventHandler_Windows::HandleMessage(WindowEvent event)
-	{
-		switch (event)
-		{
-		case WindowEvent::Quit:
-			EngineContext::SetIsEngneRunning(false);
-			break;
-		case WindowEvent::Close:
-			break;
+    void WindowEventHandler_Windows::HandleMessage(WindowEvent event)
+    {
+        switch (event)
+        {
+        case WindowEvent::Quit:
+            EngineContext::SetIsEngneRunning(false);
+            break;
+        case WindowEvent::Close:
+            break;
         case WindowEvent::Resize:
-			SwapChainResizeEvent event;
-			acEventDispatcher.TriggerEvent(event);
+            SwapChainResizeEvent event;
+            acEventDispatcher.TriggerEvent(event);
             break;
         default:
-			break;
-		}
-	}
+            break;
+        }
+    }
 
 #define WindowEventHandlerPtr AppContext::GetWindowEventHandler()
-	
+    
 
-	// Namespace Scope. Not in Class. (Do something with this?)
-	LRESULT CALLBACK MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-	{
-		if (::ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
-			return true;
+    // Namespace Scope. Not in Class. (Do something with this?)
+    LRESULT CALLBACK MessageHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+    {
+        if (::ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam))
+            return true;
 
-		switch (message)
-		{
-		case WM_CLOSE:
-			WindowEventHandlerPtr->HandleMessage(WindowEvent::Close);
-			::PostQuitMessage(0);
-			return 0;
-			break;
-		case WM_SIZE:
-			if (!AppContext::GetHandleToMainWindow())
-				break;
+        switch (message)
+        {
+        case WM_CLOSE:
+            WindowEventHandlerPtr->HandleMessage(WindowEvent::Close);
+            ::PostQuitMessage(0);
+            return 0;
+            break;
+        case WM_SIZE:
+            if (!AppContext::GetHandleToMainWindow())
+                break;
 
             WindowEventHandlerPtr->HandleMessage(WindowEvent::Resize);
 
@@ -76,9 +76,9 @@ namespace anarchy
             windowDesc.width = width;
             windowDesc.height = height;
             AppContext::SetMainWindowDesc(windowDesc);
-			break;
-		}
-		return ::DefWindowProc(hWnd, message, wParam, lParam);
-	}
+            break;
+        }
+        return ::DefWindowProc(hWnd, message, wParam, lParam);
+    }
 #undef WindowEventHandlerPtr
 }

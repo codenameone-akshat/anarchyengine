@@ -3,9 +3,9 @@
 
 enum class WindowEvent
 {
-	Close,
-	Quit,
-	Resize
+    Close,
+    Quit,
+    Resize
 };
 
 #ifdef PLATFORM_WINDOWS

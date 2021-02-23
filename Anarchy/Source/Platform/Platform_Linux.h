@@ -7,14 +7,14 @@ extern anarchy::int32 anarchyMain(anarchy::int32 argc, const anarchy::string arg
 
 anarchy::int32 main(anarchy::int32 argc, char** argv)
 {
-	using namespace anarchy;
+    using namespace anarchy;
 
-	const string commandLine(*argv);
-	// pass it to main params or whatever
-	
-	// TODO: Find the source dir somehow
+    const string commandLine(*argv);
+    // pass it to main params or whatever
+    
+    // TODO: Find the source dir somehow
 
-	anarchyMain(argc, commandLine);
+    anarchyMain(argc, commandLine);
 }
 
 #endif // !_PLATFORM_LINUX_H_

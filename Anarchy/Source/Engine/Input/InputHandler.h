@@ -11,9 +11,9 @@ namespace anarchy
     enum Key : uint32
     {
         // Mouse Input
-		MOUSE_LBUTTON       = 0x01,
-		MOUSE_RBUTTON       = 0x02,
-		MOUSE_MBUTTON       = 0x04,
+        MOUSE_LBUTTON       = 0x01,
+        MOUSE_RBUTTON       = 0x02,
+        MOUSE_MBUTTON       = 0x04,
 
         // Keyboard keys (not exhaustive ;-))
         KEY_BACKSPACE       = 0x08, // Same as Unicode & Win32

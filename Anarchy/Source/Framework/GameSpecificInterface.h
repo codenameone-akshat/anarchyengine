@@ -11,30 +11,30 @@
 namespace anarchy
 {
     class GameSpecificInterface
-	{
-	public:
-		DECLARE_DEFAULT_CLASSMEMBERS_INTERFACE(GameSpecificInterface);
+    {
+    public:
+        DECLARE_DEFAULT_CLASSMEMBERS_INTERFACE(GameSpecificInterface);
 
-		virtual void Initialize();
-		
-		virtual void Update();
-		
-		virtual void PreRender();
-		
-		virtual void Render();
-		
-		virtual void PostRender();
-		
-		virtual void Shutdown();
+        virtual void Initialize();
+        
+        virtual void Update();
+        
+        virtual void PreRender();
+        
+        virtual void Render();
+        
+        virtual void PostRender();
+        
+        virtual void Shutdown();
 
-		static void SetupGameSpecificInstance();
+        static void SetupGameSpecificInstance();
 
-		static std::shared_ptr<GameSpecificInterface> GetInstance() { return ms_gameSpecificInstance; }
-		static void SetInstance(std::shared_ptr<GameSpecificInterface> instance) { ms_gameSpecificInstance = instance; }
+        static std::shared_ptr<GameSpecificInterface> GetInstance() { return ms_gameSpecificInstance; }
+        static void SetInstance(std::shared_ptr<GameSpecificInterface> instance) { ms_gameSpecificInstance = instance; }
 
-	protected:
-		inline static std::shared_ptr<GameSpecificInterface> ms_gameSpecificInstance = nullptr;
-	};
+    protected:
+        inline static std::shared_ptr<GameSpecificInterface> ms_gameSpecificInstance = nullptr;
+    };
 
 #define acGameSpecificInterface GameSpecificInterface::GetInstance()
 

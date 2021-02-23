@@ -28,15 +28,15 @@ namespace anarchy
         ~AppContext() = delete;
 
 #ifdef PLATFORM_WINDOWS
-		static MessageHandlerFunctor GetMessageHandlerFunctor() { return ms_messageHandlerFunctor; }
+        static MessageHandlerFunctor GetMessageHandlerFunctor() { return ms_messageHandlerFunctor; }
         static void SetMessageHandlerFunctor(MessageHandlerFunctor messageHandler) { ms_messageHandlerFunctor = messageHandler; }
 
-		static MainParams GetMainParams() noexcept { return ms_mainParams; }
+        static MainParams GetMainParams() noexcept { return ms_mainParams; }
         static void SetMainParams(MainParams mainParams) noexcept { ms_mainParams = mainParams; }
 #endif //PLATFORM_WINDOWS
 
-		static std::shared_ptr<WindowEventHandler> GetWindowEventHandler() { return ms_windowEventHandler; }
-		static void SetWindowEventHandler(std::shared_ptr<WindowEventHandler> windowEventHandler) { ms_windowEventHandler = windowEventHandler; }
+        static std::shared_ptr<WindowEventHandler> GetWindowEventHandler() { return ms_windowEventHandler; }
+        static void SetWindowEventHandler(std::shared_ptr<WindowEventHandler> windowEventHandler) { ms_windowEventHandler = windowEventHandler; }
 
         static std::shared_ptr<Window> GetHandleToMainWindow() noexcept { return ms_mainWindow; }
         static void SetHandleToMainWindow(std::shared_ptr<Window> window) { ms_mainWindow = window; }
