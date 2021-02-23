@@ -45,6 +45,7 @@ namespace anarchy
     private:
         // Initializing D3D12
         void InitializeAPI();
+        void InitializeDependencies();
 
 #ifdef AC_DEBUG
         void EnableDebugLayer();

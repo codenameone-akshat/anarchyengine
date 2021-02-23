@@ -16,6 +16,8 @@
 #include <Engine/EventDispatcher.hpp>
 #include <Graphics/GfxEvents.h>
 #include <Graphics/VertexLayout.h>
+#include <DirectXTex.h>
+#include <roapi.h> // For RoInitializeWrapper 
 
 namespace anarchy
 {
@@ -25,6 +27,7 @@ namespace anarchy
 
     void D3D12Renderer::Initialize()
     {
+        InitializeDependencies();
         InitializeAPI();
         
         /// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
@@ -82,6 +85,8 @@ namespace anarchy
 
         CloseHandle(m_fenceEvent);
         CloseHandle(m_frameLatencyWaitableObject);
+
+       ::Windows::Foundation::Uninitialize(); // Shutdown Windows Runtime API
     }
 
     //////////////////////////////////////////////////////////////////////////////////////
@@ -120,6 +125,16 @@ namespace anarchy
             AppContext::GetMainWindowDesc().width,
             AppContext::GetMainWindowDesc().height
         };
+    }
+
+    void D3D12Renderer::InitializeDependencies()
+    {
+        // Init Windows Runtime API for DirectXTex
+#if (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
+        CheckResult(::Windows::Foundation::Initialize(RO_INIT_MULTITHREADED), "Failed to initialize Windows Imaging Component");
+#else
+        CheckResult(::CoInitializeEx(nullptr, COINITBASE_MULTITHREADED), "Failed to Initialize Windows Imaging Component");
+#endif
     }
 
 #ifdef AC_DEBUG
