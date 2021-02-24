@@ -1,6 +1,7 @@
 #ifndef _ACPCH_H_
 #define _ACPCH_H_
 
+#include <Platform/PlatformConfig.h>
 #include <Framework/ProjectConfig.h>
 
 // C++ Basic Types

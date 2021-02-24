@@ -323,6 +323,7 @@
     <ClInclude Include="Source\Engine\EventDispatcher.hpp" />
     <ClInclude Include="Source\Engine\Object\Component\CameraComponent.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
+    <ClInclude Include="Source\Engine\Profiler.h" />
     <ClInclude Include="Source\Framework\AppContext.h" />
     <ClInclude Include="Source\Framework\ClassHelpers.h" />
     <ClInclude Include="Source\Framework\FrameworkHelpers.h" />

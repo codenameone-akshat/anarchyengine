@@ -4,11 +4,15 @@
 #ifdef PLATFORM_WINDOWS
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
-#endif 
+#endif // !WIN32_LEAN_AND_MEAN
+
+#ifndef USE_PIX
+#define USE_PIX
+#endif // !USE_PIX
 
 #ifndef NOMINMAX
 #define NOMINMAX
-#endif
+#endif // !NOMINMAX
 #endif // PLATFORM_WINDOWS
 
 #ifdef PLATFORM_WINDOWS
@@ -25,7 +29,5 @@
 
 #define ANARCHY_NAMESPACE_BEGIN namespace anarchy {
 #define ANARCHY_NAMESPACE_END }
-
-#define PROJECT_PARENT_DIR_NAME "anarchyengine"
 
 #endif // !_PLATFORM_CONFIG_H_

@@ -9,4 +9,6 @@
 
 #define ANARCHY_MATH_ENABLE
 
+#define PROJECT_PARENT_DIR_NAME "anarchyengine"
+
 #endif // !_PROJECT_CONFIG_H_

@@ -110,6 +110,7 @@
     <ClInclude Include="Source\Platform\Window\Window_Base.h" />
     <ClInclude Include="Source\Graphics\VertexLayout.h" />
     <ClInclude Include="Source\Graphics\SceneConstantBuffer.h" />
+    <ClInclude Include="Source\Engine\Profiler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
