@@ -11,7 +11,7 @@ namespace anarchy
     {
     public:
         explicit Serializer(std::string fileName)
-            :m_outStream{ fileName },
+            :m_outStream{ fileName, std::fstream::binary | std::fstream::out },
             m_outArchive{ m_outStream }
         {
         }
@@ -35,6 +35,5 @@ namespace anarchy
         std::ofstream m_outStream;
         boost::archive::binary_oarchive m_outArchive;
     };
-
 }
 #endif // _SERIALIZER_H_

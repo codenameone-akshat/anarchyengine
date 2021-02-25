@@ -12,7 +12,7 @@ namespace anarchy
     {
     public:
         explicit DeSerializer(std::string fileName)
-            :m_inStream{ fileName },
+            :m_inStream{ fileName, std::fstream::binary | std::fstream::in },
             m_inArchive{ m_inStream }
         {
         }
