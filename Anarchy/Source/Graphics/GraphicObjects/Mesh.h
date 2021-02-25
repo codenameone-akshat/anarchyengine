@@ -2,13 +2,13 @@
 #define _MESH_H_
 
 #include <vector>
-
 #ifdef AC_DEBUG
 #include <string>
 #endif // AC_DEBUG
 
 #include SERIALIZE_STD_VECTOR_INCLUDE
 #include SERIALIZE_STD_STRING_INCLUDE
+#include <Graphics/VertexLayout.h>
 
 namespace anarchy
 {
@@ -36,6 +36,7 @@ namespace anarchy
             SERIALIZE_PROPERTY(m_tangents);
             SERIALIZE_PROPERTY(m_biTangents);
             SERIALIZE_PROPERTY(m_biTangents);
+            SERIALIZE_PROPERTY(m_rawVertexLayoutData);
         }
     };
 
@@ -54,6 +55,9 @@ namespace anarchy
         SERIALIZE_IMPL()
         {
             SERIALIZE_PROPERTY(m_meshGPUData);
+            SERIALIZE_PROPERTY(m_materialIndex);
+            SERIALIZE_PROPERTY(m_vertexCount);
+            SERIALIZE_PROPERTY(m_indexCount);
             AC_DEBUGONLY(SERIALIZE_PROPERTY(m_name);)
         }
     };

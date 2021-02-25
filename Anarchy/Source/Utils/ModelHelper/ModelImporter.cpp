@@ -12,14 +12,14 @@
 
 namespace anarchy
 {
-    std::shared_ptr<Entity> ModelImporter::ReadEntityFromFile(string fileName)
+    std::shared_ptr<Entity> ModelImporter::ReadEntityFromFileAndSerialize(string fileName)
     {
         const aiScene* scene = m_importer.ReadFile(fileName, gcx_meshLoaderImportFlags);
         Assert(scene, "Failed to load model. Model does not exist. Path: " + fileName);
 
         std::shared_ptr<Entity> entity = std::make_shared<Entity>();
         PopulateEntityAndSerialize(scene, scene->GetShortFilename(fileName.c_str()), entity);
-        
+
         return entity;
     }
 
@@ -65,7 +65,7 @@ namespace anarchy
                 auto vertex = aiVector3ToVector3f(mesh->mVertices[itr]);
                 vertices.emplace_back(vertex);
                 rawData.position = vertex;
-                
+
                 if (mesh->HasNormals())
                 {
                     auto normal = aiVector3ToVector3f(mesh->mNormals[itr]);
@@ -132,12 +132,23 @@ namespace anarchy
             entity->AddMesh(engineMesh);
         }
 
-        //SerializeEntity(entity, shortFileName);
+        {
+            ACScopedTimer("Sorting Meshes");
+            auto engineMeshes = entity->GetMeshesRef();
+            std::sort(engineMeshes.begin(), engineMeshes.end(), [](auto& meshA, auto& meshB) {
+                return meshA.GetMaterialIndex() < meshB.GetMaterialIndex();
+                });
+        }
+        
+        entity->BuildBatchInfo();
+        
+        SerializeEntity(entity, shortFileName);
     }
 
-    void ModelImporter::SerializeEntity(Entity entity, string filename)
+    void ModelImporter::SerializeEntity(std::shared_ptr<Entity> entity, string filename)
     {
-        Serializer serializer(string(filename + ENTITY_FILE_EXT));
-        serializer.Serialize(entity);
+        ACScopedTimer("Serializing " + filename);
+        Serializer serializer(string(ENTITY_PATH_STR(filename)));
+        serializer.Serialize(entity.get());
     }
 }

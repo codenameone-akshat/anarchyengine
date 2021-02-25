@@ -31,6 +31,7 @@
     <ClCompile Include="Source\Game\DebugUI.cpp" />
     <ClCompile Include="Source\Graphics\GfxManager.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineManager.cpp" />
+    <ClCompile Include="Source\Engine\Object\Entity\Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
@@ -51,7 +52,6 @@
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Game\GameSpecificCommands.h" />
     <ClInclude Include="Source\Platform\Platform.h" />
-    <ClInclude Include="Source\Framework\Platform\Platform_Win32.h" />
     <ClInclude Include="Source\Platform\PlatformConfig.h" />
     <ClInclude Include="Source\Platform\Platform_Linux.h" />
     <ClInclude Include="Source\Platform\Platform_Windows.h" />
@@ -112,6 +112,7 @@
     <ClInclude Include="Source\Engine\Profiler.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineManager.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.h" />
+    <ClInclude Include="Source\Graphics\RenderBatchInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

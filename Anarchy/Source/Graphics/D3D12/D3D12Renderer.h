@@ -81,6 +81,7 @@ namespace anarchy
 
         // Render
         void RecordCommands();
+        void RenderBatches();
         // End Render
 
         // HW Objects
@@ -140,7 +141,6 @@ namespace anarchy
         Matrix4f m_projMatrix;
 
         /// TEMP CODE | MOVE FROM HERE
-        std::unique_ptr<ModelImporter> m_modelImporter = std::make_unique<ModelImporter>();
         std::vector<std::shared_ptr<Entity>> m_entities;
     };
 }

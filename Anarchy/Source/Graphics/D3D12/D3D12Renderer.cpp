@@ -17,6 +17,8 @@
 #include <Graphics/GfxEvents.h>
 #include <Graphics/VertexLayout.h>
 #include <DirectXTex.h>
+#include <Engine/Serialization/DeSerializer.h>
+#include <Engine/Profiler.h>
 
 namespace anarchy
 {
@@ -29,11 +31,13 @@ namespace anarchy
         InitializeDependencies();
         InitializeAPI();
         
-        /// TEMP CODE HERE | ADD TO ASYNC COMMANDS MAYBE?
         {
-            ACScopedTimer("Loading Model Task: ");
-            string dataDir = AppContext::GetDataDirPath() + "sponza.fbx";
-            m_entities.emplace_back(m_modelImporter->ReadEntityFromFile(dataDir));
+            ACScopedTimer("Deserialize Entity");
+            Entity* entityPtr = new Entity;
+            DeSerializer d(ENTITY_PATH_STR("sponza.fbx"));
+            d.DeSerialize(entityPtr);
+            std::shared_ptr<Entity> entity(std::move(entityPtr));
+            m_entities.emplace_back(entity);
         }
 
         InitalizeResources();
@@ -592,15 +596,20 @@ namespace anarchy
 
         auto fetchedColor = GfxControllables::GetClearColor();
         m_commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
+        
+        
+        GPUCommandListProfileBegin(m_commandList.Get(), "Clear RT and DS");
         m_commandList->ClearRenderTargetView(rtvHandle, (float*)&fetchedColor, 0, nullptr);
         m_commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, g_depthClearValue, NULL, NULL, nullptr);
-        
-        m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
-        m_commandList->IASetIndexBuffer(&m_indexBufferView);
-        m_commandList->DrawIndexedInstanced(m_indicesPerInstance, 1, 0, 0, 0);
-        
+        GPUCommandListProfileEnd(m_commandList.Get());
+
+        GPUCommandListProfileBegin(m_commandList.Get(), "Render Batches");
+        RenderBatches();
+        GPUCommandListProfileEnd(m_commandList.Get());
+
+        GPUCommandListProfileBegin(m_commandList.Get(), "Render Imgui");
         m_imGuiWrapper->Render(m_commandList);
+        GPUCommandListProfileEnd(m_commandList.Get());
 
         // Back Buffer used to Present
         D3D12_RESOURCE_BARRIER presentBarrier = {};
@@ -614,6 +623,24 @@ namespace anarchy
         m_commandList->ResourceBarrier(1, &presentBarrier);
 
         CheckResult(m_commandList->Close(), "Failed to close the command list");
+    }
+    
+    void D3D12Renderer::RenderBatches()
+    {
+        m_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        m_commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
+        m_commandList->IASetIndexBuffer(&m_indexBufferView);
+        uint32 batchNumber = 0;
+        for (auto& entity : m_entities)
+        {
+            auto batchInfos = entity->GetBatchInfoRef();
+            for (auto& batch : batchInfos)
+            {
+                const string profilerEventTag = fmt::format("Draw Batch {}", batchNumber++);
+                ScopedGPUCommandListProfile(m_commandList.Get(), profilerEventTag.c_str());
+                m_commandList->DrawIndexedInstanced((uint32)batch.indexCount, 1, (uint32)batch.startIndex, 0, 0);
+            }
+        }
     }
 }
 
