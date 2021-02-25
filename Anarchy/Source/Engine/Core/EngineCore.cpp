@@ -10,6 +10,7 @@ namespace anarchy
     void EngineCore::InitializeEngine()
     {
         // Initialize
+
         m_windowEventHandler->Initialize();
         AppContext::SetWindowEventHandler(m_windowEventHandler);
 
@@ -30,6 +31,14 @@ namespace anarchy
 
         // Initialize the Renderer
         m_gfxManager->Initialize();        
+    }
+
+    void EngineCore::GenerateData()
+    {
+        ACScopedTimer("Generating Data: ");
+        std::unique_ptr<ModelImporter> modelImporter = std::make_unique<ModelImporter>();
+        string dataDir = AppContext::GetDataDirPath() + string("/RawData/") + "sponza.fbx"; // TODO: Get models from a file.
+        modelImporter->ReadEntityFromFileAndSerialize(dataDir);
     }
 
     void EngineCore::Update()

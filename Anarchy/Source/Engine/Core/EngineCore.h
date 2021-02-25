@@ -18,6 +18,7 @@ namespace anarchy
         ~EngineCore() = default;
 
         void InitializeEngine();
+        void GenerateData();
         void Update();
         void ShutdownEngine();
         
