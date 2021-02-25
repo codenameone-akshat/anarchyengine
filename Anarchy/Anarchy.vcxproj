@@ -131,7 +131,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug|x64'">
-    <IncludePath>$(AC_ROOT)\Extern\Engine\;$(AC_ROOT)\Extern\Graphics\assimp\static\include;$(BOOST);$(AC_SOURCE);$(AC_ROOT);$(IncludePath)</IncludePath>
+    <IncludePath>$(AC_ROOT)\Extern\Engine\;$(AC_ROOT)\Extern\Graphics\DirectXTex\static\include;$(AC_ROOT)\Extern\Graphics\assimp\static\include;$(BOOST);$(AC_SOURCE);$(AC_ROOT);$(IncludePath)</IncludePath>
     <EnableManagedIncrementalBuild>true</EnableManagedIncrementalBuild>
     <LibraryPath>$(BOOST)\stage\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -221,10 +221,10 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;$(AC_ROOT)\Extern\Graphics\assimp\static\lib\assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;$(AC_ROOT)\Extern\Graphics\assimp\static\lib\assimp-vc142-mtd.lib;$(AC_ROOT)\Extern\Graphics\DirectXTex\static\lib\DirectXTex.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(AC_ROOT)\Extern\Graphics\assimp\dynamic\assimp-vc142-mt.dll $(TargetDir)\assimp-vc142-mt.dll</Command>
+      <Command>copy $(AC_ROOT)\Extern\Graphics\assimp\dynamic\assimp-vc142-mtd.dll $(TargetDir)\assimp-vc142-mtd.dll</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='D3D12_Debug_UnityBuild|x64'">
