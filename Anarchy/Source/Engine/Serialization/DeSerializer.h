@@ -34,6 +34,7 @@ namespace anarchy
     private:
         std::string m_fileName = "";
         std::ifstream m_inStream;
-
-    }
+        boost::archive::binary_iarchive m_inArchive;
+    };
+}
 #endif // _DESERIALIZER_H_
