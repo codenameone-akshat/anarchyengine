@@ -331,3 +331,7 @@ ASALocalRun/
 
 # Vs History Directory
 .vshistory/
+
+# Scene Files
+.acscene
+.acentity
