@@ -1,0 +1,10 @@
+{
+  "FileVersion": 2,
+  "Id": "69c0199a-bf73-4480-9b42-c3744a6a38ba",
+  "Items": [
+    {
+      "Id": "0f8a9525-cf2c-40f7-aa7b-55edac01f554",
+      "Command": "-gendata sponza.fbx"
+    }
+  ]
+}

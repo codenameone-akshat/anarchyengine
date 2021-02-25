@@ -4,7 +4,6 @@
     <FxCompile Include="Source\Graphics\Shaders\EmptyShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
     <ClCompile Include="Source\Engine\Core\EngineCore.cpp" />
     <ClCompile Include="Source\Engine\Core\MainEngine.cpp" />
@@ -31,11 +30,11 @@
     <ClCompile Include="Source\Framework\GameSpecificInterface.cpp" />
     <ClCompile Include="Source\Game\DebugUI.cpp" />
     <ClCompile Include="Source\Graphics\GfxManager.cpp" />
+    <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
     <ClInclude Include="Source\Graphics\GraphicObjects\Mesh.h" />
-    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
     <ClInclude Include="Source\Engine\Core\EngineCore.h" />
@@ -111,6 +110,8 @@
     <ClInclude Include="Source\Graphics\VertexLayout.h" />
     <ClInclude Include="Source\Graphics\SceneConstantBuffer.h" />
     <ClInclude Include="Source\Engine\Profiler.h" />
+    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineManager.h" />
+    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

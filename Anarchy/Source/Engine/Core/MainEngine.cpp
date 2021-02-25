@@ -2,12 +2,17 @@
 
 #include <memory>
 
-#include "Platform/Platform.h"
-#include "Engine/Core/EngineCore.h"
-#include "Engine/Core/EngineContext.h"
+#include <Platform/Platform.h>
+#include <Engine/Core/EngineCore.h>
+#include <Engine/Core/EngineContext.h>
+#include <Utils/CommandLineOptions/CommandLineManager.h>
 
 int32 anarchyMain(int32 argc, const string argv)
 {
+    CommandLineManager commandLineManager;
+    commandLineManager.RegisterAllOptions();
+    commandLineManager.ParseAndApplyOptions(argv);
+    
     std::unique_ptr<EngineCore> engineCore = std::make_unique<EngineCore>();
     engineCore->InitializeEngine();
     

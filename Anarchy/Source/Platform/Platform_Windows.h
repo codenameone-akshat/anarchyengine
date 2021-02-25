@@ -62,8 +62,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     const int32 argc = [](const string& argv)
     {
         std::vector<string> splitUpString = {};
-        boost::split(splitUpString, argv, [](char ch) { return std::isspace(ch); });
-        return static_cast<int32>(splitUpString.size());
+        boost::split(splitUpString, argv, [](char ch) { return ch == '-'; });
+        return static_cast<int32>(splitUpString.size() - 1);
     }(argv);
 
 

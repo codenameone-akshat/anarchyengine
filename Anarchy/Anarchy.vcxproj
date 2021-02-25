@@ -306,7 +306,7 @@
     <ClCompile Include="Source\Platform\Window\WindowEventHandler_Windows.cpp" />
     <ClCompile Include="Source\Platform\Window\Window_Windows.cpp" />
     <ClCompile Include="Source\Engine\Input\InputHandler.cpp" />
-    <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineOptions.cpp" />
+    <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineManager.cpp" />
     <ClCompile Include="Source\Game\GameSettings\GameSettings.cpp" />
     <ClCompile Include="Source\Engine\Core\EngineCore.cpp" />
     <ClCompile Include="Source\Engine\Core\MainEngine.cpp" />
@@ -387,7 +387,7 @@
     <ClInclude Include="Source\Engine\Input\InputHandler.h" />
     <ClInclude Include="Source\Engine\Serialization\Serializer.h" />
     <ClInclude Include="Source\Game\GameSpecificCommands.h" />
-    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.hpp" />
+    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineManager.h" />
     <ClInclude Include="Source\Game\GameSettings\GameSettings.h" />
     <ClInclude Include="Source\Engine\Core\EngineContext.h" />
     <ClInclude Include="Source\Engine\Core\EngineCore.h" />
@@ -396,6 +396,7 @@
     <ClInclude Include="Source\Graphics\D3D12\HAL\D3D12Factory.h" />
     <ClInclude Include="Source\Graphics\HLSL\HLSLShader.h" />
     <ClInclude Include="Extern\Graphics\D3D12\D3DX12\d3dx12.h" />
+    <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.h" />
     <ClInclude Include="Source\Utils\Logger\Logger.h" />
     <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h" />
     <ClInclude Include="Source\Utils\ModelHelper\ModelImporter.h" />
