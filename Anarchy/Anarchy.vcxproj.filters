@@ -32,6 +32,9 @@
     <ClCompile Include="Source\Graphics\GfxManager.cpp" />
     <ClCompile Include="Source\Utils\CommandLineOptions\CommandLineManager.cpp" />
     <ClCompile Include="Source\Engine\Object\Entity\Entity.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\D3D12Texture.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\D3D12TextureHelper.cpp" />
+    <ClCompile Include="Source\Utils\Time\CPUTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Graphics\GfxRenderer.h" />
@@ -52,6 +55,7 @@
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
     <ClInclude Include="Source\Game\GameSpecificCommands.h" />
     <ClInclude Include="Source\Platform\Platform.h" />
+    <ClInclude Include="Source\Framework\Platform\Platform_Win32.h" />
     <ClInclude Include="Source\Platform\PlatformConfig.h" />
     <ClInclude Include="Source\Platform\Platform_Linux.h" />
     <ClInclude Include="Source\Platform\Platform_Windows.h" />
@@ -113,6 +117,13 @@
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineManager.h" />
     <ClInclude Include="Source\Utils\CommandLineOptions\CommandLineOptions.h" />
     <ClInclude Include="Source\Graphics\RenderBatchInfo.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\Material.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\Texture.h" />
+    <ClInclude Include="Source\Graphics\D3D12\D3D12Texture.h" />
+    <ClInclude Include="Source\Graphics\TextureHelper.h" />
+    <ClInclude Include="Source\Graphics\D3D12\D3D12TextureHelper.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\TextureCommon.h" />
+    <ClInclude Include="Source\Utils\Time\CPUTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

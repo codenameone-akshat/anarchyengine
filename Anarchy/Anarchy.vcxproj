@@ -297,6 +297,8 @@
     <ClCompile Include="Source\Game\SandboxInterface.cpp" />
     <ClCompile Include="Source\Graphics\Camera.cpp" />
     <ClCompile Include="Source\Graphics\D3D12\D3D12GraphicsPSOManager.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\D3D12Texture.cpp" />
+    <ClCompile Include="Source\Graphics\D3D12\D3D12TextureHelper.cpp" />
     <ClCompile Include="Source\Graphics\GfxManager.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\D3D12\imgui_impl_dx12.cpp" />
     <ClCompile Include="Source\Graphics\ImGui\imgui.cpp" />
@@ -316,6 +318,7 @@
     <ClCompile Include="Source\Graphics\HLSL\HLSLShader.cpp" />
     <ClCompile Include="Source\Utils\Logger\Logger.cpp" />
     <ClCompile Include="Source\Utils\ModelHelper\ModelImporter.cpp" />
+    <ClCompile Include="Source\Utils\Time\CPUTimer.cpp" />
     <ClCompile Include="Source\Utils\Time\ScopedTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -324,6 +327,11 @@
     <ClInclude Include="Source\Engine\EventDispatcher.hpp" />
     <ClInclude Include="Source\Engine\Object\Component\CameraComponent.h" />
     <ClInclude Include="Source\Engine\Object\Entity\Entity.h" />
+    <ClInclude Include="Source\Graphics\D3D12\D3D12Texture.h" />
+    <ClInclude Include="Source\Graphics\D3D12\D3D12TextureHelper.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\Material.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\Texture.h" />
+    <ClInclude Include="Source\Graphics\GraphicObjects\TextureCommon.h" />
     <ClInclude Include="Source\Graphics\RenderBatchInfo.h" />
     <ClInclude Include="Source\Engine\Profiler.h" />
     <ClInclude Include="Source\Framework\AppContext.h" />
@@ -365,6 +373,7 @@
     <ClInclude Include="Source\Graphics\PlatformRenderer.h" />
     <ClInclude Include="Source\Engine\NativeEvent.h" />
     <ClInclude Include="Source\Graphics\SceneConstantBuffer.h" />
+    <ClInclude Include="Source\Graphics\TextureHelper.h" />
     <ClInclude Include="Source\Graphics\VertexLayout.h" />
     <ClInclude Include="Source\Platform\Assertion.h" />
     <ClInclude Include="Source\Platform\ResultHelper.h" />
@@ -403,6 +412,7 @@
     <ClInclude Include="Source\Utils\MacroHelpers\EnumHelpers.h" />
     <ClInclude Include="Source\Utils\ModelHelper\ModelImporter.h" />
     <ClInclude Include="Source\Utils\StringUtils\StringUtils.h" />
+    <ClInclude Include="Source\Utils\Time\CPUTimer.h" />
     <ClInclude Include="Source\Utils\Time\ScopedTimer.h" />
   </ItemGroup>
   <ItemGroup>
