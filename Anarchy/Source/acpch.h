@@ -32,6 +32,7 @@
 
 // Utils
 #include <Utils/Logger/Logger.h>
+#include <Utils/Time/CPUTimer.h>
 #include <Utils/Time/ScopedTimer.h>
 #include <Utils/StringUtils/StringUtils.h>
 #include <Platform/Assertion.h>
@@ -41,6 +42,7 @@
 #include <Framework/SerializationHelpers.h>
 #include <Framework/FrameworkHelpers.h>
 #include <Framework/MemoryHelpers.h>
+#include <Utils/MacroHelpers/EnumHelpers.h>
 
 // Context
 #include <Engine/Core/EngineContext.h>
