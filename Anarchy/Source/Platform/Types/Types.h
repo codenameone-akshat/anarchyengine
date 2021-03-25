@@ -2,6 +2,7 @@
 #define _TYPES_H_
 
 #include <string>
+#include <string_view>
 
 #include "Platform/PlatformConfig.h"
 
@@ -31,6 +32,10 @@ namespace anarchy
     using string			= std::string;
     using wstring			= std::wstring;
     using cstring			= char*;
+
+    // string view
+    using string_view       = std::string_view;
+    using wstring_view      = std::wstring_view;
 
     // string stream
     using ostringstream		= std::ostringstream;

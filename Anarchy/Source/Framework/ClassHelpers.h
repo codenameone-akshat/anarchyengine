@@ -101,7 +101,8 @@ className& operator=(const className&) = delete;
 // Class Member Getter Setter Helpers
 #define DECLARE_DEFAULT_ACCESSORS(type, varName, propertyName) \
 inline type Get##propertyName() const { return m_##varName; } \
-inline const type& Get##propertyName##Ref() const { return m_##varName; } \
+inline const type& Get##propertyName##ConstRef() const { return m_##varName; } \
+inline type& Get##propertyName##Ref() { return m_##varName; } \
 inline void Set##propertyName(const type& arg) { m_##varName = arg; }
 
 #define DECLARE_DEFAULT_ACCESSORS_NODEF_GET(type, varName, propertyName) \
@@ -126,8 +127,13 @@ inline type Get##propertyName() const { return m_##varName; } \
 static type Get##propertyName() { return ms_##varName; } \
 static void Set##propertyName(const type& arg) { ms_##varName = arg; }
 
-#define DECLARE_DEFAULT_ACCESSORS_REFGET(type, varName, propertyName) \
-inline type& Get##propertyName() { return m_##varName; } \
+#define DECLARE_DEFAULT_ACCESSORS_NO_MUTABLEREF(type, varName, propertyName) \
+inline type Get##propertyName() { return m_##varName; } \
+inline const type& Get##propertyName##Ref() const { return m_##varName; } \
+inline void Set##propertyName(const type& arg) { m_##varName = arg; }
+
+#define DECLARE_DEFAULT_ACCESSORS_NO_REF(type, varName, propertyName) \
+inline type Get##propertyName() const { return m_##varName; } \
 inline void Set##propertyName(const type& arg) { m_##varName = arg; }
 // !Class Member Getter Setter Helpers
 
@@ -175,9 +181,15 @@ DECLARE_DEFAULT_ACCESSORS_STATIC(type, varName, propertyName) \
 private: \
 inline static type ms_##varName = defaultVal; 
 
-#define DECLARE_PROPERTY_REFGET(type, varName, propertyName, defaultVal) \
+#define DECLARE_PROPERTY_NO_MUTABLEREF(type, varName, propertyName, defaultVal) \
 public: \
-DECLARE_DEFAULT_ACCESSORS_REFGET(type, varName, propertyName) \
+DECLARE_DEFAULT_ACCESSORS_NO_MUTABLEREF(type, varName, propertyName) \
+private: \
+type m_##varName = defaultVal; 
+
+#define DECLARE_PROPERTY_NO_REF(type, varName, propertyName, defaultVal) \
+public: \
+DECLARE_DEFAULT_ACCESSORS_NO_REF(type, varName, propertyName) \
 private: \
 type m_##varName = defaultVal; 
 // !Class Member Declaration Helpers
@@ -205,8 +217,11 @@ DECLARE_PROPERTY_NO_SET(type, varName, propertyName, {})
 #define DECLARE_DEFAULT_PROPERTY_STATIC(type, varName, propertyName) \
 DECLARE_PROPERTY_STATIC(type, varName, propertyName, {}) 
 
-#define DECLARE_DEFAULT_PROPERTY_REFGET(type, varName, propertyName) \
-DECLARE_PROPERTY_REFGET(type, varName, propertyName, {}) 
+#define DECLARE_DEFAULT_PROPERTY_NO_MUTABLEREF(type, varName, propertyName) \
+DECLARE_DEFAULT_ACCESSORS_NO_MUTABLEREF(type, varName, propertyName, {}) 
+
+#define DECLARE_DEFAULT_PROPERTY_NO_REF(type, varName, propertyName) \
+DECLARE_PROPERTY_NO_REF(type, varName, propertyName, {}) 
 // !Class Member Default Initialized Declaration Helpers
 
 // Class Security Helpers
@@ -215,6 +230,7 @@ static_assert(std::has_virtual_destructor<Base>::value, "Possible Memory Leak. B
 
 #define DECLARE_SUPERCLASS(Base) \
 using super = Base
+
 //#define NO_DEFAULT_CONSTRUCT_GUARD(T) \ 
 //static_assert(!std::is_default_constructible_v<T>, "T is default constructible.");
 
