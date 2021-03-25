@@ -19,11 +19,12 @@ namespace anarchy
     class ModelImporter
     {
         DECLARE_DEFAULT_CLASSMEMBERS(ModelImporter);
-
+        
         std::shared_ptr<Entity> ReadEntityFromFileAndSerialize(string fileName);
 
     private:
-        void PopulateEntityAndSerialize(const aiScene* scene, string shortFileName, std::shared_ptr<Entity> entity);
+        void PopulateEntityAndSerialize(const aiScene* scene, string shortFileName, string fullFileName, std::shared_ptr<Entity> entity);
+        void ProcessMaterialInfo(const aiScene* scene, string fullFilePath, std::shared_ptr<Entity> entity);
         void SerializeEntity(std::shared_ptr<Entity> entity, std::string filename);
 
         Assimp::Importer m_importer = {}; // Assimp Lib Member

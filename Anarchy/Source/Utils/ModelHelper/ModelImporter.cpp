@@ -9,6 +9,8 @@
 #include <Graphics/GraphicObjects/Mesh.h>
 #include <Engine/Serialization/Serializer.h>
 #include <Graphics/VertexLayout.h>
+#include <Graphics/GraphicObjects/Material.h>
+#include <Utils/Time/CPUTimer.h>
 
 namespace anarchy
 {
@@ -18,17 +20,17 @@ namespace anarchy
         Assert(scene, "Failed to load model. Model does not exist. Path: " + fileName);
 
         std::shared_ptr<Entity> entity = std::make_shared<Entity>();
-        PopulateEntityAndSerialize(scene, scene->GetShortFilename(fileName.c_str()), entity);
+        PopulateEntityAndSerialize(scene, scene->GetShortFilename(fileName.c_str()), fileName, entity);
 
         return entity;
     }
 
-    void ModelImporter::PopulateEntityAndSerialize(const aiScene* scene, string shortFileName, std::shared_ptr<Entity> entity)
-    {
+    void ModelImporter::PopulateEntityAndSerialize(const aiScene* scene, string shortFileName, string fullFileName, std::shared_ptr<Entity> entity)
+    { 
         auto meshes = scene->mMeshes;
 
         entity->ReserveMeshMemory(scene->mNumMeshes);
-
+        
         auto aiVector3ToVector3f = [](aiVector3D vec)
         {
             return Vector3f(vec.x, vec.y, vec.z);
@@ -41,12 +43,14 @@ namespace anarchy
 
         int32 indicesOffset = 0; // index per mesh offset
 
+        CPUTimer modelParseTimer("ModelParseTimer");
+        modelParseTimer.Start();
         for (uint32 itr = 0; itr < scene->mNumMeshes; ++itr)
         {
             ACScopedTimer(fmt::format("Parsing Mesh {} : {} of {} ", meshes[itr]->mName.C_Str(), itr, scene->mNumMeshes));
 
             auto mesh = meshes[itr];
-            Mesh engineMesh = {};
+            std::shared_ptr<Mesh> engineMesh = std::make_shared<Mesh>();
 
             std::vector<Vector3f> vertices;
             std::vector<Vector3f> normals;
@@ -116,33 +120,138 @@ namespace anarchy
             indicesOffset += mesh->mNumVertices;
 
             string name = mesh->mName.C_Str();
-
-            engineMesh.GetMeshGPUData().SetVertices(vertices);
-            engineMesh.GetMeshGPUData().SetNormals(normals);
-            engineMesh.GetMeshGPUData().SetTexCoords(texCoords);
-            engineMesh.GetMeshGPUData().SetTangents(tangents);
-            engineMesh.GetMeshGPUData().SetBiTangents(biTangents);
-            engineMesh.GetMeshGPUData().SetIndices(indices);
-            engineMesh.GetMeshGPUData().SetRawVertexLayoutData(rawVertexLayout);
-            engineMesh.SetName(name);
-            engineMesh.SetMaterialIndex(mesh->mMaterialIndex);
-            engineMesh.SetVertexCount(mesh->mNumVertices);
-            engineMesh.SetIndexCount(mesh->mNumFaces * 3);
+            
+            engineMesh->GetMeshGPUDataRef().SetVertices(vertices);
+            engineMesh->GetMeshGPUDataRef().SetNormals(normals);
+            engineMesh->GetMeshGPUDataRef().SetTexCoords(texCoords);
+            engineMesh->GetMeshGPUDataRef().SetTangents(tangents);
+            engineMesh->GetMeshGPUDataRef().SetBiTangents(biTangents);
+            engineMesh->GetMeshGPUDataRef().SetIndices(indices);
+            engineMesh->GetMeshGPUDataRef().SetRawVertexLayoutData(rawVertexLayout);
+            engineMesh->SetName(name);
+            engineMesh->SetMaterialIndex(mesh->mMaterialIndex);
+            engineMesh->SetVertexCount(mesh->mNumVertices);
+            engineMesh->SetIndexCount(mesh->mNumFaces * 3);
 
             entity->AddMesh(engineMesh);
         }
+        modelParseTimer.Stop();
 
         {
             ACScopedTimer("Sorting Meshes");
-            auto engineMeshes = entity->GetMeshesRef();
+            auto& engineMeshes = entity->GetMeshesRef();
             std::sort(engineMeshes.begin(), engineMeshes.end(), [](auto& meshA, auto& meshB) {
-                return meshA.GetMaterialIndex() < meshB.GetMaterialIndex();
+                return meshA->GetMaterialIndex() < meshB->GetMaterialIndex();
                 });
         }
+
+        ProcessMaterialInfo(scene, fullFileName, entity);
         
         entity->BuildBatchInfo();
         
         SerializeEntity(entity, shortFileName);
+    }
+
+    void ModelImporter::ProcessMaterialInfo(const aiScene* scene, string fullFilePath, std::shared_ptr<Entity> entity)
+    {
+        auto materials = scene->mMaterials;
+        
+        // resolve file path: 
+        auto filename = scene->GetShortFilename(fullFilePath.c_str());
+        fullFilePath = fullFilePath.substr(0, fullFilePath.find(filename));
+
+        MaterialList& materialListRef = entity->GetMaterialsRef();
+
+        for (uint32 itr = 0; itr < scene->mNumMaterials; ++itr)
+        {
+            auto material = materials[itr];
+            std::shared_ptr<Material> engineMaterial = std::make_shared<Material>();
+
+            engineMaterial->SetMaterialIndex(itr);
+
+            TextureList& engineMaterialTextures = engineMaterial->GetTextureListRef();
+
+            auto addTextureToMaterialTextureList = [&](TextureType type, string texturePath, string textureName)
+            {
+                std::shared_ptr<Texture> engineTexture = std::make_shared<Texture>();
+                engineTexture->SetName(textureName.substr(0, textureName.find(".")));
+                engineTexture->SetTexturePath(texturePath);
+                engineTexture->SetTextureType(type);
+                engineMaterialTextures[ToUnderlyingType(TextureType)(type)].push_back(engineTexture);
+            };
+
+            // diffuse
+            if (uint32 texCount = material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+            {
+                for (uint32 subItr = 0; subItr < texCount; ++subItr)
+                {
+                    aiString filename;
+                    material->GetTexture(aiTextureType_DIFFUSE, subItr, &filename);
+                    
+                    auto texturePath = fullFilePath + string(filename.C_Str());
+                    addTextureToMaterialTextureList(TextureType::Diffuse, texturePath, filename.C_Str());
+                }
+            }
+            else
+            {
+                // default diffuse
+            }
+
+            // normal
+            if (uint32 texCount = material->GetTextureCount(aiTextureType_HEIGHT) > 0)
+            {
+                for (uint32 subItr = 0; subItr < texCount; ++subItr)
+                {
+                    aiString filename;
+                    material->GetTexture(aiTextureType_HEIGHT, subItr, &filename);
+
+                    auto texturePath = fullFilePath + string(filename.C_Str());
+                    addTextureToMaterialTextureList(TextureType::Normal, texturePath, filename.C_Str());
+                }
+            }
+            else
+            {
+                // default normal
+            }
+
+            // roughness
+            if (uint32 texCount = material->GetTextureCount(aiTextureType_SHININESS) > 0)
+            {
+                for (uint32 subItr = 0; subItr < texCount; ++subItr)
+                {
+                    aiString filename;
+                    material->GetTexture(aiTextureType_SHININESS, subItr, &filename);
+                    
+                    auto texturePath = fullFilePath + string(filename.C_Str());
+                    addTextureToMaterialTextureList(TextureType::Rougheness, texturePath, filename.C_Str());
+                }
+            }
+            else
+            {
+                // default roughness
+            }
+
+            // opacity
+            if (uint32 texCount = material->GetTextureCount(aiTextureType_OPACITY) > 0)
+            {
+                for (uint32 subItr = 0; subItr < texCount; ++subItr)
+                {
+                    aiString filename;
+                    material->GetTexture(aiTextureType_OPACITY, subItr, &filename);
+
+                    auto texturePath = fullFilePath + string(filename.C_Str());
+                    addTextureToMaterialTextureList(TextureType::Opacity, texturePath, filename.C_Str());
+                }
+            }
+            else
+            {
+                // default opacity
+            }
+
+            materialListRef.push_back(engineMaterial);
+        }
+
+        Assert(materialListRef.size() == scene->mNumMaterials, "Material list size inconsistant");
     }
 
     void ModelImporter::SerializeEntity(std::shared_ptr<Entity> entity, string filename)
