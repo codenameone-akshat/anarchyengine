@@ -4,6 +4,7 @@
 #include "Engine/Core/EngineContext.h"
 #include "Framework/AppContext.h"
 #include <Framework/GameSpecificInterface.h>
+#include <Graphics/TextureHelper.h>
 
 namespace anarchy
 {
@@ -35,10 +36,14 @@ namespace anarchy
 
     void EngineCore::GenerateData()
     {
+        TextureHelper::Initialize(); // Maybe move to InitDependencies / InitForDataGen or something? :)
+
         ACScopedTimer("Generating Data: ");
         std::unique_ptr<ModelImporter> modelImporter = std::make_unique<ModelImporter>();
-        string dataDir = AppContext::GetDataDirPath() + string("/RawData/") + "sponza.fbx"; // TODO: Get models from a file.
+        string dataDir = AppContext::GetDataDirPath() + string("/RawData/") + "sponza/sponza.fbx"; // TODO: Get models from a file.
         modelImporter->ReadEntityFromFileAndSerialize(dataDir);
+
+        TextureHelper::Shutdown();
     }
 
     void EngineCore::Update()

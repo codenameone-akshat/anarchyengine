@@ -44,7 +44,7 @@ namespace anarchy
     {
         DECLARE_DEFAULT_CLASSMEMBERS(Mesh);
 
-        DECLARE_DEFAULT_PROPERTY_REFGET(MeshGPUData, meshGPUData, MeshGPUData);
+        DECLARE_DEFAULT_PROPERTY(MeshGPUData, meshGPUData, MeshGPUData);
         DECLARE_DEFAULT_PROPERTY(uint32, materialIndex, MaterialIndex);
         DECLARE_DEFAULT_PROPERTY(uint64, vertexCount, VertexCount);
         DECLARE_DEFAULT_PROPERTY(uint64, indexCount, IndexCount);

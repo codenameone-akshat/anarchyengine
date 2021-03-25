@@ -20,6 +20,8 @@
 #include <Engine/Serialization/DeSerializer.h>
 #include <Engine/Profiler.h>
 
+// MAJOR TODO : Move everything to GfxRenderer and only keep the wrappers here :)
+
 namespace anarchy
 {
     //////////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +90,6 @@ namespace anarchy
 
         CloseHandle(m_fenceEvent);
         CloseHandle(m_frameLatencyWaitableObject);
-
-       ::Windows::Foundation::Uninitialize(); // Shutdown Windows Runtime API
     }
 
     //////////////////////////////////////////////////////////////////////////////////////
@@ -132,12 +132,6 @@ namespace anarchy
 
     void D3D12Renderer::InitializeDependencies()
     {
-        // Init Windows Runtime API for DirectXTex
-#if (_WIN32_WINNT >= _WIN32_WINNT_WIN10)
-        CheckResult(::Windows::Foundation::Initialize(RO_INIT_MULTITHREADED), "Failed to initialize Windows Imaging Component");
-#else
-        CheckResult(::CoInitializeEx(nullptr, COINITBASE_MULTITHREADED), "Failed to Initialize Windows Imaging Component");
-#endif
     }
 
 #ifdef AC_DEBUG
@@ -370,11 +364,11 @@ namespace anarchy
 
         for (auto entity : m_entities)
         {
-            auto meshes = entity->GetMeshesRef();
+            const auto& meshes = entity->GetMeshesConstRef();
             for (uint32 itr = 0; itr < meshes.size(); ++itr)
             {
-                MeshGPUData& meshData = meshes.at(itr).GetMeshGPUData();
-                const std::vector<VertexLayout>& rawData = meshData.GetRawVertexLayoutDataRef();
+                const MeshGPUData& meshData = meshes[itr]->GetMeshGPUDataConstRef();
+                const std::vector<VertexLayout>& rawData = meshData.GetRawVertexLayoutDataConstRef();
                 vertexBufferData.insert(vertexBufferData.end(), std::begin(rawData), std::end(rawData));
             }
         }
@@ -423,11 +417,11 @@ namespace anarchy
 
         for (auto entity : m_entities)
         {
-            auto meshes = entity->GetMeshesRef();
+            const auto& meshes = entity->GetMeshesConstRef();
             for (uint32 itr = 0; itr < meshes.size(); ++itr)
             {
-                MeshGPUData meshData = meshes.at(itr).GetMeshGPUData();
-                auto indices = meshData.GetIndicesRef();
+                const MeshGPUData& meshData = meshes[itr]->GetMeshGPUDataConstRef();
+                const auto& indices = meshData.GetIndicesConstRef();
                 indexBufferData.insert(indexBufferData.end(), std::begin(indices), std::end(indices));
             }
         }
@@ -597,7 +591,6 @@ namespace anarchy
         auto fetchedColor = GfxControllables::GetClearColor();
         m_commandList->OMSetRenderTargets(1, &rtvHandle, false, &dsvHandle);
         
-        
         GPUCommandListProfileBegin(m_commandList.Get(), "Clear RT and DS");
         m_commandList->ClearRenderTargetView(rtvHandle, (float*)&fetchedColor, 0, nullptr);
         m_commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, g_depthClearValue, NULL, NULL, nullptr);
@@ -633,11 +626,10 @@ namespace anarchy
         uint32 batchNumber = 0;
         for (auto& entity : m_entities)
         {
-            auto batchInfos = entity->GetBatchInfoRef();
+            const auto& batchInfos = entity->GetBatchInfoConstRef();
             for (auto& batch : batchInfos)
             {
-                const string profilerEventTag = fmt::format("Draw Batch {}", batchNumber++);
-                ScopedGPUCommandListProfile(m_commandList.Get(), profilerEventTag.c_str());
+                ScopedGPUCommandListProfile(m_commandList.Get(), fmt::format("Draw Batch {}", batchNumber++).c_str());
                 m_commandList->DrawIndexedInstanced((uint32)batch.indexCount, 1, (uint32)batch.startIndex, 0, 0);
             }
         }
