@@ -43,6 +43,13 @@ namespace anarchy
 
         int32 indicesOffset = 0; // index per mesh offset
 
+        {
+            ACScopedTimer("Sorting Meshes");
+            std::sort(&meshes[0], &meshes[scene->mNumMeshes], [](aiMesh* meshA, aiMesh* meshB) {
+                return meshA->mMaterialIndex < meshB->mMaterialIndex;
+                });
+        }
+
         CPUTimer modelParseTimer("ModelParseTimer");
         modelParseTimer.Start();
         for (uint32 itr = 0; itr < scene->mNumMeshes; ++itr)
@@ -106,7 +113,7 @@ namespace anarchy
             std::vector<uint32> indices;
             for (uint32 itr = 0; itr < mesh->mNumFaces; ++itr)
             {
-                // TODO: make this Vec3<uint32_t> when Vec3 is templatized
+                // Pre-requisite: Meshes should be sorted. Do not touch the order after this or do this offsetting of indices later when moving vertex buffer around.
                 const uint32 vertexA = mesh->mFaces[itr].mIndices[0] + indicesOffset;
                 const uint32 vertexB = mesh->mFaces[itr].mIndices[1] + indicesOffset;
                 const uint32 vertexC = mesh->mFaces[itr].mIndices[2] + indicesOffset;
@@ -136,14 +143,6 @@ namespace anarchy
             entity->AddMesh(engineMesh);
         }
         modelParseTimer.Stop();
-
-        {
-            ACScopedTimer("Sorting Meshes");
-            auto& engineMeshes = entity->GetMeshesRef();
-            std::sort(engineMeshes.begin(), engineMeshes.end(), [](auto& meshA, auto& meshB) {
-                return meshA->GetMaterialIndex() < meshB->GetMaterialIndex();
-                });
-        }
 
         ProcessMaterialInfo(scene, fullFileName, entity);
         
